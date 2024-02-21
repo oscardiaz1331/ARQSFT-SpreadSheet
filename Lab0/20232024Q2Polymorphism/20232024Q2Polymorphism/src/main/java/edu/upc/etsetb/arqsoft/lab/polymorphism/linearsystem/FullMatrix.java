@@ -21,17 +21,17 @@ public class FullMatrix implements Matrix{
      * @param dim dimension of the matrix
      */    
     public FullMatrix(int dim){
-        throw new UnsupportedOperationException("FullMatrix::FullMatrix. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.values = new double[dim][dim];
     }
     
     @Override
     public void setVal(int row, int col, double val) {
-        throw new UnsupportedOperationException("FullMatrix::setVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.values[row][col] = val;
     }
 
     @Override
     public double getVal(int row, int col) {
-        throw new UnsupportedOperationException("FullMatrix::getVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.values[row][col];
     }
     
 }

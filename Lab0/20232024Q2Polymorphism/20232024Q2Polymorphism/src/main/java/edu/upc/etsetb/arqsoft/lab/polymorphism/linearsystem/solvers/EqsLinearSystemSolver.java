@@ -14,7 +14,7 @@ public abstract class EqsLinearSystemSolver extends LinearSystemSolver{
      * Constructor: invokes constructor of superclass
      */
     public EqsLinearSystemSolver() {
-        throw new UnsupportedOperationException("EqsLinearSystemSolver::EqsLinearSystemSolver. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super();
     }
     
 }

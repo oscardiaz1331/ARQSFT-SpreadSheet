@@ -25,7 +25,7 @@ public abstract class LinearSystem {
      * @param matrix 
      */
     public LinearSystem(Matrix matrix){
-        throw new UnsupportedOperationException("LinearSystem::LinearSystem. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
+        this.matrix = matrix;
     }
 
     /**
@@ -34,9 +34,8 @@ public abstract class LinearSystem {
      * @return the value of matrix
      */
     public Matrix getMatrix() {
-        throw new UnsupportedOperationException("LinearSystem::getMatrix. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
+        return this.matrix;   
     }
-
     /**
      * Set the value of matrix
      *
@@ -44,7 +43,7 @@ public abstract class LinearSystem {
      * 
      */
     public void setMatrix(Matrix matrix) {
-        throw new UnsupportedOperationException("LinearSystem::setMatrix. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody        
+        this.matrix = matrix;
     }
     
 }

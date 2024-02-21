@@ -18,7 +18,7 @@ public class Vector implements LinearSystemSolution{
     double[] vals;
     
     public Vector(int dim){
-        throw new UnsupportedOperationException("Vector::Vector. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        vals = new double[dim];
     }
     
     /**
@@ -27,7 +27,7 @@ public class Vector implements LinearSystemSolution{
      * @param val the value to be set in the position identified by row and col
      */
     public void setVal(int index, double val){
-        throw new UnsupportedOperationException("Vector::setVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.vals[index] = val;
     }
     
     /**
@@ -35,8 +35,8 @@ public class Vector implements LinearSystemSolution{
      * @param index the index of the position 
      * @return the value in the position identified by row and col
      */
-    public double getVal(int index, int col){
-        throw new UnsupportedOperationException("Vector::getVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double getVal(int index){
+        return this.vals[index];
     }
     
 }

@@ -27,7 +27,7 @@ public class EqsLinearSystem extends LinearSystem{
      */
     public EqsLinearSystem(Matrix matrix,Vector vector) {
         super(matrix);
-        throw new UnsupportedOperationException("EqsLinearSystem::EqsLinearSystem. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.vector = vector;
     }
     
     /**
@@ -35,6 +35,6 @@ public class EqsLinearSystem extends LinearSystem{
      * @return the attribute vector
      */
     public Vector getVector(){
-        throw new UnsupportedOperationException("EqsLinearSystem::getVector. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.vector;
     }
 }

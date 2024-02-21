@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.lab.polymorphism.linearsystem;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public class MapMatrix implements Matrix{
      * Constructor: creates an empty HashMap
      */
     public MapMatrix(){
-        throw new UnsupportedOperationException("MapMatrix::MapMatrix. Not implemented yet");
+        map = new HashMap<String,Double>();
     }
     
     /**
@@ -48,7 +49,7 @@ public class MapMatrix implements Matrix{
      * @return the value of maxCol
      */
     public int getMaxCol() {
-        throw new UnsupportedOperationException("MapMatrix::getMaxCol. Not implemented yet");
+        return this.maxCol;
     }
 
     /**
@@ -57,7 +58,7 @@ public class MapMatrix implements Matrix{
      * @return the value of maxRow
      */
     public int getMaxRow() {
-        throw new UnsupportedOperationException("MapMatrix::getMaxRow. Not implemented yet");
+        return this.maxRow;
     }
 
     /**
@@ -70,7 +71,19 @@ public class MapMatrix implements Matrix{
      */
     @Override
     public void setVal(int row, int col, double val) {
-        throw new UnsupportedOperationException("MapMatrix::setVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(row>this.maxRow){
+            this.maxRow = row;
+        }
+        if(col>this.maxCol){
+            this.maxCol = col;
+        }
+        String key = String.valueOf(row).concat(",").concat(String.valueOf(col));
+        if(this.map.containsKey(key)){
+            map.replace(key,val);
+        }
+        else{
+            map.put(key, val);
+        }
     }
     
     /**
@@ -84,8 +97,13 @@ public class MapMatrix implements Matrix{
      */
     @Override
     public double getVal(int row, int col) {
-        throw new UnsupportedOperationException("MapMatrix::getVal. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String key = String.valueOf(row).concat(",").concat(String.valueOf(col));
+        if(this.map.containsKey(key)){
+            return map.get(key);
+        }
+        else{
+            return 0;
+        }
     }
-       
     
 }

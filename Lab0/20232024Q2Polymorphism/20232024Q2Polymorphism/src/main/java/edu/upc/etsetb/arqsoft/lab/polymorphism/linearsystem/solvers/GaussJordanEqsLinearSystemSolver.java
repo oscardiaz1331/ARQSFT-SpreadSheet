@@ -4,7 +4,9 @@
  */
 package edu.upc.etsetb.arqsoft.lab.polymorphism.linearsystem.solvers;
 
+import edu.upc.etsetb.arqsoft.lab.polymorphism.linearsystem.EqsLinearSystem;
 import edu.upc.etsetb.arqsoft.lab.polymorphism.linearsystem.LinearSystem;
+import edu.upc.etsetb.arqsoft.lab.polymorphism.linearsystem.Vector;
 
 /**
  *
@@ -21,7 +23,7 @@ public class GaussJordanEqsLinearSystemSolver extends EqsLinearSystemSolver{
      * Constructor: invokes constructor of superclass
      */
     public GaussJordanEqsLinearSystemSolver() {
-        throw new UnsupportedOperationException("GaussJordanEqsLinearSystemSolver::GaussJordanEqsLinearSystemSolver. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        super();
     }
 
     /**
@@ -41,7 +43,55 @@ public class GaussJordanEqsLinearSystemSolver extends EqsLinearSystemSolver{
      */
     @Override
     public void solve(LinearSystem system) {
-        throw new UnsupportedOperationException("GaussJordanEqsLinearSystemSolver::solve. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(!(system instanceof EqsLinearSystem)){
+            throw new IllegalArgumentException("The argument is not an object EqsLinearSystem");
+        }
+        EqsLinearSystem eqsLinear=((EqsLinearSystem)system);
+        EqsLinearSystem eqsLinearSystem=new EqsLinearSystem(eqsLinear.getMatrix(), eqsLinear.getVector());
+        int i, j, k = 0, c, n=6;
+
+        // Performing elementary operations
+        for (i = 0; i < n; i++)
+        {
+            if (eqsLinearSystem.getMatrix().getVal(i, i) == 0) 
+            {
+                c = 1;
+                while ((i + c) < n && eqsLinearSystem.getMatrix().getVal(i + c, i) == 0) 
+                    c++;         
+                if ((i + c) == n) 
+                {
+                    break;
+                }
+                for (j = i, k = 0; k <= n; k++) 
+                {
+                    double temp = eqsLinearSystem.getMatrix().getVal(j, k);
+                    eqsLinearSystem.getMatrix().setVal(j,k, eqsLinearSystem.getMatrix().getVal(j+c,k));
+                    eqsLinearSystem.getMatrix().setVal(j+c,k,temp);
+                }
+            }
+        
+            for (j = 0; j < n; j++) 
+            {
+
+                // Excluding all i == j
+                if (i != j) 
+                {
+
+                    // Converting Matrix to reduced row
+                    // echelon form(diagonal matrix)
+                    double p = eqsLinearSystem.getMatrix().getVal(j,i) / eqsLinearSystem.getMatrix().getVal(i,i);
+                
+                    for (k = 0; k <= n; k++)                 
+                    eqsLinearSystem.getMatrix().setVal(j,k,eqsLinearSystem.getMatrix().getVal(j,k) - eqsLinearSystem.getMatrix().getVal(i,k) * p);             
+                }
+            }
+        }
+        int dim=6;
+        Vector sol =  new Vector(dim);
+        for(i=0;i<dim;i++){
+            sol.setVal(i, eqsLinearSystem.getMatrix().getVal(i, dim)/eqsLinearSystem.getMatrix().getVal(i, i));
+        }
+        this.solution=sol;
     }
     
 }

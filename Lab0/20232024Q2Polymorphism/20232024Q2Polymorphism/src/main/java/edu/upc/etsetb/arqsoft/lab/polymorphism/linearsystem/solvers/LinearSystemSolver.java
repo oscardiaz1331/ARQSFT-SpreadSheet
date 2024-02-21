@@ -18,7 +18,7 @@ public abstract class LinearSystemSolver {
      * Constructor: does nothing
      */
     public LinearSystemSolver() {
-        throw new UnsupportedOperationException("LinearSystemSolver::LinearSystemSolver. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
     
     /**
@@ -33,7 +33,7 @@ public abstract class LinearSystemSolver {
      * @return attribute solution
      */
     public LinearSystemSolution getSolution(){
-        throw new UnsupportedOperationException("LinearSystemSolution::getSolution. Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.solution;
     }
     
 }
