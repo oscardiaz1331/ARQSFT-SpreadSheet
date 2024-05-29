@@ -1,0 +1,32 @@
+Use case Number: 8
+Use case Name: EvaluatePostfix
+
+Actors and their interests:
+Users
+
+Preconditions:
+- A spreadsheet is created.
+- A cell is selected.
+- A cell is modified
+- The user gives a formula.
+- The formula is tokenized
+- The shunting-yard algorithm is applied.
+- The result of the shunting-yard algorithm is selected by the program.
+
+Postconditions:
+- The system gives the result.
+
+Main Success Scenario (Basic Flow):
+1. The program encounters an operand in the postfix expression.
+2. The program puts the operand of the postfix expression in a stack.
+3. Do steps 1 and 2 until there are no more elements to process in the queue.
+4. Pop the end result.
+
+Extension (Alternative Flow):
+1.a The program encounters an operator in the postfix expression.
+	1. The first element that pops off the stack will be the second element on the operator.
+	2. The second element that pops off the stack will be the first element on the operator.
+	3. The result is pushed.
+	4. Go back to step 1.
+4.a The system detects that the expression cannot be evaluated.
+	1. The system finalize with an error that the expression cannot be evaluated due to a math error (for example dividing by 0).

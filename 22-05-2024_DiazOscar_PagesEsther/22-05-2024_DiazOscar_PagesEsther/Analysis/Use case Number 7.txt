@@ -1,0 +1,31 @@
+Use case Number: 7
+Use case Name: ComputeFormula
+
+Actors and their interests:
+System
+
+Preconditions:
+- A spreadsheet is created.
+- A cell is selected.
+- The cell content is a formula.
+
+Postconditions:
+- Returns the computed value.
+
+Main Success Scenario (Basic Flow):
+1. The system tokenizes the formula.
+2. The system checks the syntax of the formula
+3. The system converts objects Token into operands and operators
+4. The system checks circular dependency
+5. The system generates the postfix expression
+6. The system evaluates the postfix expression
+
+Extension (Alternative Flow):
+1.a The system detects that a token has not been written correctly.
+	1. The system notifies an error with a token.
+2.a The system detects a wrong syntax.
+	1. The system notifies the wrong syntax.
+4.a The system identifies a circular dependency.
+	1. The system notifies a circular dependency.
+6.a The system cannot evaluate the postfix expression.
+	1. The system notifies and finalizes with an error with the generation of the postfix expression.
