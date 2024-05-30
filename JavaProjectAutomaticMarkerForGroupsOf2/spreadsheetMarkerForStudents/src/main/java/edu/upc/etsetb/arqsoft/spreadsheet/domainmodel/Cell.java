@@ -14,4 +14,8 @@ public class Cell implements Argument, Operand{
     public Cell(Coordinate coord){
         this.coordinate = coord;
     }
+    @Override
+    public Value getResult() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
