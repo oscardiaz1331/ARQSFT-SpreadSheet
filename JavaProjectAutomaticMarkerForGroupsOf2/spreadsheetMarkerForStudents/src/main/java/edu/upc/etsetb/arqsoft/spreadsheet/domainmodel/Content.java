@@ -12,7 +12,11 @@ public abstract class Content {
     Value value;
     
     
-    public Value getValue(){
-        return this.value;
+    public double getNumericValue(){
+        return this.value.getNumericValue();
+    }
+    
+    public String getTextValue(){
+        return this.value.getTextValue();
     }
 }

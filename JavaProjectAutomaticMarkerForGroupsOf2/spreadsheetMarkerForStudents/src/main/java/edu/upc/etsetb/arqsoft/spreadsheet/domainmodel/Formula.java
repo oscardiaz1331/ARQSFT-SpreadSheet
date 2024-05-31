@@ -12,4 +12,11 @@ import java.util.List;
  */
 public class Formula extends Content {
     List<FormulaComponent> components;
+    
+    public Formula(List<FormulaComponent> components){
+        this.components = components;
+    }
+    public void setFormulaComponents(List<FormulaComponent> components){
+        this.components = components;
+    }
 }

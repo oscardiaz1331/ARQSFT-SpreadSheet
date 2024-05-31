@@ -4,11 +4,18 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import java.util.List;
+
 /**
  *
  * @author oscar
  */
 public interface Argument{
-    
+  
+    /**
+     *
+     * @return
+     */
+    public List<Double> getValue();
     
 }

@@ -10,17 +10,18 @@ import java.util.LinkedList;
  *
  * @author oscar
  */
-public class SUM extends Function {
-
-    public SUM(LinkedList<Argument> args) {
+public class MAX extends Function {
+    public MAX(LinkedList<Argument> args) {
         super(args);
     }
     
     @Override
     public Number compute(){
-        double aux = 0;
+        double aux = this.args.getFirst();
         for(double argValue : this.args){
-            aux += argValue;
+            if(aux < argValue){
+                aux = argValue;
+            }
         }
         this.result = new Number(aux);
         return this.result;

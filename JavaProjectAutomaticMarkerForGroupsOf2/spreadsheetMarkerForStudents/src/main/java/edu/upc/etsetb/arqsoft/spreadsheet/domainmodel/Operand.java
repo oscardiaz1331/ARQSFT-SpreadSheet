@@ -8,7 +8,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  *
  * @author oscar
  */
-public interface Operand extends FormulaComponent {
-    //TODO(?) Is really get result? Consult req.
-    public Value getResult();
+public abstract class Operand implements FormulaComponent {
+    protected abstract double getNumericValue();
 }
+

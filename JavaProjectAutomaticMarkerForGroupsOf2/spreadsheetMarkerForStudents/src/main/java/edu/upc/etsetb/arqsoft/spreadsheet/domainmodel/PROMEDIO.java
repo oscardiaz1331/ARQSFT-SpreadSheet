@@ -10,9 +10,8 @@ import java.util.LinkedList;
  *
  * @author oscar
  */
-public class SUM extends Function {
-
-    public SUM(LinkedList<Argument> args) {
+public class PROMEDIO extends Function {
+    public PROMEDIO(LinkedList<Argument> args) {
         super(args);
     }
     
@@ -22,6 +21,7 @@ public class SUM extends Function {
         for(double argValue : this.args){
             aux += argValue;
         }
+        aux /= this.args.size();
         this.result = new Number(aux);
         return this.result;
     }

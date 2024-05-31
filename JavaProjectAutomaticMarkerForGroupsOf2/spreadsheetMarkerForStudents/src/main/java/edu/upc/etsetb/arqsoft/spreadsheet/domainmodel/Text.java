@@ -4,44 +4,31 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  *
  * @author oscar
  */
-public class Number extends Operand implements Argument, Value {
-    private double num;
-    
-    public Number(double num){
-        this.num = num;
-    }
-    
-    public double getNum(){
-        return this.num;
-    }
-    public void setNum(double num){
-        this.num = num;
-    }
+public class Text implements Value {
 
+    private String text;
+    
+    public Text(String text){
+        this.text = text;
+    }
+    
+    public void setText(String text){
+        this.text = text;
+    }
+    
     @Override
     public double getNumericValue() {
-        return this.num;
-    }
-
-    @Override
-    public String getTextValue() {
         //TODO
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Double> getValue() {
-        List<Double> aux = new LinkedList<>();
-        aux.add(this.num);
-        return aux;
+    public String getTextValue() {
+        return this.text;
     }
-
     
 }

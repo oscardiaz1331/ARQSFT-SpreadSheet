@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,4 +21,15 @@ public class Range implements Argument {
         this.cells.add(origin);
         //TODO
     }
+
+    @Override
+    public List<Double> getValue() {
+        List<Double> aux = new LinkedList<>();
+        for(Cell cell : this.cells){
+            aux.add(cell.getNumericValue());
+        }
+        return aux;
+    }
+    
+    
 }
