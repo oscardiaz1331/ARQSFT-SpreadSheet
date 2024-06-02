@@ -14,14 +14,16 @@ import java.util.regex.Pattern;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import java.util.regex.Matcher;
 
+
+
 public class Tokenizer {
     
     private class TokenInfo{
         
         public final Pattern regex;
-        public final int token;
+        public final Token.TokenType token;
         
-        public TokenInfo(Pattern regex, int token){
+        public TokenInfo(Pattern regex, Token.TokenType token){
             super();
             this.regex = regex;
             this.token = token;
@@ -29,28 +31,34 @@ public class Tokenizer {
     }
     private LinkedList<TokenInfo> tokenInfos;
     private LinkedList<Token> tokens;
+
     
     public Tokenizer(){
         this.tokenInfos = new LinkedList<>();
         this.tokens = new LinkedList<>();
-        this.add("=", 0);
-        String operators = "[+-*/]";
-        this.add(operators, 1);
+        
+        String operators = "[+-]|[*/]";
         String integer = "[0-9]+";
-        this.add(integer, 2);
-        String floatNum = integer + ".|," + integer;
-        this.add(floatNum, 3);
-        String functions = "SUM|MIN|MAX|PROMEDIO";
-        this.add(functions, 4);
-        String cellCoord = "[Aa-zA-Z]+"+integer;
-        this.add(cellCoord, 5);
-        this.add("\\(", 6);
-        this.add("\\)", 7);
-        String range = cellCoord + ":" + cellCoord; 
-        this.add(range, 8);
-               
+        String letters = "[a-zA-Z]+";
+        String floatNum = integer + "[.,]" + integer;
+        String functionName = "(SUM|MIN|MAX|PROMEDIO)";
+        String cellCoord = letters + integer;
+        //String allAllowedChars = letters + "|" + floatNum + "|" + integer + "|" + ":" + "|" +";";
+        //String argument = "(" + range + "|" + floatNum + "|" + integer + "|" + cellCoord + "|(" + functionName + "[(](" + allAllowedChars + ")+[)]))";
+        //String function = functionName + "[(]" + argument +  "(;" + argument  + ")*[)]";
+        //String operands = "(" + function + ")|(" + floatNum + ")|(" + integer + ")|(" + cellCoord + ")";
+        this.add("=", Token.TokenType.EQUALS);
+        this.add(operators, Token.TokenType.OPERATOR);
+        this.add(functionName, Token.TokenType.FUNCTION_NAME);
+        this.add(floatNum, Token.TokenType.FLOAT_NUM);
+        this.add(integer, Token.TokenType.INTEGER);
+        this.add("[:]", Token.TokenType.COLON);
+        this.add(cellCoord,Token.TokenType.CELL_COORD);
+        this.add("[(]", Token.TokenType.OPEN_PAREN);
+        this.add("[)]", Token.TokenType.CLOSE_PAREN);
+        this.add(";", Token.TokenType.SEMICOLON);
     }
-    public void add(String regex, int token){
+    public void add(String regex, Token.TokenType token){
         this.tokenInfos.add(new TokenInfo(Pattern.compile("^("+regex+")"), token));
     }
     

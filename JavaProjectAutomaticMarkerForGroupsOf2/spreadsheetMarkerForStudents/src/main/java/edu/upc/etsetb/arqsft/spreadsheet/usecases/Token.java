@@ -9,10 +9,24 @@ package edu.upc.etsetb.arqsft.spreadsheet.usecases;
  * @author oscar
  */
 public class Token {
-    public final int token;
+    
+    public enum TokenType {
+        EQUALS, 
+        OPERATOR, 
+        FUNCTION_NAME, 
+        FLOAT_NUM,
+        INTEGER, 
+        COLON, 
+        CELL_COORD, 
+        OPEN_PAREN, 
+        CLOSE_PAREN, 
+        SEMICOLON 
+    }
+    
+    public final TokenType token;
     public final String sequence;
     
-    public Token(int token, String sequence){
+    public Token(TokenType token, String sequence){
         super();
         this.token = token;
         this.sequence = sequence;
