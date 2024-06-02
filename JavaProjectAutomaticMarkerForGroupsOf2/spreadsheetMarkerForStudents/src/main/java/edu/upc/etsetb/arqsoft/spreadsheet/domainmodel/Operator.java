@@ -8,6 +8,14 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  *
  * @author oscar
  */
-public class Operator {
+public class Operator implements FormulaComponent{
+    private String operator;
     
+    public Operator(String operator){
+        this.operator = operator;
+    }
+    
+    public String getOperator(){
+        return this.operator;
+    }
 }

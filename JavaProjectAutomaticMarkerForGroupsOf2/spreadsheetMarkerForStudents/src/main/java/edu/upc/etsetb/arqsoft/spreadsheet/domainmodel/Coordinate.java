@@ -10,9 +10,9 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  */
 public class Coordinate {
     private int row;
-    private int column;
+    private String column;
     
-    public Coordinate(int row, int column){
+    public Coordinate(int row, String column){
         this.row = row;
         this.column = column;
     }
@@ -25,11 +25,11 @@ public class Coordinate {
         this.row = row;
     }
     
-    public int getColumn(){
+    public String getColumn(){
         return this.column;
     }
     
-    public void setColumn(int column){
+    public void setColumn(String column){
         this.column = column;
     }
     

@@ -24,22 +24,18 @@ public class SyntaxChecker {
         this.nFunc = 0;
         this.operatorTurn = false;
     }
-    //TODO add the function to tokenize ":" and view here if it is with 2 cells
+    
     public void checkFormulaSyntax() throws WrongSyntaxExpression {
         if(this.tokens.getFirst().token != Token.TokenType.EQUALS){
             throw new WrongSyntaxExpression("The arguments must start with an equal character");
         }
         for(int i=1; i < this.tokens.size(); i++){
             switch (this.tokens.get(i).token){
+                case LETTER:
+                    throw new WrongSyntaxExpression("Letters are not allowed except to define Cell coordinates or a Function");
                 case EQUALS :
                     throw new WrongSyntaxExpression("The equal character only can be the first character");
                 case OPEN_PAREN:
-                    /*Token.TokenType type_after = this.tokens.get(i+1).token;
-                    if(type_after!= Token.TokenType.FLOAT_NUM && type_after!= Token.TokenType.INTEGER
-                            && type_after!= Token.TokenType.FUNCTION_NAME && type_after!= Token.TokenType.CELL_COORD 
-                            && (type_after!= Token.TokenType.RANGE && this.nFunc > 0) && type_after!= Token.TokenType.OPEN_PAREN){
-                        throw new WrongSyntaxExpression("A parenthesis must be opened and followed by an operand");
-                    }*/
                     this.numOpenParen++;
                     if(this.operatorTurn == false){
                         throw new WrongSyntaxExpression("There is a operand before an open parethesis, it must be an operator");
@@ -47,12 +43,9 @@ public class SyntaxChecker {
                     this.operatorTurn = false;
                     break;
                 case CLOSE_PAREN:
-                    /*Token.TokenType type_before = this.tokens.get(i-1).token;
-                    if(type_before!= Token.TokenType.FLOAT_NUM && type_before!= Token.TokenType.INTEGER
-                            && type_before!= Token.TokenType.FUNCTION_NAME && type_before!= Token.TokenType.CELL_COORD 
-                            && (type_before!= Token.TokenType.RANGE && this.nFunc > 0) && type_before != Token.TokenType.CLOSE_PAREN){
-                        throw new WrongSyntaxExpression("A parenthesis must be closed and preceded by an operand");
-                    }*/
+                    if(this.tokens.get(i-1).token == Token.TokenType.OPEN_PAREN){
+                        throw new WrongSyntaxExpression("A parenthesis is opened and closed with nothing between parenthesis");
+                    }
                     this.numOpenParen--;
                     if(this.numOpenParen < 0){
                         throw new WrongSyntaxExpression("A parenthesis is closed before been opened");
@@ -63,7 +56,6 @@ public class SyntaxChecker {
                     if(this.operatorTurn == false){
                         throw new WrongSyntaxExpression("There is a operator before a close parenthesis, it must be an operand");
                     }
-                    //this.operatorTurn = true;
                     break;
                 case SEMICOLON:
                     if(this.nFunc <= 0){
@@ -89,9 +81,6 @@ public class SyntaxChecker {
                 case INTEGER:
                 case FLOAT_NUM:
                 case CELL_COORD:
-                    /*if(this.nFunc > 0){
-                        break;
-                    }*/
                     if(this.operatorTurn == true){
                         throw new WrongSyntaxExpression("There is more than one operand preceding another operand, you must write an operator or a semicolon in case of been in a function");
                     }

@@ -20,7 +20,8 @@ public class Token {
         CELL_COORD, 
         OPEN_PAREN, 
         CLOSE_PAREN, 
-        SEMICOLON 
+        SEMICOLON,
+        LETTER
     }
     
     public final TokenType token;
