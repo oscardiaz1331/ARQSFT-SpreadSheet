@@ -9,5 +9,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.exceptions;
  * @author oscar
  */
 public class MathErrorException extends Exception {
-    
+    public MathErrorException(String msg) {
+        super(msg);
+    }
 }

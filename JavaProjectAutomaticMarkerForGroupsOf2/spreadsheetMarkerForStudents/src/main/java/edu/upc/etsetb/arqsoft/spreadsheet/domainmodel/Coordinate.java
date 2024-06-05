@@ -33,4 +33,12 @@ public class Coordinate {
         this.column = column;
     }
     
+    @Override
+    public String toString(){
+        return this.column + String.valueOf(this.row);
+    }
+    
+    public boolean equals(Coordinate coord){
+        return this.column.equals(coord.column) && this.row == coord.row;
+    }
 }

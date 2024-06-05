@@ -18,6 +18,7 @@ public class Range implements Argument {
     public Range(Cell origin, Cell destination){
         this.originCell = origin;
         this.destinationCell = destination;
+        this.cells = new LinkedList<>();
         this.cells.add(origin);
         //TODO
     }

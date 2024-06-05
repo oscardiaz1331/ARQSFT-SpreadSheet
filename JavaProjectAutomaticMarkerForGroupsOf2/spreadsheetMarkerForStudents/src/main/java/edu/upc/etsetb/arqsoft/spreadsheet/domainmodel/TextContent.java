@@ -10,4 +10,8 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  */
 public class TextContent extends Content {
     
+    public TextContent(Value value) {
+        super(value);
+    }
+    
 }

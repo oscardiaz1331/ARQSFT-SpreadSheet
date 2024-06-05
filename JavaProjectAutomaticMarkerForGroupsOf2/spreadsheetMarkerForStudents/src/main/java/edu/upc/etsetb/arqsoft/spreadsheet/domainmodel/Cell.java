@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,23 +15,40 @@ import java.util.List;
 public class Cell extends Operand implements Argument{
     private Coordinate coordinate;
     private Content content;
+    private HashSet<Cell> dependentCells;
     
     public Cell(Coordinate coord, Content content){
         this.coordinate = coord;
         this.content = content;
+        this.dependentCells = new HashSet();
     }
     
     public Coordinate getCoordinate(){
         return this.coordinate;
     }
-    public void getCoordinate(Coordinate coord){
+    public void setCoordinate(Coordinate coord){
         this.coordinate = coord;
+    }
+    public String getStringCoordinate(){
+        return this.coordinate.getColumn() + String.valueOf(this.coordinate.getRow());
     }
     public Content getContent(){
         return this.content;
     }
     public void getCoordinate(Content content){
         this.content = content;
+    }
+    
+    public void addDependentCell(Cell cell){
+        this.dependentCells.add(cell);
+    }
+    
+    public boolean hasDependentCells(){
+        return !this.dependentCells.isEmpty();
+    }
+    
+    public HashSet<Cell> getDependentCells(){
+        return this.dependentCells;
     }
     
     @Override

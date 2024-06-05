@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package edu.upc.etsetb.arqsft.spreadsheet.usecases;
+package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Tokenizer {
 
     public enum TokenizerType {
         FORMULA,
-        FUNCTION,
+//        FUNCTION,
         COORDINATES
     }
     
@@ -56,9 +56,9 @@ public class Tokenizer {
             case COORDINATES:
                 this.addCoordinateTokens();
                 break;
-            case FUNCTION:
-                this.addFunctionTokens();
-                break;
+//            case FUNCTION:
+//                this.addFunctionTokens();
+//                break;
             default:
                 break;
         }
@@ -87,16 +87,16 @@ public class Tokenizer {
         this.add(integer, Token.TokenType.INTEGER);
     }
     
-    private void addFunctionTokens() {
-        this.add(functionName, Token.TokenType.FUNCTION_NAME);
-        this.add(floatNum, Token.TokenType.FLOAT_NUM);
-        this.add(integer, Token.TokenType.INTEGER);
-        this.add("[:]", Token.TokenType.COLON);
-        this.add(cellCoord, Token.TokenType.CELL_COORD);
-        this.add("[(]", Token.TokenType.OPEN_PAREN);
-        this.add("[)]", Token.TokenType.CLOSE_PAREN);
-        this.add(";", Token.TokenType.SEMICOLON);
-    }
+//    private void addFunctionTokens() {
+//        this.add(functionName, Token.TokenType.FUNCTION_NAME);
+//        this.add(floatNum, Token.TokenType.FLOAT_NUM);
+//        this.add(integer, Token.TokenType.INTEGER);
+//        this.add("[:]", Token.TokenType.COLON);
+//        this.add(cellCoord, Token.TokenType.CELL_COORD);
+//        this.add("[(]", Token.TokenType.OPEN_PAREN);
+//        this.add("[)]", Token.TokenType.CLOSE_PAREN);
+//        this.add(";", Token.TokenType.SEMICOLON);
+//    }
     
     public LinkedList<Token> tokenize(String argument) throws TokenWrittenIncorrectlyException {
         String s = argument;

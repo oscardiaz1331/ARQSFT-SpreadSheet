@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class Function extends Operand implements Argument{
     protected List<Double> args = new LinkedList<>();
     protected Number result;
+    public static final String SUM = "SUM", MAX = "MAX", MIN = "MIN", PROMEDIO = "PROMEDIO";
     
     public Function(LinkedList<Argument> args){
         this.result = new Number(Double.POSITIVE_INFINITY);
