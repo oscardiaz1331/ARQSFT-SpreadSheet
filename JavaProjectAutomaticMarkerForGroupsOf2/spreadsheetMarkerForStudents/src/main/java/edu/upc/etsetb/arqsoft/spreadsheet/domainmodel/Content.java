@@ -11,10 +11,6 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 public abstract class Content {
     Value value;
     
-    public Content(Value value){
-        this.value = value;   
-    }
-    
     public double getNumericValue(){
         return this.value.getNumericValue();
     }

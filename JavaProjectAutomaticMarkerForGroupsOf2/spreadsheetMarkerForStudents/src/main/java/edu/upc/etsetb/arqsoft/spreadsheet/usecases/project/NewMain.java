@@ -6,6 +6,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Text;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
@@ -33,8 +34,8 @@ public class NewMain {
         
         checker.checkFormulaSyntax();
         LinkedList<Cell> cells = new LinkedList<>();
-        cells.add(new Cell(new Coordinate(42,"A"),new TextContent()));
-        cells.add(new Cell(new Coordinate(6,"B"),new TextContent()));
+        cells.add(new Cell(new Coordinate(42,"A"),new TextContent(new Text(""))));
+        cells.add(new Cell(new Coordinate(6,"B"),new TextContent(new Text(""))));
         Specifier specifier = new Specifier(tokens, cells);
         specifier.specifyFormulaComponents();
     }

@@ -13,7 +13,7 @@ import java.util.List;
 public class Formula extends Content {
     List<FormulaComponent> components;
     
-    public Formula(List<FormulaComponent> components, Value value){
+    public Formula(List<FormulaComponent> components){
         this.components = components;
         this.value = value;
     }
