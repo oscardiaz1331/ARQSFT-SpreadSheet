@@ -12,6 +12,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import java.util.List;
 import java.util.regex.Matcher;
 
 
@@ -98,7 +99,7 @@ public class Tokenizer {
 //        this.add(";", Token.TokenType.SEMICOLON);
 //    }
     
-    public LinkedList<Token> tokenize(String argument) throws TokenWrittenIncorrectlyException {
+    public List<Token> tokenize(String argument) throws TokenWrittenIncorrectlyException {
         String s = argument;
         tokens.clear();
         while(!s.equals("")){

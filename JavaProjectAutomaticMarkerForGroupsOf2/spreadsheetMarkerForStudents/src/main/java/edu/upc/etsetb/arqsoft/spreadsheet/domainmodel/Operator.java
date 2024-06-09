@@ -4,6 +4,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+
 /**
  *
  * @author oscar
@@ -62,5 +64,10 @@ public class Operator implements FormulaComponent{
     
     public OperatorType getType(){
         return this.type;
+    }
+    
+    @Override
+    public void accept(PostfixVisitor visitor){
+        visitor.visitOperator(this);
     }
 }

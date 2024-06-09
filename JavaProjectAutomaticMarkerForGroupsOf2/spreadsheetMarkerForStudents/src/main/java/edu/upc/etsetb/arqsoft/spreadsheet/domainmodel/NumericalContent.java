@@ -10,7 +10,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  */
 public class NumericalContent extends Content {
     
-    public NumericalContent(Value value) {
+    public NumericalContent(Number value) {
         this.value = value;
     }
     

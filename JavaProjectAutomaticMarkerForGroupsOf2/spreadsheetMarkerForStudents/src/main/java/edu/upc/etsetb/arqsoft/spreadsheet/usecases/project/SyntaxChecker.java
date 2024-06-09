@@ -25,7 +25,7 @@ public class SyntaxChecker {
         this.operatorTurn = false;
     }
     
-    public void checkFormulaSyntax() throws WrongSyntaxExpression {
+    public void check() throws WrongSyntaxExpression {
         if(this.tokens.getFirst().token != Token.TokenType.EQUALS){
             throw new WrongSyntaxExpression("The arguments must start with an equal character");
         }
@@ -37,7 +37,7 @@ public class SyntaxChecker {
                     throw new WrongSyntaxExpression("The equal character only can be the first character");
                 case OPEN_PAREN:
                     this.numOpenParen++;
-                    if(this.operatorTurn == false){
+                    if(this.operatorTurn == true && i != 1 && this.nFunc == 0){
                         throw new WrongSyntaxExpression("There is a operand before an open parethesis, it must be an operator");
                     }
                     this.operatorTurn = false;

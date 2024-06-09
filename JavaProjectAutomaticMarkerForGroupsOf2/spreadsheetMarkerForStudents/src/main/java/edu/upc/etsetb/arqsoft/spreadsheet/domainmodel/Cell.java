@@ -52,7 +52,7 @@ public class Cell extends Operand implements Argument{
     }
     
     @Override
-    protected double getNumericValue() {
+    public double getNumericValue() {
         return this.content.getNumericValue();
     }
 

@@ -4,6 +4,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+
 /**
  *
  * @author oscar
@@ -13,7 +15,12 @@ public abstract class Operand implements FormulaComponent {
     
     public Operand(){}
     
-    protected abstract double getNumericValue();
+    public abstract double getNumericValue();
+    
+    @Override
+    public void accept(PostfixVisitor visitor){
+        visitor.visitOperand(this);
+    }
     
 }
 

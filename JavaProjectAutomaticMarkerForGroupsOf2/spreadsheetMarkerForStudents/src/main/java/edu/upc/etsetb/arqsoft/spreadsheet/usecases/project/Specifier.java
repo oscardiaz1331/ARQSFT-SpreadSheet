@@ -80,8 +80,10 @@ public class Specifier {
                     }
                     break;
                 case FUNCTION_NAME:
-                    startFunctions.add(i);
-                    nameFunctions.add(currentToken.sequence);
+                    if(startFunctions.isEmpty()){
+                        startFunctions.add(i);
+                        nameFunctions.add(currentToken.sequence);
+                    }
                     break;
                 case CLOSE_PAREN:
                     if(!startFunctions.isEmpty()){

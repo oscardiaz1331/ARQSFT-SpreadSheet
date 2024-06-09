@@ -5,29 +5,41 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  *
  * @author oscar
  */
 public class CircularDependencyChecker {
-    HashSet<String> visited;
+    private HashSet<String> visited;
+    private List<FormulaComponent> components;
     
-    public CircularDependencyChecker(){
+    public CircularDependencyChecker(List<FormulaComponent> components){
         this.visited = new HashSet<>();
+        this.components = components;
+    }
+    
+    public void check() throws CircularDependencyException{
+        for(FormulaComponent comp :this.components){
+            if(comp instanceof Cell){
+                this.DFS((Cell)comp);
+            }
+        }
     }
     
     //Based in DFS
-    public void checkCircularDependency(Cell node) throws CircularDependencyException {
+    private void DFS(Cell node) throws CircularDependencyException {
         visited.add(node.getStringCoordinate());
         if(node.hasDependentCells()){
             if(visited.contains(node.getStringCoordinate())){
                 throw new CircularDependencyException("Circular dependency detected in cell " + node.getCoordinate().toString());
             }
             for(Cell child : node.getDependentCells()){
-                this.checkCircularDependency(child);
+                this.DFS(child);
             }
         }
         visited.remove(node.getStringCoordinate());

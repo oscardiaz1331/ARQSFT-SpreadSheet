@@ -6,12 +6,16 @@ package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
-import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Text;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Value;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxExpression;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -23,21 +27,14 @@ public class NewMain {
      * @param args the command line arguments
      * @throws edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException
      */
-    public static void main(String[] args) throws TokenWrittenIncorrectlyException, WrongSyntaxExpression, NonExistentCell {
+    public static void main(String[] args) throws TokenWrittenIncorrectlyException, WrongSyntaxExpression, NonExistentCell, CircularDependencyException {
         // TODO code application logic here
-        Tokenizer tokenizer = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
-        LinkedList<Token> tokens = tokenizer.tokenize("=1.9+A42*B6*6+SUM(A42:B6;A42;3;SUM(A42:B6;B6;3;B6))+SUM(2)");
-        for (Token token : tokens){
-            System.out.println(token.token+" "+token.sequence+"\n");
-        }
-        SyntaxChecker checker = new SyntaxChecker(tokens);
-        
-        checker.checkFormulaSyntax();
         LinkedList<Cell> cells = new LinkedList<>();
-        cells.add(new Cell(new Coordinate(42,"A"),new TextContent(new Text(""))));
-        cells.add(new Cell(new Coordinate(6,"B"),new TextContent(new Text(""))));
-        Specifier specifier = new Specifier(tokens, cells);
-        specifier.specifyFormulaComponents();
+        cells.add(new Cell(new Coordinate(42,"A"),new NumericalContent(new Number(1))));
+        cells.add(new Cell(new Coordinate(6,"B"),new NumericalContent(new Number(1))));
+        FormulaComputator comp = new FormulaComputator(cells); 
+        Number result = (Number) comp.compute("=(2*((1.9+A42*6))*B6*6+SUM(A42:B6;A42;3;SUM(A42:B6;B6;3;B6)))");
+        System.out.println(result.getNumericValue());
     }
     
 }
