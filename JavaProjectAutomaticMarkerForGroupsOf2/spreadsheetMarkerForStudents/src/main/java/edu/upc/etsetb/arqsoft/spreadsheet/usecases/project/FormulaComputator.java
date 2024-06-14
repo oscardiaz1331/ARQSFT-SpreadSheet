@@ -10,7 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Value;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
-import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxExpression;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ public class FormulaComputator {
         this.cells = cells;
     }
 
-    public Value compute(String argument) throws TokenWrittenIncorrectlyException, WrongSyntaxExpression, NonExistentCell, CircularDependencyException {
+    public Value compute(String argument) throws TokenWrittenIncorrectlyException, WrongSyntaxException, NonExistentCell, CircularDependencyException {
         Tokenizer tokenizer = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         List<Token> tokens = tokenizer.tokenize(argument);
         SyntaxChecker syntaxChecker = new SyntaxChecker(tokens);

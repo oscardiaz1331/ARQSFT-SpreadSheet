@@ -21,7 +21,10 @@ public class Token {
         OPEN_PAREN, 
         CLOSE_PAREN, 
         SEMICOLON,
-        LETTER
+        LETTER,
+        NUMERICAL_CONTENT,
+        TEXT_CONTENT,
+        FUNCTION
     }
     
     public final TokenType token;

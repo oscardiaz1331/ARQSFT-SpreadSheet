@@ -22,7 +22,8 @@ public class Tokenizer {
     public enum TokenizerType {
         FORMULA,
 //        FUNCTION,
-        COORDINATES
+        COORDINATES,
+        S2VLINE
     }
     
     private class TokenInfo{
@@ -38,7 +39,7 @@ public class Tokenizer {
     }
     private LinkedList<TokenInfo> tokenInfos;
     private LinkedList<Token> tokens;
-    String integer, letters , operators, floatNum , functionName, cellCoord;
+    String integer, letters , operators, floatNum , functionName, cellCoord, all;
     
     public Tokenizer(TokenizerType type){
         this.tokenInfos = new LinkedList<>();
@@ -49,6 +50,7 @@ public class Tokenizer {
         this.floatNum = this.integer + "[.,]" + this.integer;
         this.functionName = "(SUM|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
+        this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]" + ")+";
         
         if(null != type)switch (type) {
             case FORMULA:
@@ -57,9 +59,9 @@ public class Tokenizer {
             case COORDINATES:
                 this.addCoordinateTokens();
                 break;
-//            case FUNCTION:
-//                this.addFunctionTokens();
-//                break;
+            case S2VLINE:
+                this.addS2VLineTokens();
+                break;
             default:
                 break;
         }
@@ -86,6 +88,13 @@ public class Tokenizer {
     private void addCoordinateTokens(){
         this.add(letters, Token.TokenType.LETTER);
         this.add(integer, Token.TokenType.INTEGER);
+    }
+    
+    private void addS2VLineTokens() {
+        this.add(";", Token.TokenType.SEMICOLON);
+        this.add("[=]" + functionName + this.all, Token.TokenType.FUNCTION);
+        this.add(this.integer + "|" + this.floatNum, Token.TokenType.NUMERICAL_CONTENT);
+        this.add(this.all, Token.TokenType.TEXT_CONTENT);
     }
     
 //    private void addFunctionTokens() {

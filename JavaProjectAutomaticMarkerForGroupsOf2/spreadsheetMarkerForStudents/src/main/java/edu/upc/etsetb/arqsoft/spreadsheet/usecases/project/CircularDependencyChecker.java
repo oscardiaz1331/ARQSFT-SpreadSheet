@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Checker;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author oscar
  */
-public class CircularDependencyChecker {
+public class CircularDependencyChecker implements Checker{
     private HashSet<String> visited;
     private List<FormulaComponent> components;
     
@@ -23,6 +24,8 @@ public class CircularDependencyChecker {
         this.components = components;
     }
     
+
+    @Override
     public void check() throws CircularDependencyException{
         for(FormulaComponent comp :this.components){
             if(comp instanceof Cell){

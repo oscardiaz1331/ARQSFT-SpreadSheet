@@ -10,15 +10,20 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Formula;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Function;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Argument;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Range;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.SUM;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.MAX;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.MIN;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.PROMEDIO;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +40,7 @@ public class Specifier {
         this.cells = cells;
     }
     
-    public List<FormulaComponent> specifyFormulaComponents() throws TokenWrittenIncorrectlyException, NonExistentCell{
+    public List<FormulaComponent> specifyFormulaComponents() throws TokenWrittenIncorrectlyException{
         List<FormulaComponent> formulaComponents = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -76,7 +81,7 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
-                        throw new NonExistentCell("The referenced cell " + coord.toString() + " does not exist, please create it before using it");
+                        this.cells.add(new Cell(coord,new TextContent("")));
                     }
                     break;
                 case FUNCTION_NAME:
@@ -104,7 +109,7 @@ public class Specifier {
         return formulaComponents;
     }
     
-        public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws TokenWrittenIncorrectlyException, NonExistentCell{
+    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws TokenWrittenIncorrectlyException{
         LinkedList<Argument> arguments = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -150,7 +155,6 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
-                        throw new NonExistentCell("The referenced cell " + coord.toString() + " does not exist, please create it before using it");
                     }
                     break;
                 case COLON:
@@ -177,24 +181,26 @@ public class Specifier {
         }
         return arguments;
     }
-    public Function specifyFunction(String type, String arguments) throws TokenWrittenIncorrectlyException, NonExistentCell{
+    
+    
+    public Function specifyFunction(String type, String arguments) throws TokenWrittenIncorrectlyException{
         Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         List<Token> argumentsFunction = tokenizer.tokenize(arguments);
         Function function = null;
-            switch(type){
-                case Function.SUM:
-                   function =new SUM(this.specifyFunctionArguments(argumentsFunction));
-                    break;
-                case Function.MAX:
-                    function =new MAX(this.specifyFunctionArguments(argumentsFunction));
-                    break;
-                case Function.MIN:
-                    function =new MIN(this.specifyFunctionArguments(argumentsFunction));
-                    break;
-                case Function.PROMEDIO:
-                    function =new PROMEDIO(this.specifyFunctionArguments(argumentsFunction));
-                    break;
-            }
+        switch(type){
+            case Function.SUM:
+               function =new SUM(this.specifyFunctionArguments(argumentsFunction));
+                break;
+            case Function.MAX:
+                function =new MAX(this.specifyFunctionArguments(argumentsFunction));
+                break;
+            case Function.MIN:
+                function =new MIN(this.specifyFunctionArguments(argumentsFunction));
+                break;
+            case Function.PROMEDIO:
+                function =new PROMEDIO(this.specifyFunctionArguments(argumentsFunction));
+                break;
+        }
         return function;
     }
 }

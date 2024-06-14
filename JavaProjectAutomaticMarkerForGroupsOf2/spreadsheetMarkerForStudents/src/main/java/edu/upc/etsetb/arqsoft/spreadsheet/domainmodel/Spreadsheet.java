@@ -15,7 +15,15 @@ public class Spreadsheet {
     private List<Cell> cells;
     
     public Spreadsheet(){
-        this.cells = new LinkedList<Cell>();
+        this.cells = new LinkedList<>();
+    }
+    
+    public Spreadsheet(List<Cell> cells){
+        this.cells = cells;
+        for(Cell cell : this.cells){
+            //TODO compute value
+            //cell.
+        }
     }
     
 }

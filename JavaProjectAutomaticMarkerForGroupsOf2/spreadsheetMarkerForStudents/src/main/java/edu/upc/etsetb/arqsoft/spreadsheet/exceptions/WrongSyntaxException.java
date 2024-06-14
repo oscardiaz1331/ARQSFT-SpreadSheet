@@ -8,8 +8,8 @@ package edu.upc.etsetb.arqsoft.spreadsheet.exceptions;
  *
  * @author oscar
  */
-public class WrongSyntaxExpression extends Exception {
-    public WrongSyntaxExpression(String msg) {
+public class WrongSyntaxException extends Exception {
+    public WrongSyntaxException(String msg) {
         super(msg);
     }
 }

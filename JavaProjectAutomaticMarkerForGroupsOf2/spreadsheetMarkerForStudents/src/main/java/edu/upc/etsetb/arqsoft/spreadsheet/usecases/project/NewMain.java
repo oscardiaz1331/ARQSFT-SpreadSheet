@@ -13,7 +13,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Value;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
-import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxExpression;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class NewMain {
      * @param args the command line arguments
      * @throws edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException
      */
-    public static void main(String[] args) throws TokenWrittenIncorrectlyException, WrongSyntaxExpression, NonExistentCell, CircularDependencyException {
+    public static void main(String[] args) throws TokenWrittenIncorrectlyException, WrongSyntaxException, NonExistentCell, CircularDependencyException {
         // TODO code application logic here
         LinkedList<Cell> cells = new LinkedList<>();
         cells.add(new Cell(new Coordinate(42,"A"),new NumericalContent(new Number(1))));

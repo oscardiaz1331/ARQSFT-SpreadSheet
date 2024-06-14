@@ -8,7 +8,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.entities;
 /**
  *
  * @author Juan Carlos Cruellas at Universidad Politécnica de Cataluña. This is the exception that the class that implements the ISpreadsheetControllerForChecker 
- * has to throw when  there is an argument that should be a proper coordinate, but it is not 
+ * has to throw when there is an argument that should be a proper coordinate, but it is not 
  *
  */
 

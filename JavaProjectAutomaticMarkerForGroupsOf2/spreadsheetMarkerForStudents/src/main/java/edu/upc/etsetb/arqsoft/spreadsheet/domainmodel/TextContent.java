@@ -10,8 +10,13 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  */
 public class TextContent extends Content {
     
-    public TextContent(Value value) {
-        this.value = value;
+    public TextContent(String text) {
+        if(text.isEmpty()){
+            this.value = new Number(0);
+        }
+        else{
+            this.value = new Text(text);
+        }
     }
     
 }
