@@ -8,7 +8,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
  *
  * @author oscar
  */
-public class Coordinate {
+public class Coordinate implements Comparable<Coordinate>{
     private int row;
     private String column;
     
@@ -40,5 +40,15 @@ public class Coordinate {
     
     public boolean equals(Coordinate coord){
         return this.column.equals(coord.column) && this.row == coord.row;
+    }
+
+    //Searched in internet the best comparation optimized
+    @Override
+    public int compareTo(Coordinate other) {
+        int rowComparison = Integer.compare(this.row, other.row);
+        if (rowComparison != 0) {
+            return rowComparison;
+        }
+        return this.column.compareTo(other.column);
     }
 }

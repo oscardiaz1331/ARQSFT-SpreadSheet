@@ -58,19 +58,13 @@ public class S2VLoader implements Loader{
 
     @Override
     public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException{
-        List<Cell> cells = new LinkedList<>();
         while(this.scanner.hasNextLine()){
             this.row++;
             this.col = this.newCol;
             this.loadLine();
-            //seguir creando las celdas
         }
-        
-        Spreadsheet spreadsheet = new Spreadsheet();
-        
+        Spreadsheet spreadsheet = new Spreadsheet(this.cells);
         return spreadsheet;
-        
-        
     }
     
     public void loadLine() throws ReadingSpreadSheetException{
@@ -95,11 +89,12 @@ public class S2VLoader implements Loader{
         switch(token.token){
             case FUNCTION:
                 try {
-                    List<Token> tokens = tokenizerFormula.tokenize(token.sequence.replace(",", ";"));
+                    String formulaContent = token.sequence.replaceAll(",", ";");
+                    List<Token> tokens = tokenizerFormula.tokenize(formulaContent);
                     new SyntaxChecker(tokens).check();
                     Specifier specifier = new Specifier(tokens, this.cells);
                     List<FormulaComponent> formulaComponents = specifier.specifyFormulaComponents();
-                    Formula content = new Formula(formulaComponents);
+                    Formula content = new Formula(formulaContent, formulaComponents);
                     this.cells.add(new Cell(coord, content));
                 } 
                 catch (TokenWrittenIncorrectlyException | WrongSyntaxException ex) {

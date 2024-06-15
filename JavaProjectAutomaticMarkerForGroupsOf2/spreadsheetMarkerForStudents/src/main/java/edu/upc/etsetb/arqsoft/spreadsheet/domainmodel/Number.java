@@ -32,8 +32,7 @@ public class Number extends Operand implements Argument, Value {
 
     @Override
     public String getTextValue() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return String.valueOf(this.num);
     }
 
     @Override

@@ -4,6 +4,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
+
 /**
  *
  * @author oscar
@@ -18,4 +20,6 @@ public abstract class Content {
     public String getTextValue(){
         return this.value.getTextValue();
     }
+    
+    public abstract String getContent();
 }

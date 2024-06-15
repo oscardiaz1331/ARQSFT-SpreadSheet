@@ -26,4 +26,8 @@ public class Spreadsheet {
         }
     }
     
+    public List<Cell> getCells(){
+        return this.cells;
+    }
+    
 }

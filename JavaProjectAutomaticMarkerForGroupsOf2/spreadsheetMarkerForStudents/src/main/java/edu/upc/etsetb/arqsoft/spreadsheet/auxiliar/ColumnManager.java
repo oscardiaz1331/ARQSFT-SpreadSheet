@@ -22,4 +22,15 @@ public class ColumnManager {
         }
         return 'A' + new String(chars);
     }
+    
+    public static int columnToNumber(String column) {
+        int number = 0;
+        for (int i = 0; i < column.length(); i++) {
+            char character = column.charAt(i);
+            int value = character - 'A';  // 'A' es 1, 'B' es 2, ..., 'Z' es 26
+            number = number * 26 + value;
+        }
+        
+        return number;
+    }
 }

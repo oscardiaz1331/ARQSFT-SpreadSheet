@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author oscar
  */
-public class Cell extends Operand implements Argument{
+public class Cell extends Operand implements Argument, Comparable<Cell>{
     private Coordinate coordinate;
     private Content content;
     private HashSet<Cell> dependentCells;
@@ -32,8 +32,18 @@ public class Cell extends Operand implements Argument{
     public String getStringCoordinate(){
         return this.coordinate.getColumn() + String.valueOf(this.coordinate.getRow());
     }
+    public int getRow(){
+        return this.coordinate.getRow();
+    }
+    public String getCol(){
+        return this.coordinate.getColumn();
+    }
     public Content getContent(){
         return this.content;
+    }
+    
+    public String getContentAsString(){
+        return this.content.getContent();
     }
     public void getCoordinate(Content content){
         this.content = content;
@@ -61,5 +71,10 @@ public class Cell extends Operand implements Argument{
         List<Double> aux = new LinkedList<>();
         aux.add(this.content.getNumericValue());
         return aux;
+    }
+
+    @Override
+    public int compareTo(Cell other) {
+        return this.coordinate.compareTo(other.getCoordinate());
     }
 }
