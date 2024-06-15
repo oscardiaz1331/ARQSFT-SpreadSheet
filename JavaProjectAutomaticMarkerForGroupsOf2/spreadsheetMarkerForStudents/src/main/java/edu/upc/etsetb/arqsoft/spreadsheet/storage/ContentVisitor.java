@@ -9,5 +9,5 @@ package edu.upc.etsetb.arqsoft.spreadsheet.storage;
  * @author oscar
  */
 public class ContentVisitor {
-    
+
 }

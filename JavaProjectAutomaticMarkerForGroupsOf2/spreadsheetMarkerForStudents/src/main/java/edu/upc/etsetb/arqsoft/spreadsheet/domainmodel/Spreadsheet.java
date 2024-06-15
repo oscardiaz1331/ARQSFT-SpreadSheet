@@ -30,4 +30,25 @@ public class Spreadsheet {
         return this.cells;
     }
     
+    public void editCell(Coordinate coordinate, Content content) {
+        boolean found = false;
+        for (Cell cell : this.cells) {
+            if (cell.getCoordinate().equals(coordinate)) {
+                cell.setContent(content);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            this.cells.add(new Cell(coordinate, content));
+        }
+    }
+    
+    public void display() {
+        System.out.println("Spreadsheet content:");
+
+        for (Cell cell : cells) {
+            System.out.println(cell.getCoordinate().toString() + ": " + cell.getContentAsString());
+        }
+    }
 }

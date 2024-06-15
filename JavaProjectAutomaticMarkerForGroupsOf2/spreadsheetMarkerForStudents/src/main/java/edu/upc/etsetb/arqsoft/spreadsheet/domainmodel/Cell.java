@@ -42,6 +42,10 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
         return this.content;
     }
     
+    public void setContent(Content content) {
+        this.content = content;
+    }
+    
     public String getContentAsString(){
         return this.content.getContent();
     }

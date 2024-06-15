@@ -12,6 +12,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
  */
 public abstract class Content {
     Value value;
+    private String content;
     
     public double getNumericValue(){
         return this.value.getNumericValue();
@@ -22,4 +23,9 @@ public abstract class Content {
     }
     
     public abstract String getContent();
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
 }
