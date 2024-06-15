@@ -38,6 +38,10 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     public String getCol(){
         return this.coordinate.getColumn();
     }
+    public void setContent(Content content){
+        this.content = content;
+        this.content.value.
+    }
     public Content getContent(){
         return this.content;
     }

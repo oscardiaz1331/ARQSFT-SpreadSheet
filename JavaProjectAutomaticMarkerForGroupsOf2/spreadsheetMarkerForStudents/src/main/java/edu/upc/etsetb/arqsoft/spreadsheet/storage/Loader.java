@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.storage;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 
 /**
@@ -12,5 +13,5 @@ import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetExce
  * @author oscar
  */
 public interface Loader {
-    public Spreadsheet loadSpreadsheet()throws ReadingSpreadSheetException;
+    public Spreadsheet loadSpreadsheet()throws ReadingSpreadSheetException, ContentException;
 }

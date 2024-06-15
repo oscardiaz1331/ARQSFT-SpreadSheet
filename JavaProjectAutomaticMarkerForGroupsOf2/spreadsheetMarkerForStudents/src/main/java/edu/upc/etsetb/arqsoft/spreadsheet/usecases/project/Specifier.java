@@ -20,10 +20,14 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.MIN;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.PROMEDIO;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
+import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.FUNCTION;
+import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.NUMERICAL_CONTENT;
+import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.TEXT_CONTENT;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -202,5 +206,35 @@ public class Specifier {
                 break;
         }
         return function;
+    }
+    
+    public static Content specifyContent(Token token, Coordinate coord, List<Cell> cells) throws ContentException{
+        Content content;
+        Tokenizer tokenizerFormula = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
+        switch(token.token){
+            case FUNCTION:
+                try {
+                    String formulaContent = token.sequence.replaceAll(",", ";");
+                    List<Token> tokens = tokenizerFormula.tokenize(formulaContent);
+                    new SyntaxChecker(tokens).check();
+                    Specifier specifier = new Specifier(tokens, cells);
+                    List<FormulaComponent> formulaComponents = specifier.specifyFormulaComponents();
+                    content = new Formula(formulaContent, formulaComponents);
+                } 
+                catch (TokenWrittenIncorrectlyException | WrongSyntaxException ex) {
+                    throw new ContentException();
+                }
+                break;
+            case TEXT_CONTENT:
+                content = new TextContent(token.sequence);
+                break;
+            case NUMERICAL_CONTENT:
+                double number = Double.parseDouble(token.sequence);
+                content = new NumericalContent(new edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number(number));
+                break;
+            default:
+                throw new ContentException("The content is not text, numerical or formula");
+        }
+         return content;
     }
 }

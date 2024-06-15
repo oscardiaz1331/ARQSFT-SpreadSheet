@@ -6,12 +6,14 @@ package edu.upc.etsetb.arqsoft.spreadsheet.storage;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.ColumnManager;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Formula;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
@@ -34,7 +36,7 @@ import java.util.Scanner;
  */
 public class S2VLoader implements Loader{
     private Scanner scanner;
-    private Tokenizer tokenizerLine, tokenizerFormula;
+    private Tokenizer tokenizerLine;
     private S2VLineChecker checker;
     private List<Cell> cells;
     private int row;
@@ -49,7 +51,6 @@ public class S2VLoader implements Loader{
             throw new ReadingSpreadSheetException(ex.getMessage());
         }
         this.tokenizerLine = new Tokenizer(Tokenizer.TokenizerType.S2VLINE);
-        this.tokenizerFormula = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         this.cells = new LinkedList<>();
         this.row = 0;
         this.col = String.valueOf((char)('A'-1));
@@ -57,7 +58,7 @@ public class S2VLoader implements Loader{
     }
 
     @Override
-    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException{
+    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException, ContentException{
         while(this.scanner.hasNextLine()){
             this.row++;
             this.col = this.newCol;
@@ -67,7 +68,7 @@ public class S2VLoader implements Loader{
         return spreadsheet;
     }
     
-    public void loadLine() throws ReadingSpreadSheetException{
+    public void loadLine() throws ReadingSpreadSheetException, ContentException{
         String s = this.scanner.nextLine();
         List<Token> tokens = new LinkedList<>();
         try{
@@ -83,33 +84,10 @@ public class S2VLoader implements Loader{
         }
     }
     
-    public void loadCell(Token token) throws ReadingSpreadSheetException{
+    public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException{
         this.col = ColumnManager.newColumn(this.col);
         Coordinate coord = new Coordinate(this.row, this.col);
-        switch(token.token){
-            case FUNCTION:
-                try {
-                    String formulaContent = token.sequence.replaceAll(",", ";");
-                    List<Token> tokens = tokenizerFormula.tokenize(formulaContent);
-                    new SyntaxChecker(tokens).check();
-                    Specifier specifier = new Specifier(tokens, this.cells);
-                    List<FormulaComponent> formulaComponents = specifier.specifyFormulaComponents();
-                    Formula content = new Formula(formulaContent, formulaComponents);
-                    this.cells.add(new Cell(coord, content));
-                } 
-                catch (TokenWrittenIncorrectlyException | WrongSyntaxException ex) {
-                    throw new ReadingSpreadSheetException("The spreadsheet that you are trying to load is corrupted.\n"+ex.getMessage());
-                }
-                break;
-            case TEXT_CONTENT:
-                TextContent content = new TextContent(token.sequence);
-                this.cells.add(new Cell(coord, content));
-                break;
-            case NUMERICAL_CONTENT:
-                double number = Double.parseDouble(token.sequence);
-                NumericalContent numericalContent = new NumericalContent(new edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number(number));
-                this.cells.add(new Cell(coord, numericalContent));
-                break;
-        }
+        Content content = Specifier.specifyContent(token, coord, this.cells);
+        this.cells.add(new Cell(coord, content));
     }
 }

@@ -119,5 +119,14 @@ public class SyntaxChecker implements Checker{
             throw new WrongSyntaxException("The formula must close with an operand");
         }
     }
+    
+    public void checkCoord() throws WrongSyntaxException{
+        if(tokens.size() != 2){
+            throw new WrongSyntaxException("The coordinate tokens are not 2 tokens");
+        }
+        if(tokens.getFirst().token != Token.TokenType.LETTER || tokens.getLast().token != Token.TokenType.INTEGER){
+            throw new WrongSyntaxException("The coordinate tokens must be [LETTER]+[INTEGER]");
+        }
+    }
 }
 
