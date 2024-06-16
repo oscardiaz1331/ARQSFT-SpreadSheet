@@ -32,6 +32,6 @@ Extension (Alternative Flow):
 	1. The system finalize with an error that the expression cannot be evaluated due to a math error (for example dividing by 0).
 
 SPECIFICATIONS:
-Number evaluatePostfixExpression(List<FormulaComponent> components) throws MathErrorException
-- It belongs to PostfixExpression class as an expert GRASP, because it is not a controller, creator or polymorphic, and can be used in expert GRASP because it does not decrease the coherence.
-- When encountering operands, they are pushed onto a stack, and when operators are encountered, they are applied to the operands according to their arrival order in the stack. The operands are popped in reverse order for binary operators, and the result is pushed back onto the stack if there is not a math error, if there is a math error the system throws an exception. This process continues iteratively until all elements in the postfix expression are processed, culminating in the final result obtained by popping the stack.
+Number result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException
+- It belongs to PostfixEvaluator class as an expert GRASP, specializing in evaluating postfix expressions using Operand and Operator components.
+- Traverses through each FormulaComponent in the components list and applies the appropriate action (either pushing Operand onto the stack or applying Operator to Operands) based on the component type. Utilizes a stack (stack) to manage Operand and intermediate computation results during evaluation. Invokes visitOperand to push Operand onto the stack and visitOperator to compute using Operands according to the specified Operator, handled by OperationCalculator. Upon completion of traversal, retrieves the final computed result from the stack and returns it as a Number.

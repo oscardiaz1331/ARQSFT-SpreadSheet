@@ -1,0 +1,37 @@
+Use case Number: 6
+Use case Name: ModifyCell
+
+Actors and their interests:
+System, Users
+
+Preconditions:
+- The system has an open and active spreadsheet
+- The user has identified the specific cell to be modified
+
+Postconditions:
+- The user provides new information to update the content of the specified cell
+
+Main Success Scenario (Basic Flow):
+1. The user indicates to modify the content of a specific cell
+2. The system asks the user to specify the cell's coordinates
+3. The system retrieves the current content of the identified cell
+4. The user inputs the new information to update the cell content
+5. The system replaces the current content of the cell with the new information provided by the user
+6. The system notifies the user that the cell modification was successful
+
+Extension (Alternative Flow):
+2.a The user specifies an invalid cell
+	1. The system notifies the user
+	2. The system notifies the user to provide a valid cell
+	3. The system returns to step 2 to retry cell identification
+	
+3.a There is an error retrieving the current content of the cell
+	1. The system notifies the problem
+
+5.a There is an error updating the cell content with the new information
+	1. The system notifies the user
+
+SPECIFICATIONS:
+void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws NoNumberException, ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException
+- Belongs to EditCell class and is a command pattern, responsible for editing a cell in a spreadsheet.
+- Prompts the user for the coordinate and parses it into a Coordinate object. Handles IllegalArgumentException if the coordinate format is invalid. Prompts the user for new content for the cell and parses it into a Content object. Handles WrongSyntaxException if the content syntax is invalid. Attempts to edit the specified cell in the Spreadsheet instance using editCell method, passing cellCoordinate and newContent. Displays the updated spreadsheet using display() after editing the cell.

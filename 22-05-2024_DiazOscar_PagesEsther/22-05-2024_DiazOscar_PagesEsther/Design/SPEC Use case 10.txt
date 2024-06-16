@@ -20,6 +20,6 @@ Main Success Scenario (Basic Flow):
 3. The system updates the value of the cell.
 
 SPECIFICATIONS:
-Number compute() throws InvalidArgumentException
-- Belongs to SUM class as polymorphic GRASP, because it is not a controller or creator and do the same functionality to the other subclasses.
-- The method uses the attributes of the class to compute the sum of all these numbers. The system returns the value and updates the cell value.
+Number compute() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException
+- It belongs to SUM class as polymorphic GRASP, as it performs the computation specific to the SUM function using the provided arguments.
+- Initializes a temporary variable aux to accumulate the sum of all argument values. Iterates through each argument (argValue) in this.args, summing them up sequentially. Stores the computed result in this.result as a Number object and returns it. May throw exceptions if any of the arguments are invalid or if there are content-related issues during computation.
