@@ -32,7 +32,7 @@ public class LoadSpreadsheet extends Command{
             loader = new S2VLoader(filename);
             spreadsheet = loader.loadSpreadsheet();
             System.out.println("Hoja de cálculo cargada correctamente desde " + filename);
-        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException e) {
+        } catch (ReadingSpreadSheetException e) {
             System.out.println("Error al cargar la hoja de cálculo: " + e.getMessage());
         }
 

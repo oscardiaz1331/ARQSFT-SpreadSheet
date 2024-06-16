@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.FormulaComputator;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class Formula extends Content {
     String content;
     List<Cell> cells;
     
-    public Formula(String content, List<FormulaComponent> components, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException, NoNumberException{
+    public Formula(String content, List<FormulaComponent> components, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException, NoNumberException, ContentException{
         this.content = content;
         this.components = components;
         //Todo, assign value
@@ -42,22 +43,22 @@ public class Formula extends Content {
 
     @Override
     public String getContent() {
-        return this.content.replaceAll(";", ",");
+        return this.content;//.replaceAll(";", ",");
     }
     
     @Override 
-    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, NoNumberException{
+    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, NoNumberException, ContentException{
         this.value = visitor.visitFormula(content, this.cells);
     }
     
     @Override
-    public double getNumericValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException{
+    public double getNumericValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException, ContentException{
         FormulaComputator computator = new FormulaComputator(cells);
         this.value = computator.compute(content);
         return this.value.getNumericValue();
     }
     @Override
-    public String getTextValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException{
+    public String getTextValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException, ContentException{
         FormulaComputator computator = new FormulaComputator(cells);
         this.value = computator.compute(content);
         return this.value.getTextValue();

@@ -28,7 +28,7 @@ public class ReadFromFile extends Command{
             loader = new S2VLoader(filePath);
             spreadsheet = loader.loadSpreadsheet();
             System.out.println("Hoja de cálculo cargada exitosamente desde el archivo: " + filePath);
-        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException ex) {
+        } catch (ReadingSpreadSheetException ex) {
             Logger.getLogger(ReadFromFile.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al cargar la hoja de cálculo desde el archivo: " + filePath);
         }

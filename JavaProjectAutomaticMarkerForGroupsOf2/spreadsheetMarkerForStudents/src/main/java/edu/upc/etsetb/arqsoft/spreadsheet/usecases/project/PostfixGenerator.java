@@ -9,6 +9,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.MathErrorException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
@@ -56,7 +57,7 @@ public class PostfixGenerator implements PostfixVisitor{
         }
     }
     
-    public List<FormulaComponent> result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public List<FormulaComponent> result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         for(FormulaComponent component : this.components){
             component.accept(this);
         }

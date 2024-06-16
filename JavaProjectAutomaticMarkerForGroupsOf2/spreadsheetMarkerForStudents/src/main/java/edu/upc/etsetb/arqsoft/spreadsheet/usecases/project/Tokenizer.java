@@ -23,7 +23,8 @@ public class Tokenizer {
         FORMULA,
 //        FUNCTION,
         COORDINATES,
-        S2VLINE
+        S2VLINE,
+        SIMPLE_LINE
     }
     
     private class TokenInfo{
@@ -39,7 +40,7 @@ public class Tokenizer {
     }
     private LinkedList<TokenInfo> tokenInfos;
     private LinkedList<Token> tokens;
-    String integer, letters , operators, floatNum , functionName, cellCoord, all;
+    String integer, letters , operators, floatNum , functionName, cellCoord, all, allS2V;
     
     public Tokenizer(TokenizerType type){
         this.tokenInfos = new LinkedList<>();
@@ -51,6 +52,7 @@ public class Tokenizer {
         this.functionName = "(SUMA|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
         this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[;]|" + ")+";
+        this.allS2V = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|" + ")+";
         
         if(null != type)switch (type) {
             case FORMULA:
@@ -62,6 +64,8 @@ public class Tokenizer {
             case S2VLINE:
                 this.addS2VLineTokens();
                 break;
+            case SIMPLE_LINE:
+                this.addSimpleLineTokens();
             default:
                 break;
         }
@@ -91,11 +95,17 @@ public class Tokenizer {
     
     private void addS2VLineTokens() {
         this.add(";", Token.TokenType.SEMICOLON);
-        this.add("=" + this.all, Token.TokenType.FORMULA);
+        this.add("=" + this.allS2V, Token.TokenType.FORMULA);
         this.add(this.floatNum , Token.TokenType.FLOAT_NUM);
         this.add(this.all, Token.TokenType.TEXT_CONTENT);
     }
     
+    private void addSimpleLineTokens() {
+        this.add(";", Token.TokenType.SEMICOLON);
+        this.add("=" + this.all, Token.TokenType.FORMULA);
+        this.add(this.floatNum , Token.TokenType.FLOAT_NUM);
+        this.add(this.all, Token.TokenType.TEXT_CONTENT);
+    }
 //    private void addFunctionTokens() {
 //        this.add(functionName, Token.TokenType.FUNCTION_NAME);
 //        this.add(floatNum, Token.TokenType.FLOAT_NUM);

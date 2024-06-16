@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
@@ -29,7 +30,7 @@ public class Range implements Argument {
     }
 
     @Override
-    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException {
+    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException {
         List<Double> aux = new LinkedList<>();
         for(Cell cell : this.cells){
             aux.add(cell.getNumericValue());

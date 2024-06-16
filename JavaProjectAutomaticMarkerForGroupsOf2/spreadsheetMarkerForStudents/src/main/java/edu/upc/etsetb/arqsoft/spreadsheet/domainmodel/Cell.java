@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.AddDependentCells;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.CheckerCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
@@ -24,9 +25,11 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     private Content content;
     private HashSet<Cell> dependentCells;
     
-    public Cell(Coordinate coord, Content content){
+    public Cell(Coordinate coord, Content content, List<Cell> cells) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException{
+        //CheckerCell.checkExistence(this, cells);
         this.coordinate = coord;
         this.content = content;
+        this.content.accept(new Recomputator());
         this.dependentCells = new HashSet();
         AddDependentCells.myDependentCells(this);
     }
@@ -78,17 +81,17 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     
     
     @Override
-    public double getNumericValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public double getNumericValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         return this.content.getNumericValue();
     }
     @Override
-    public String getTextValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public String getTextValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         return this.content.getTextValue();
     }
     
 
     @Override
-    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException {
+    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException {
         List<Double> aux = new LinkedList<>();
         aux.add(this.content.getNumericValue());
         return aux;
