@@ -19,8 +19,6 @@ import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetExcep
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -34,37 +32,60 @@ public class TextUserInterface {
 
     public TextUserInterface(String filename, Spreadsheet spreadsheet) throws ReadingSpreadSheetException, SavingSpreadSheetException{
         this.scanner = new Scanner(System.in);
-        this.spreadsheet = new Spreadsheet();
+        this.spreadsheet = spreadsheet;
         this.loader = new S2VLoader(filename);
         this.store = new S2VStore(filename,spreadsheet);
     }
 
-    public void run() throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
+    public void run(){
         System.out.println("Welcome to Text-based Spreadsheet Application!");
-        //TODO
-        //Tienes que poner el catch y para cada excepcion manejarla para que el usuario lo haga bien o simplemente notificarlo
+
         while (true) {
+            showMenu();
             System.out.print("> ");
             String line = scanner.nextLine().trim();
 
-            if (line.startsWith("RF")) {
-                executeReadFromFile(line.substring(3).trim());
-            } else if (line.equals("C")) {
-                executeCommand(new CreateSpreadsheet());
-            } else if (line.startsWith("E")) {
-                executeEditCell(line.substring(2).trim());
-            } else if (line.startsWith("L")) {
-                executeCommand(new LoadSpreadsheet());
-            } else if (line.startsWith("S")) {
-                executeCommand(new SaveSpreadsheet());
-            } else if (line.equalsIgnoreCase("exit")) {
-                break;
-            } else {
-                System.out.println("Invalid command. Please try again.");
+            try {
+                switch (line) {
+                    case "1":
+                        System.out.print("Enter file path: ");
+                        String filePath = scanner.nextLine().trim();
+                        executeReadFromFile(filePath);
+                        break;
+                    case "2":
+                        executeCommand(new CreateSpreadsheet());
+                        break;
+                    case "3":
+                        System.out.print("Enter cell coordinate and new content (e.g., 1,A newContent): ");
+                        String arguments = scanner.nextLine().trim();
+                        executeEditCell(arguments);
+                        break;
+                    case "4":
+                        executeCommand(new LoadSpreadsheet());
+                        break;
+                    case "5":
+                        executeCommand(new SaveSpreadsheet());
+                        break;
+                    case "6":
+                        System.out.println("Exiting Text-based Spreadsheet Application.");
+                        return;
+                    default:
+                        System.out.println("Invalid option. Please try again.");
+                }
+            } catch (CircularDependencyException | WrongSyntaxException | TokenWrittenIncorrectlyException  e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
+    }
 
-        System.out.println("Exiting Text-based Spreadsheet Application.");
+    private void showMenu() {
+        System.out.println("\nMenu:");
+        System.out.println("1. Read from file (RF)");
+        System.out.println("2. Create new spreadsheet (C)");
+        System.out.println("3. Edit cell (E)");
+        System.out.println("4. Load spreadsheet (L)");
+        System.out.println("5. Save spreadsheet (S)");
+        System.out.println("6. Exit");
     }
 
     private void executeReadFromFile(String filePath) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
@@ -80,46 +101,39 @@ public class TextUserInterface {
         }
     }
 
-private void executeEditCell(String arguments) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
-    String[] parts = arguments.split(" ", 3); // Usar 3 para incluir todo el contenido de la celda
-    if (parts.length >= 3) {
-        String cellCoordinateStr = parts[0];
-        String newContentStr = parts[1] + " " + parts[2]; // Unir el contenido de la celda si se dividió
+    private void executeEditCell(String arguments) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
+        String[] parts = arguments.split(" ", 3); // Usar 3 para incluir todo el contenido de la celda
+        if (parts.length >= 3) {
+            String cellCoordinateStr = parts[0];
+            String newContentStr = parts[1] + " " + parts[2]; // Unir el contenido de la celda si se dividió
 
-        Coordinate cellCoordinate = parseCoordinate(cellCoordinateStr);
-//        Content newContent = new Content() {
-//            @Override
-//            public String getContent() {
-//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//            }
-//        }; // Crear un Content vacío
-        Content newContent = new TextContent("");
-        newContent.setContent(newContentStr); // Establecer el contenido
+            Coordinate cellCoordinate = parseCoordinate(cellCoordinateStr);
+            Content newContent = new TextContent(newContentStr);
 
-        if (cellCoordinate != null) {
-            executeCommand(new EditCell(cellCoordinate, newContent));
+            if (cellCoordinate != null) {
+                executeCommand(new EditCell(cellCoordinate, newContent));
+            } else {
+                System.out.println("Invalid cell coordinate format: " + cellCoordinateStr);
+            }
         } else {
-            System.out.println("Invalid cell coordinate format: " + cellCoordinateStr);
+            System.out.println("Invalid edit command. Format: E <cell coordinate> <new cell content>");
         }
-    } else {
-        System.out.println("Invalid edit command. Format: E <cell coordinate> <new cell content>");
     }
-}
 
-private Coordinate parseCoordinate(String coordinateStr) {
-    String[] parts = coordinateStr.split(",");
-    if (parts.length == 2) {
-        try {
-            int row = Integer.parseInt(parts[0].trim());
-            String col = parts[1].trim(); // Leer la columna como String
-            return new Coordinate(row, col); // Crear Coordinate con int y String
-        } catch (NumberFormatException e) {
-            // Handle parsing error if necessary
-            System.out.println("Error parsing cell coordinate: " + coordinateStr);
+    private Coordinate parseCoordinate(String coordinateStr) {
+        String[] parts = coordinateStr.split(",");
+        if (parts.length == 2) {
+            try {
+                int row = Integer.parseInt(parts[0].trim());
+                String col = parts[1].trim(); // Leer la columna como String
+                return new Coordinate(row, col); // Crear Coordinate con int y String
+            } catch (NumberFormatException e) {
+                // Handle parsing error if necessary
+                System.out.println("Error parsing cell coordinate: " + coordinateStr);
+            }
         }
+        return null;
     }
-    return null;
-}
 
 
     private void executeCommand(Command command) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException{
@@ -160,9 +174,9 @@ private Coordinate parseCoordinate(String coordinateStr) {
 
     //TODO
     //Thisn fucntion must not throw anything, neither arrive to this function, they must be caught before
-    public static void main(String[] args) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException {
-        if (args.length < 2) {
-            System.out.println("Usage: java TextUserInterface <filename> <spreadsheetName>");
+    public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Usage: java TextUserInterface <filename>");
             return;
         }
 
