@@ -46,8 +46,9 @@ public class Specifier {
     
     public List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         List<FormulaComponent> formulaComponents = new LinkedList<>();
-        List<Integer> startFunctions = new LinkedList<>();
-        List<String> nameFunctions = new LinkedList<>();
+        Integer startFunction = 0;
+        Integer functionsInside = 0;
+        String nameFunction = "";
         for(int i = 1; i < this.components.size(); i++){
             Token currentToken = this.components.get(i);
             breakIf:
@@ -57,12 +58,12 @@ public class Specifier {
                     break;
                 case INTEGER:
                 case FLOAT_NUM:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction==0){
                         formulaComponents.add(new Number(Double.parseDouble(currentToken.sequence)));
                     }
                     break;
                 case CELL_COORD:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction==0){
                         Coordinate coord = CoordinateCreator.create(currentToken.sequence);
                         for(Cell cell :this.cells)
                         {
@@ -77,29 +78,36 @@ public class Specifier {
                     }
                     break;
                 case FUNCTION_NAME:
-                    if(startFunctions.isEmpty()){
-                        startFunctions.add(i);
-                        nameFunctions.add(currentToken.sequence);
+                    if(startFunction==0){
+                        startFunction=i;
+                        nameFunction = currentToken.sequence;
+                    }
+                    else{
+                    functionsInside++; 
                     }
                     break;
                 case CLOSE_PAREN:
-                    if(!startFunctions.isEmpty()){
-                        String functionString = new String();
-                        int lastStartFunction =startFunctions.removeLast();
-                        for(int j = lastStartFunction; j < i; j++){
-                            functionString += this.components.get(j).sequence;
+                    if(startFunction !=0){
+                        if(functionsInside == 0){
+                            String functionString = new String();
+                            int lastStartFunction =startFunction;
+                            for(int j = lastStartFunction; j < i; j++){
+                                functionString += this.components.get(j).sequence;
+                            }
+                            functionString += currentToken.sequence;
+                            Function function = this.specifyFunction(nameFunction, functionString);
+                            nameFunction = "";
+                            formulaComponents.add(function); 
                         }
-                        functionString += currentToken.sequence;
-                        //TODO adapt tokenizer to tokenize the function arguments
-                        String type = nameFunctions.removeLast();
-                        Function function = this.specifyFunction(type, functionString);
-                        formulaComponents.add(function); 
+                        else{
+                            functionsInside--;
+                        }
                     }else{
                         formulaComponents.add(new Operator(currentToken.sequence));
                     }
                     break;
                 case OPEN_PAREN:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction == 0){
                         formulaComponents.add(new Operator(currentToken.sequence));
                     }
                     break;
@@ -157,7 +165,7 @@ public class Specifier {
                         String functionString = new String();
                         int lastStartFunction =startFunctions.removeLast();
                         for(int j = lastStartFunction; j < i; j++){
-                            functionString += this.components.get(j).sequence;
+                            functionString += tokens.get(j).sequence;
                         }
                         functionString += currentToken.sequence;
                         String type = nameFunctions.removeLast();

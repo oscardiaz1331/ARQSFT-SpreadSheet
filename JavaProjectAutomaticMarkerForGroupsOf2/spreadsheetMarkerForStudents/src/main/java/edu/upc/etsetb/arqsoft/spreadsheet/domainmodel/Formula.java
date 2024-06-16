@@ -61,5 +61,5 @@ public class Formula extends Content {
         FormulaComputator computator = new FormulaComputator(cells);
         this.value = computator.compute(content);
         return this.value.getTextValue();
-    }
+        }
 }
