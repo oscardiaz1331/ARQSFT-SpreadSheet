@@ -6,6 +6,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.auxiliar;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 
 /**
  *
@@ -14,5 +15,5 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
 public interface PostfixVisitor {
     
     public void visitOperand(Operand operand);
-    public void visitOperator(Operator operator);
+    public void visitOperator(Operator operator) throws NoNumberException ;
 }

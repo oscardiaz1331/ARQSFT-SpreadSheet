@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class MIN extends Function{
     
-    public MIN(LinkedList<Argument> args) {
+    public MIN(LinkedList<Argument> args) throws NoNumberException {
         super(args);
     }
     

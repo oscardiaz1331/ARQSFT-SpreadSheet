@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.FormulaComputator;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class Formula extends Content {
     String content;
     List<Cell> cells;
     
-    public Formula(String content, List<FormulaComponent> components, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException{
+    public Formula(String content, List<FormulaComponent> components, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException, NoNumberException{
         this.content = content;
         this.components = components;
         //Todo, assign value
@@ -42,7 +43,7 @@ public class Formula extends Content {
     }
     
     @Override 
-    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException{
+    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, NoNumberException{
         this.value = visitor.visitFormula(content, this.cells);
     }
     

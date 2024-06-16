@@ -22,6 +22,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.PROMEDIO;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
@@ -44,7 +45,7 @@ public class Specifier {
         this.cells = cells;
     }
     
-    public List<FormulaComponent> specifyFormulaComponents() throws TokenWrittenIncorrectlyException{
+    public List<FormulaComponent> specifyFormulaComponents() throws TokenWrittenIncorrectlyException, NoNumberException{
         List<FormulaComponent> formulaComponents = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -113,7 +114,7 @@ public class Specifier {
         return formulaComponents;
     }
     
-    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws TokenWrittenIncorrectlyException{
+    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws TokenWrittenIncorrectlyException, NoNumberException{
         LinkedList<Argument> arguments = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -187,7 +188,7 @@ public class Specifier {
     }
     
     
-    public Function specifyFunction(String type, String arguments) throws TokenWrittenIncorrectlyException{
+    public Function specifyFunction(String type, String arguments) throws TokenWrittenIncorrectlyException, NoNumberException{
         Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         List<Token> argumentsFunction = tokenizer.tokenize(arguments);
         Function function = null;

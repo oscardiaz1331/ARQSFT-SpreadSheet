@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.OperationCalculator;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,14 +33,14 @@ public class PostfixEvaluator implements PostfixVisitor{
     }
     
     @Override
-    public void visitOperator(Operator operator){
+    public void visitOperator(Operator operator) throws NoNumberException{
         Operand secondElement = this.stack.removeLast();
         Operand firstElement = this.stack.removeLast();
         Number result = new OperationCalculator(firstElement, operator, secondElement).compute();
         this.stack.add(result);
     }
     
-    public Number result(){
+    public Number result() throws NoNumberException{
         for(FormulaComponent component : this.components){
             component.accept(this);
         }

@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Text;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Value;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class Recomputator {
     
-    public Value visitFormula(String content, List<Cell> cells) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public Value visitFormula(String content, List<Cell> cells) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException{
         FormulaComputator computator = new FormulaComputator(cells);
         return computator.compute(content);
     }

@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.LinkedList;
  */
 public class SUM extends Function {
 
-    public SUM(LinkedList<Argument> args) {
+    public SUM(LinkedList<Argument> args) throws NoNumberException {
         super(args);
     }
     

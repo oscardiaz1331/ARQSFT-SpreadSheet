@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.LinkedList;
  * @author oscar
  */
 public class PROMEDIO extends Function {
-    public PROMEDIO(LinkedList<Argument> args) {
+    public PROMEDIO(LinkedList<Argument> args) throws NoNumberException {
         super(args);
     }
     

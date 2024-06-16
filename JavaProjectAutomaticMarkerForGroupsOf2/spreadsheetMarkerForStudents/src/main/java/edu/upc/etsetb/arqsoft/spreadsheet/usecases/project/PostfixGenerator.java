@@ -8,6 +8,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.MathErrorException;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class PostfixGenerator implements PostfixVisitor{
         }
     }
     
-    public List<FormulaComponent> result(){
+    public List<FormulaComponent> result() throws NoNumberException{
         for(FormulaComponent component : this.components){
             component.accept(this);
         }

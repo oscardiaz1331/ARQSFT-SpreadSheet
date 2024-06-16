@@ -7,6 +7,11 @@ package edu.upc.etsetb.arqsoft.spreadsheet.userinterface;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
@@ -14,6 +19,8 @@ import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetExcep
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,9 +39,10 @@ public class TextUserInterface {
         this.store = new S2VStore(filename,spreadsheet);
     }
 
-    public void run() {
+    public void run() throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
         System.out.println("Welcome to Text-based Spreadsheet Application!");
-
+        //TODO
+        //Tienes que poner el catch y para cada excepcion manejarla para que el usuario lo haga bien o simplemente notificarlo
         while (true) {
             System.out.print("> ");
             String line = scanner.nextLine().trim();
@@ -59,7 +67,7 @@ public class TextUserInterface {
         System.out.println("Exiting Text-based Spreadsheet Application.");
     }
 
-    private void executeReadFromFile(String filePath) {
+    private void executeReadFromFile(String filePath) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
         try (Scanner fileScanner = new Scanner(new FileInputStream(filePath))) {
             while (fileScanner.hasNextLine()) {
                 String fileLine = fileScanner.nextLine().trim();
@@ -72,20 +80,20 @@ public class TextUserInterface {
         }
     }
 
-private void executeEditCell(String arguments) {
+private void executeEditCell(String arguments) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
     String[] parts = arguments.split(" ", 3); // Usar 3 para incluir todo el contenido de la celda
     if (parts.length >= 3) {
         String cellCoordinateStr = parts[0];
         String newContentStr = parts[1] + " " + parts[2]; // Unir el contenido de la celda si se dividió
 
         Coordinate cellCoordinate = parseCoordinate(cellCoordinateStr);
-        Content newContent = new Content() {
-            @Override
-            public String getContent() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        }; // Crear un Content vacío
-
+//        Content newContent = new Content() {
+//            @Override
+//            public String getContent() {
+//                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//            }
+//        }; // Crear un Content vacío
+        Content newContent = new TextContent("");
         newContent.setContent(newContentStr); // Establecer el contenido
 
         if (cellCoordinate != null) {
@@ -114,12 +122,16 @@ private Coordinate parseCoordinate(String coordinateStr) {
 }
 
 
-    private void executeCommand(Command command) {
-        command.execute(spreadsheet, loader, store);
+    private void executeCommand(Command command) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException{
+        try {
+            command.execute(spreadsheet, loader, store);
+        } catch (ContentException ex) {
+            System.out.println("There is an error in the content:\n"+ex.getMessage());
+        }
         spreadsheet.display();
     }
 
-    private void processCommand(String commandLine) {
+    private void processCommand(String commandLine) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException{
         String[] parts = commandLine.split(" ", 2);
         if (parts.length >= 1) {
             String command = parts[0];
@@ -146,7 +158,9 @@ private Coordinate parseCoordinate(String coordinateStr) {
         }
     }
 
-    public static void main(String[] args) {
+    //TODO
+    //Thisn fucntion must not throw anything, neither arrive to this function, they must be caught before
+    public static void main(String[] args) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException {
         if (args.length < 2) {
             System.out.println("Usage: java TextUserInterface <filename> <spreadsheetName>");
             return;

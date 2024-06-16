@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 
 /**
  *
@@ -12,6 +13,6 @@ import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
  */
 public interface FormulaComponent {
     
-    public void accept(PostfixVisitor visitor);
+    public void accept(PostfixVisitor visitor) throws NoNumberException;
     
 }

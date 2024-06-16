@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 
 /**
  *
@@ -67,7 +68,7 @@ public class Operator implements FormulaComponent{
     }
     
     @Override
-    public void accept(PostfixVisitor visitor){
+    public void accept(PostfixVisitor visitor) throws NoNumberException{
         visitor.visitOperator(this);
     }
 }

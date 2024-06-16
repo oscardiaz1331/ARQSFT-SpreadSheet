@@ -45,9 +45,9 @@ public class Tokenizer {
         this.tokenInfos = new LinkedList<>();
         this.tokens = new LinkedList<>();
         this.integer = "[0-9]+";
-        this.letters = "[a-zA-Z]+";
+        this.letters = "([a-zA-Z]|[ ])+";
         this.operators = "[+-]|[*/]";
-        this.floatNum = this.integer + "[.,]" + this.integer;
+        this.floatNum = this.integer + "[.]|[,]" + this.integer;
         this.functionName = "(SUM|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
         this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]" + ")+";
