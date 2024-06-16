@@ -41,6 +41,14 @@ public abstract class Content {
         this.value = value;
     }
     
+    public static Content fromString(String contentStr) throws WrongSyntaxException {
+        if (contentStr.matches("-?\\d+(\\.\\d+)?")) {
+            return new NumericalContent(new Number(Double.parseDouble(contentStr)));
+        } else {
+            return new TextContent(contentStr);
+        }
+    }
+    
     public abstract void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException;
 
 }

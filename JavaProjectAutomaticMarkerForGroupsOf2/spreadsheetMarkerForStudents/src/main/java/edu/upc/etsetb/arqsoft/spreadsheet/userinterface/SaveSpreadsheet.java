@@ -9,6 +9,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,20 @@ import java.util.logging.Logger;
  */
 public class SaveSpreadsheet extends Command{
     @Override
-    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws SavingSpreadSheetException{
-        store.storeSpreadsheet();
+    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicitar nombre del archivo para guardar la hoja de cálculo
+        System.out.print("Ingrese el nombre del archivo para guardar la hoja de cálculo: ");
+        String filename = scanner.nextLine();
+
+        // Guardar la hoja de cálculo en el archivo especificado
+        try {
+            store = new S2VStore(filename, spreadsheet);
+            store.storeSpreadsheet();
+            System.out.println("Hoja de cálculo guardada correctamente en " + filename);
+        } catch (SavingSpreadSheetException e) {
+            System.out.println("Error al guardar la hoja de cálculo: " + e.getMessage());
+        }
     }
 }
