@@ -1,6 +1,6 @@
 1. PresentOption: The program presents a textual menu of options.
 2. ProcessOption: The user selects an option.
-3. ReadSpreadsheet: The program parses the contents of a file whose contents are conformant to the S2V format, and creates the corresponding spreadsheet.
+3. LoadSpreadsheet: The program parses the contents of a file whose contents are conformant to the S2V format, and creates the corresponding spreadsheet.
 4. StoreSpreadSheet: The program stores the contents of a spreadsheet in the S2V format.
 5. CreateNewSpreadsheet: The program creates a new spreadsheet with no content.
 6. ModifyCell: The program modifies the cell with new information given by the user.

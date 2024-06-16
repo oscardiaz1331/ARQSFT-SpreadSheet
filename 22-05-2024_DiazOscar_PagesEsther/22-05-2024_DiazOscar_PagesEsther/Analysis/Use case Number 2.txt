@@ -1,0 +1,27 @@
+Use case Number: 2
+Use case Name: ProcessOption
+
+Actors and their interests:
+System, Users
+
+Preconditions:
+- The system has presented a menu of options to the user
+- The user is ready to make a selection from the menu
+
+Postconditions:
+- The system executes the functionality corresponding to the selected option
+
+Main Success Scenario (Basic Flow):
+1. The user selects an option from the presented menu
+2. The system identifies the selected option
+3. The system executes the selected option
+4. The system completes the operation related to the selected option
+
+Extension (Alternative Flow):
+1.a The user selects an invalid option
+	1. The system notifies the user
+	2. The system notifies the user to make a valid selection
+	3. The system returns to step 1 to await a valid selection
+	
+3.a The system has an error executing the option
+	1. The system notifies the problem

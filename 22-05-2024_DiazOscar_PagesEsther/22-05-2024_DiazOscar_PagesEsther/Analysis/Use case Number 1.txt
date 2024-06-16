@@ -1,0 +1,31 @@
+Use case Number: 1
+Use case Name: PresentOption
+
+Actors and their interests:
+System
+
+Preconditions:
+- The system is ready to interact with the user interface
+
+Postconditions:
+- The textual menu of options is displayed to the user
+
+Main Success Scenario (Basic Flow):
+1. The system prepares to present options
+2. The system displays a list of available options to the user
+3. The system waits for the user to select an option
+4. The user makes a selection from the presented menu
+5. The system processes the selected option
+
+Extension (Alternative Flow):
+1.a There are no options to display
+	1. The system notifies the user
+	
+3.a The user does not select an option
+	1. The system notifies the user to make a selection
+	2. The system returns to step 3
+
+5.a There is an error processing the option
+	1. The system notifies the problem
+	2. The system ask for another selection
+
