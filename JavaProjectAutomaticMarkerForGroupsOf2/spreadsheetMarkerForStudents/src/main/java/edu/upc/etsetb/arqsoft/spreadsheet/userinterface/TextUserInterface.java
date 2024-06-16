@@ -37,7 +37,7 @@ public class TextUserInterface {
         this.store = new S2VStore(filename,spreadsheet);
     }
 
-    public void run() throws SavingSpreadSheetException{
+    public void run() throws SavingSpreadSheetException, ReadingSpreadSheetException{
         System.out.println("Welcome to Text-based Spreadsheet Application!");
 
         while (true) {
@@ -88,7 +88,7 @@ public class TextUserInterface {
         System.out.println("6. Exit");
     }
 
-    private void executeReadFromFile(String filePath) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException {
+    private void executeReadFromFile(String filePath) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException, ReadingSpreadSheetException {
         try (Scanner fileScanner = new Scanner(new FileInputStream(filePath))) {
             while (fileScanner.hasNextLine()) {
                 String fileLine = fileScanner.nextLine().trim();
@@ -101,7 +101,7 @@ public class TextUserInterface {
         }
     }
 
-    private void executeEditCell(String arguments) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException {
+    private void executeEditCell(String arguments) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException, ReadingSpreadSheetException {
         String[] parts = arguments.split(" ", 3); // Usar 3 para incluir todo el contenido de la celda
         if (parts.length >= 3) {
             String cellCoordinateStr = parts[0];
@@ -136,7 +136,7 @@ public class TextUserInterface {
     }
 
 
-    private void executeCommand(Command command) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException{
+    private void executeCommand(Command command) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException, ReadingSpreadSheetException{
         try {
             command.execute(spreadsheet, loader, store);
         } catch (ContentException ex) {
@@ -145,7 +145,7 @@ public class TextUserInterface {
         spreadsheet.display();
     }
 
-    private void processCommand(String commandLine) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException{
+    private void processCommand(String commandLine) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException, ReadingSpreadSheetException{
         String[] parts = commandLine.split(" ", 2);
         if (parts.length >= 1) {
             String command = parts[0];

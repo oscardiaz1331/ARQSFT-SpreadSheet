@@ -41,6 +41,12 @@ public class Coordinate implements Comparable<Coordinate>{
     public boolean equals(Coordinate coord){
         return this.column.equals(coord.column) && this.row == coord.row;
     }
+    
+    public static Coordinate fromString(String coordStr) {
+        String column = coordStr.replaceAll("[^A-Za-z]", "");
+        int row = Integer.parseInt(coordStr.replaceAll("[^0-9]", ""));
+        return new Coordinate(row, column);
+    }
 
     //Searched in internet the best comparation optimized
     @Override

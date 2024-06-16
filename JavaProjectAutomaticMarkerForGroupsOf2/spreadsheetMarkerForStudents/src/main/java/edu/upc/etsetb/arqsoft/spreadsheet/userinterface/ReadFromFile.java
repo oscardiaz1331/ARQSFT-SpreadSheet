@@ -5,8 +5,13 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.userinterface;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +24,14 @@ public class ReadFromFile extends Command{
     }
     @Override
     public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
-        System.out.println("Reading commands from file: " + filePath);
+        try {
+            loader = new S2VLoader(filePath);
+            spreadsheet = loader.loadSpreadsheet();
+            System.out.println("Hoja de cálculo cargada exitosamente desde el archivo: " + filePath);
+        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException ex) {
+            Logger.getLogger(ReadFromFile.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al cargar la hoja de cálculo desde el archivo: " + filePath);
+        }
+        spreadsheet.display();
     }
 }

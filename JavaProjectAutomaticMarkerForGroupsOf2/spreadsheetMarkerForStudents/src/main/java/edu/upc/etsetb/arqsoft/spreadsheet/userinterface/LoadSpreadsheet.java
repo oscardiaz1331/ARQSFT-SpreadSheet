@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,12 +20,25 @@ import java.util.logging.Logger;
  */
 public class LoadSpreadsheet extends Command{
     @Override
-    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws ContentException, CircularDependencyException{
+    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicitar nombre del archivo para cargar la hoja de cálculo
+        System.out.print("Ingrese el nombre del archivo para cargar la hoja de cálculo: ");
+        String filename = scanner.nextLine();
+
+        // Cargar la hoja de cálculo desde el archivo especificado
         try {
-            loader.loadSpreadsheet();
-        } catch (ReadingSpreadSheetException ex) {
-            Logger.getLogger(LoadSpreadsheet.class.getName()).log(Level.SEVERE, null, ex);
+            loader = new S2VLoader(filename);
+            spreadsheet = loader.loadSpreadsheet();
+            System.out.println("Hoja de cálculo cargada correctamente desde " + filename);
+        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException e) {
+            System.out.println("Error al cargar la hoja de cálculo: " + e.getMessage());
         }
-        spreadsheet.display();
+
+        // Mostrar la hoja de cálculo cargada
+        if (spreadsheet != null) {
+            spreadsheet.display();
+        }
     }
 }
