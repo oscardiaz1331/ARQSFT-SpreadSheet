@@ -37,34 +37,39 @@ public class S2VStore implements Store {
     }
     
     @Override
-    public void storeSpreadsheet() throws IOException{
+    public void storeSpreadsheet() throws SavingSpreadSheetException{
         String line = "";
-        //Sort cells
-        this.cells = this.spreadsheet.getCells();
-        Collections.sort(this.cells);
-        Iterator<Cell> it = this.cells.iterator();
-        int anteriorRow = 0, anteriorCol = 0;
-        while(it.hasNext()){
-            anteriorCol++;
-            
-            Cell cell = it.next();
-            
-            //Repasar bien el orden de esta parte, tanto de la row como de la col
-            while(cell.getRow() > anteriorRow){
-                anteriorRow++;
-                while(line.endsWith(";")){
-                    line = line.substring(0, line.length()-1);
-                }
-                this.writer.write(line+"\n");
-                line = "";
-                anteriorCol = 0;
-            }
-            while(ColumnManager.columnToNumber(cell.getCol()) > anteriorCol){
-                line += ";";
+        try {
+            //Sort cells
+            this.cells = this.spreadsheet.getCells();
+            Collections.sort(this.cells);
+            Iterator<Cell> it = this.cells.iterator();
+            int anteriorRow = 0, anteriorCol = 0;
+            while(it.hasNext()){
                 anteriorCol++;
+
+                Cell cell = it.next();
+
+                //Repasar bien el orden de esta parte, tanto de la row como de la col
+                while(cell.getRow() > anteriorRow){
+                    anteriorRow++;
+                    while(line.endsWith(";")){
+                        line = line.substring(0, line.length()-1);
+                    }
+                    this.writer.write(line+"\n");
+                    line = "";
+                    anteriorCol = 0;
+                }
+                while(ColumnManager.columnToNumber(cell.getCol()) > anteriorCol){
+                    line += ";";
+                    anteriorCol++;
+                }
+                line += cell.getContentAsString() + ";";
             }
-            line += cell.getContentAsString() + ";";
+
+                this.writer.write(line);
+        } catch (IOException ex) {
+            throw new SavingSpreadSheetException(ex.getMessage());
         }
-        this.writer.write(line);
     }
 }

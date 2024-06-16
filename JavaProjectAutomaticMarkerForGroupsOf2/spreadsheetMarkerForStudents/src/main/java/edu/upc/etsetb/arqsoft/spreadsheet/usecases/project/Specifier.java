@@ -26,8 +26,6 @@ import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
-import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.FUNCTION;
-import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.NUMERICAL_CONTENT;
 import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.TEXT_CONTENT;
 import java.util.LinkedList;
 import java.util.List;
@@ -213,7 +211,7 @@ public class Specifier {
         Content content;
         Tokenizer tokenizerFormula = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         switch(token.token){
-            case FUNCTION:
+            case FORMULA:
                 try {
                     String formulaContent = token.sequence.replaceAll(",", ";");
                     List<Token> tokens = tokenizerFormula.tokenize(formulaContent);
@@ -229,7 +227,8 @@ public class Specifier {
             case TEXT_CONTENT:
                 content = new TextContent(token.sequence);
                 break;
-            case NUMERICAL_CONTENT:
+            case INTEGER:
+            case FLOAT_NUM:
                 double number = Double.parseDouble(token.sequence);
                 content = new NumericalContent(new edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number(number));
                 break;

@@ -18,6 +18,8 @@ public abstract class Operand implements FormulaComponent {
     
     public abstract double getNumericValue()throws NoNumberException;
     
+    public abstract String getTextValue();
+    
     @Override
     public void accept(PostfixVisitor visitor){
         visitor.visitOperand(this);

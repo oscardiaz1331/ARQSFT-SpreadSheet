@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.storage;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
 import java.io.IOException;
 
 /**
@@ -11,5 +12,5 @@ import java.io.IOException;
  * @author oscar
  */
 public interface Store {
-    public void storeSpreadsheet() throws IOException;
+    public void storeSpreadsheet() throws SavingSpreadSheetException;
 }

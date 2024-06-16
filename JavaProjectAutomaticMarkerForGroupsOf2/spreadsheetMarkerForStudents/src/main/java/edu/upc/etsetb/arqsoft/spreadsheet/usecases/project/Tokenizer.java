@@ -47,10 +47,10 @@ public class Tokenizer {
         this.integer = "[0-9]+";
         this.letters = "([a-zA-Z]|[ ])+";
         this.operators = "[+-]|[*/]";
-        this.floatNum = this.integer + "[.]|[,]" + this.integer;
+        this.floatNum = this.integer + "(([.]|[,])" + this.integer + ")?";
         this.functionName = "(SUM|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
-        this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]" + ")+";
+        this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[;]|" + ")+";
         
         if(null != type)switch (type) {
             case FORMULA:
@@ -76,7 +76,6 @@ public class Tokenizer {
         this.add(operators, Token.TokenType.OPERATOR);
         this.add(functionName, Token.TokenType.FUNCTION_NAME);
         this.add(floatNum, Token.TokenType.FLOAT_NUM);
-        this.add(integer, Token.TokenType.INTEGER);
         this.add("[:]", Token.TokenType.COLON);
         this.add(cellCoord, Token.TokenType.CELL_COORD);
         this.add("[(]", Token.TokenType.OPEN_PAREN);
@@ -92,8 +91,8 @@ public class Tokenizer {
     
     private void addS2VLineTokens() {
         this.add(";", Token.TokenType.SEMICOLON);
-        this.add("[=]" + functionName + this.all, Token.TokenType.FUNCTION);
-        this.add(this.integer + "|" + this.floatNum, Token.TokenType.NUMERICAL_CONTENT);
+        this.add("=" + this.all, Token.TokenType.FORMULA);
+        this.add(this.floatNum , Token.TokenType.FLOAT_NUM);
         this.add(this.all, Token.TokenType.TEXT_CONTENT);
     }
     
@@ -124,7 +123,9 @@ public class Tokenizer {
                     break;
                 }
             }
-        if(!match) throw new TokenWrittenIncorrectlyException("Unexpected character in input: "+s);
+            if(!match){
+                throw new TokenWrittenIncorrectlyException("Unexpected character in input: "+s);
+            }
         }
         return this.tokens;
     }

@@ -21,8 +21,6 @@ import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetExce
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Specifier;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.SyntaxChecker;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token;
-import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.FUNCTION;
-import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.NUMERICAL_CONTENT;
 import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.TEXT_CONTENT;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Tokenizer;
 import java.io.FileInputStream;
@@ -88,7 +86,9 @@ public class S2VLoader implements Loader{
     public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
         this.col = ColumnManager.newColumn(this.col);
         Coordinate coord = new Coordinate(this.row, this.col);
-        Content content = Specifier.specifyContent(token, coord, this.cells);
-        this.cells.add(new Cell(coord, content));
+        if(token.token != Token.TokenType.SEMICOLON){
+            Content content = Specifier.specifyContent(token, coord, this.cells);
+            this.cells.add(new Cell(coord, content));
+        }
     }
 }

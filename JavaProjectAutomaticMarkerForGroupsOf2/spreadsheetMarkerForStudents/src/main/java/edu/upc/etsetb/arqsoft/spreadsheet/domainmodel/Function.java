@@ -31,6 +31,11 @@ public abstract class Function extends Operand implements Argument{
         return this.compute().getNum();
     }
     
+    @Override
+    public String getTextValue(){
+        return this.compute().getTextValue();
+    }
+    
     @Override 
      public List<Double> getValue() {
         List<Double> aux = new LinkedList<>();

@@ -72,10 +72,16 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
         return this.dependentCells;
     }
     
+    
     @Override
     public double getNumericValue() throws NoNumberException{
         return this.content.getNumericValue();
     }
+    @Override
+    public String getTextValue(){
+        return this.content.getTextValue();
+    }
+    
 
     @Override
     public List<Double> getValue() throws NoNumberException {

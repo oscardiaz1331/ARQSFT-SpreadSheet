@@ -22,9 +22,8 @@ public class Token {
         CLOSE_PAREN, 
         SEMICOLON,
         LETTER,
-        NUMERICAL_CONTENT,
         TEXT_CONTENT,
-        FUNCTION
+        FORMULA
     }
     
     public final TokenType token;

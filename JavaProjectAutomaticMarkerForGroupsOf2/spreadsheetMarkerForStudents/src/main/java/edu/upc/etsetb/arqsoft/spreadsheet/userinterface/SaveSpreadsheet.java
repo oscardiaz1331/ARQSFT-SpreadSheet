@@ -7,6 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.userinterface;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,11 +18,7 @@ import java.util.logging.Logger;
  */
 public class SaveSpreadsheet extends Command{
     @Override
-    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store){
-        try {
-            store.storeSpreadsheet();
-        } catch (IOException ex) {
-            Logger.getLogger(SaveSpreadsheet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws SavingSpreadSheetException{
+        store.storeSpreadsheet();
     }
 }

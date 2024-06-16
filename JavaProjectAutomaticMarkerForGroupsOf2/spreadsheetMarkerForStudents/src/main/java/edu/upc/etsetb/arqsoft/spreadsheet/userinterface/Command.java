@@ -11,11 +11,12 @@ import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyExce
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
 
 /**
  *
  * @author esthe
  */
 public abstract class Command{
-    public abstract void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store)throws ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException;
+    public abstract void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store)throws ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, SavingSpreadSheetException, SavingSpreadSheetException;
 }

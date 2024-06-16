@@ -28,9 +28,10 @@ public class S2VLineChecker implements Checker {
         for(Token token : this.tokens){
             //Also can be done with a if semicolon, else. But I think this is easier to understand
             switch(token.token){
-                case FUNCTION:
+                case FORMULA:
                 case TEXT_CONTENT:
-                case NUMERICAL_CONTENT:
+                case FLOAT_NUM:
+                case INTEGER:
                     if(notContentTurn){
                         throw new ReadingSpreadSheetException("The spreadsheet that you are trying to load is corrupted.");
                     }
