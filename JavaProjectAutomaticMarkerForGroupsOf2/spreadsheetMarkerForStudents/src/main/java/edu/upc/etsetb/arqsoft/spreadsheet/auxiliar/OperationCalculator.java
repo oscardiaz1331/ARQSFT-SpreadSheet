@@ -7,6 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.auxiliar;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 
 /**
  *
@@ -24,7 +25,7 @@ public class OperationCalculator {
     }
     
     //Easier to introduce new operator
-    public Number compute(){
+    public Number compute() throws NoNumberException{
         switch(this.operator.getType()){
             case ADD:
                 return this.computeAdd();
@@ -38,16 +39,16 @@ public class OperationCalculator {
         return null;
     }
     
-    private Number computeAdd(){
+    private Number computeAdd() throws NoNumberException{
         return new Number(this.firstElement.getNumericValue() + this.secondElement.getNumericValue());
     }
-    private Number computeSub(){
+    private Number computeSub() throws NoNumberException{
         return new Number(this.firstElement.getNumericValue() - this.secondElement.getNumericValue());
     }
-    private Number computeMult(){
+    private Number computeMult() throws NoNumberException{
         return new Number(this.firstElement.getNumericValue() * this.secondElement.getNumericValue());
     }
-    private Number computeDiv(){
+    private Number computeDiv() throws NoNumberException{
         return new Number(this.firstElement.getNumericValue() / this.secondElement.getNumericValue());
     }
 }

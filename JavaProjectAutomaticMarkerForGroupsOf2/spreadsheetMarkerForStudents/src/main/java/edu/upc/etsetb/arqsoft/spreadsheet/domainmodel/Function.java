@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public abstract class Function extends Operand implements Argument{
     protected Number result;
     public static final String SUM = "SUM", MAX = "MAX", MIN = "MIN", PROMEDIO = "PROMEDIO";
     
-    public Function(LinkedList<Argument> args){
+    public Function(LinkedList<Argument> args) throws NoNumberException{
         this.result = new Number(Double.POSITIVE_INFINITY);
         this.args = new LinkedList<>();
         for(Argument arg : args){

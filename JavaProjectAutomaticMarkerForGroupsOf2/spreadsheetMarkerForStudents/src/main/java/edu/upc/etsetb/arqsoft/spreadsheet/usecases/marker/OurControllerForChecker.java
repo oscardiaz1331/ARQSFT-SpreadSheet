@@ -69,7 +69,12 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
         }
         for(Cell cell : this.cells){
             if(cell.getStringCoordinate().equals(cellCoord)){
-                cell.setContent(Specifier.specifyContent(tokens.getFirst(), coord, cells));
+                try {
+                    cell.setContent(Specifier.specifyContent(tokens.getFirst(), coord, cells));
+                }
+                catch(WrongSyntaxException | TokenWrittenIncorrectlyException ex){
+                    throw new ContentException(ex.getMessage());
+                }
             }
         }
     }

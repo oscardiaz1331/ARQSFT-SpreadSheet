@@ -4,11 +4,13 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+
 /**
  *
  * @author oscar
  */
 public interface Value {
-    public double getNumericValue();
+    public double getNumericValue()throws NoNumberException;
     public String getTextValue();
 }

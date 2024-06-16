@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ public interface Argument{
     /**
      *
      * @return
+     * @throws edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException
      */
-    public List<Double> getValue();
+    public List<Double> getValue()throws NoNumberException;
     
 }

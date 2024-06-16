@@ -20,8 +20,8 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.MIN;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.PROMEDIO;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
-import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.NonExistentCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
@@ -208,7 +208,7 @@ public class Specifier {
         return function;
     }
     
-    public static Content specifyContent(Token token, Coordinate coord, List<Cell> cells) throws ContentException{
+    public static Content specifyContent(Token token, Coordinate coord, List<Cell> cells) throws ContentException, CircularDependencyException{
         Content content;
         Tokenizer tokenizerFormula = new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         switch(token.token){
@@ -219,7 +219,7 @@ public class Specifier {
                     new SyntaxChecker(tokens).check();
                     Specifier specifier = new Specifier(tokens, cells);
                     List<FormulaComponent> formulaComponents = specifier.specifyFormulaComponents();
-                    content = new Formula(formulaContent, formulaComponents);
+                    content = new Formula(formulaContent, formulaComponents, cells);
                 } 
                 catch (TokenWrittenIncorrectlyException | WrongSyntaxException ex) {
                     throw new ContentException();

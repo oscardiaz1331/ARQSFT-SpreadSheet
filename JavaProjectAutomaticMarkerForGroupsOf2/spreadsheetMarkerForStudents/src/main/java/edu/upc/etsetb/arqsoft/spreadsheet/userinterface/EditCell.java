@@ -7,6 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.userinterface;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 
@@ -24,7 +25,7 @@ public class EditCell extends Command{
     }
 
     @Override
-    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
+    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws NoNumberException {
         spreadsheet.editCell(cellCoordinate, newContent);
         spreadsheet.display();
     }

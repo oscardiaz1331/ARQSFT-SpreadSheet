@@ -4,6 +4,12 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
 
 /**
@@ -11,10 +17,10 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
  * @author oscar
  */
 public abstract class Content {
-    Value value;
-    private String content;
+    protected Value value;
+    protected String content;
     
-    public double getNumericValue(){
+    public double getNumericValue() throws NoNumberException{
         return this.value.getNumericValue();
     }
     
@@ -28,4 +34,13 @@ public abstract class Content {
         this.content = content;
     }
     
+    public Value getValue(){
+        return this.value;
+    }
+    public void setValue(Value value){
+        this.value = value;
+    }
+    
+    public abstract void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException;
+
 }

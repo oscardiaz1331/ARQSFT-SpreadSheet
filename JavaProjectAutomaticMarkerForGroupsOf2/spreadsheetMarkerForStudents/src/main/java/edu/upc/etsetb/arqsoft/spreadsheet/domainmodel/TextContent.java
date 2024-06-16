@@ -4,6 +4,10 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
 
 /**
@@ -13,6 +17,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.ContentVisitor;
 public class TextContent extends Content {
     
     public TextContent(String text) {
+        this.content = text;
         if(text.isEmpty()){
             this.value = new Number(0);
         }
@@ -25,5 +30,9 @@ public class TextContent extends Content {
     public String getContent() {
         return this.value.getTextValue();
     }
-    
+
+    @Override
+    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
+        visitor.visitText(this.content);    
+    }
 }

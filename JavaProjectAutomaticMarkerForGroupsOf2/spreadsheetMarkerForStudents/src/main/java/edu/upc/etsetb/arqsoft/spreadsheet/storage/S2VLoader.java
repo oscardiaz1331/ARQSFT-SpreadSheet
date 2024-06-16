@@ -13,6 +13,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.NumericalContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.TextContent;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
@@ -58,7 +59,7 @@ public class S2VLoader implements Loader{
     }
 
     @Override
-    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException, ContentException{
+    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
         while(this.scanner.hasNextLine()){
             this.row++;
             this.col = this.newCol;
@@ -68,7 +69,7 @@ public class S2VLoader implements Loader{
         return spreadsheet;
     }
     
-    public void loadLine() throws ReadingSpreadSheetException, ContentException{
+    public void loadLine() throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
         String s = this.scanner.nextLine();
         List<Token> tokens = new LinkedList<>();
         try{
@@ -84,7 +85,7 @@ public class S2VLoader implements Loader{
         }
     }
     
-    public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException{
+    public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
         this.col = ColumnManager.newColumn(this.col);
         Coordinate coord = new Coordinate(this.row, this.col);
         Content content = Specifier.specifyContent(token, coord, this.cells);

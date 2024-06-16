@@ -4,6 +4,8 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+
 /**
  *
  * @author oscar
@@ -21,9 +23,15 @@ public class Text implements Value {
     }
     
     @Override
-    public double getNumericValue() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double getNumericValue() throws NoNumberException{
+        double result;
+        try{
+             result = Double.parseDouble(this.text);
+        }
+        catch(NumberFormatException ex){
+            throw new NoNumberException("This cell has a text value that can not be converted to a number");
+        }
+        return result;
     }
 
     @Override

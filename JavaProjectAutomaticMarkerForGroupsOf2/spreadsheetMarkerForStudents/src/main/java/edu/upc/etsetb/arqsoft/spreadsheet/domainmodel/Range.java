@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Range implements Argument {
     }
 
     @Override
-    public List<Double> getValue() {
+    public List<Double> getValue() throws NoNumberException {
         List<Double> aux = new LinkedList<>();
         for(Cell cell : this.cells){
             aux.add(cell.getNumericValue());

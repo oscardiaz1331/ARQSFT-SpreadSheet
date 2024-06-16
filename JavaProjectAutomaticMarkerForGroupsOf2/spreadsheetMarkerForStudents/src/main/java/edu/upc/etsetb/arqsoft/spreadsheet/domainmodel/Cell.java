@@ -4,6 +4,12 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,16 +44,13 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     public String getCol(){
         return this.coordinate.getColumn();
     }
-    public void setContent(Content content){
+    public void setContent(Content content) throws NoNumberException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException{
         this.content = content;
-        this.content.value.
+        this.content.accept(new Recomputator());
+
     }
     public Content getContent(){
         return this.content;
-    }
-    
-    public void setContent(Content content) {
-        this.content = content;
     }
     
     public String getContentAsString(){
@@ -70,12 +73,12 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     }
     
     @Override
-    public double getNumericValue() {
+    public double getNumericValue() throws NoNumberException{
         return this.content.getNumericValue();
     }
 
     @Override
-    public List<Double> getValue() {
+    public List<Double> getValue() throws NoNumberException {
         List<Double> aux = new LinkedList<>();
         aux.add(this.content.getNumericValue());
         return aux;
