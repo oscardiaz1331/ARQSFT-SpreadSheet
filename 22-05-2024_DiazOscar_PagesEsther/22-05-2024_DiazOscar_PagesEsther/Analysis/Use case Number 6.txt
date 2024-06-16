@@ -1,0 +1,32 @@
+Use case Number: 6
+Use case Name: ModifyCell
+
+Actors and their interests:
+System, Users
+
+Preconditions:
+- The system has an open and active spreadsheet
+- The user has identified the specific cell to be modified
+
+Postconditions:
+- The user provides new information to update the content of the specified cell
+
+Main Success Scenario (Basic Flow):
+1. The user indicates to modify the content of a specific cell
+2. The system asks the user to specify the cell's coordinates
+3. The system retrieves the current content of the identified cell
+4. The user inputs the new information to update the cell content
+5. The system replaces the current content of the cell with the new information provided by the user
+6. The system notifies the user that the cell modification was successful
+
+Extension (Alternative Flow):
+2.a The user specifies an invalid cell
+	1. The system notifies the user
+	2. The system notifies the user to provide a valid cell
+	3. The system returns to step 2 to retry cell identification
+	
+3.a There is an error retrieving the current content of the cell
+	1. The system notifies the problem
+
+5.a There is an error updating the cell content with the new information
+	1. The system notifies the user
