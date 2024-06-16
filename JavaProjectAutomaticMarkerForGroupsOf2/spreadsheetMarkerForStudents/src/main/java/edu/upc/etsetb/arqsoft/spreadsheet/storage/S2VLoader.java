@@ -58,10 +58,19 @@ public class S2VLoader implements Loader{
 
     @Override
     public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
-        while(this.scanner.hasNextLine()){
-            this.row++;
-            this.col = this.newCol;
-            this.loadLine();
+        try {
+            while (scanner.hasNextLine()) {
+                this.row++;
+                this.col = this.newCol;
+                this.loadLine();
+            }
+        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException ex) {
+            // Log the exception or handle it appropriately
+            throw ex;
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
         }
         Spreadsheet spreadsheet = new Spreadsheet(this.cells);
         return spreadsheet;
