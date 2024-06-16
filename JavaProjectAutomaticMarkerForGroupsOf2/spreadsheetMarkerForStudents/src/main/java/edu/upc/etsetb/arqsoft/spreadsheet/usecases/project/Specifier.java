@@ -44,10 +44,11 @@ public class Specifier {
         this.cells = cells;
     }
     
-    public List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         List<FormulaComponent> formulaComponents = new LinkedList<>();
-        List<Integer> startFunctions = new LinkedList<>();
-        List<String> nameFunctions = new LinkedList<>();
+        Integer startFunction = 0;
+        Integer functionsInside = 0;
+        String nameFunction = "";
         for(int i = 1; i < this.components.size(); i++){
             Token currentToken = this.components.get(i);
             breakIf:
@@ -57,12 +58,12 @@ public class Specifier {
                     break;
                 case INTEGER:
                 case FLOAT_NUM:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction==0){
                         formulaComponents.add(new Number(Double.parseDouble(currentToken.sequence)));
                     }
                     break;
                 case CELL_COORD:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction==0){
                         Coordinate coord = CoordinateCreator.create(currentToken.sequence);
                         for(Cell cell :this.cells)
                         {
@@ -71,35 +72,42 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
-                        Cell cell =new Cell(coord,new TextContent(""));
+                        Cell cell =new Cell(coord,new TextContent(""),this.cells);
                         this.cells.add(cell);
                         formulaComponents.add(cell);
                     }
                     break;
                 case FUNCTION_NAME:
-                    if(startFunctions.isEmpty()){
-                        startFunctions.add(i);
-                        nameFunctions.add(currentToken.sequence);
+                    if(startFunction==0){
+                        startFunction=i;
+                        nameFunction = currentToken.sequence;
+                    }
+                    else{
+                    functionsInside++; 
                     }
                     break;
                 case CLOSE_PAREN:
-                    if(!startFunctions.isEmpty()){
-                        String functionString = new String();
-                        int lastStartFunction =startFunctions.removeLast();
-                        for(int j = lastStartFunction; j < i; j++){
-                            functionString += this.components.get(j).sequence;
+                    if(startFunction !=0){
+                        if(functionsInside == 0){
+                            String functionString = new String();
+                            int lastStartFunction =startFunction;
+                            for(int j = lastStartFunction; j < i; j++){
+                                functionString += this.components.get(j).sequence;
+                            }
+                            functionString += currentToken.sequence;
+                            Function function = this.specifyFunction(nameFunction, functionString);
+                            nameFunction = "";
+                            formulaComponents.add(function); 
                         }
-                        functionString += currentToken.sequence;
-                        //TODO adapt tokenizer to tokenize the function arguments
-                        String type = nameFunctions.removeLast();
-                        Function function = this.specifyFunction(type, functionString);
-                        formulaComponents.add(function); 
+                        else{
+                            functionsInside--;
+                        }
                     }else{
                         formulaComponents.add(new Operator(currentToken.sequence));
                     }
                     break;
                 case OPEN_PAREN:
-                    if(startFunctions.isEmpty()){
+                    if(startFunction == 0){
                         formulaComponents.add(new Operator(currentToken.sequence));
                     }
                     break;
@@ -108,7 +116,7 @@ public class Specifier {
         return formulaComponents;
     }
     
-    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         LinkedList<Argument> arguments = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -140,7 +148,7 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
-                        Cell cell = new Cell(coord, new TextContent(""));
+                        Cell cell = new Cell(coord, new TextContent(""),this.cells);
                         arguments.add(cell);
                         this.cells.add(cell);
                     }
@@ -157,7 +165,7 @@ public class Specifier {
                         String functionString = new String();
                         int lastStartFunction =startFunctions.removeLast();
                         for(int j = lastStartFunction; j < i; j++){
-                            functionString += this.components.get(j).sequence;
+                            functionString += tokens.get(j).sequence;
                         }
                         functionString += currentToken.sequence;
                         String type = nameFunctions.removeLast();
@@ -171,7 +179,7 @@ public class Specifier {
     }
     
     
-    public Function specifyFunction(String type, String arguments) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public Function specifyFunction(String type, String arguments) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         List<Token> argumentsFunction = tokenizer.tokenize(arguments);
         Function function = null;

@@ -32,10 +32,12 @@ import java.util.logging.Logger;
 public class OurControllerForChecker implements ISpreadsheetControllerForChecker {
     private List<Cell> cells;
     private Tokenizer tokenizerLine;
+    private Spreadsheet spread;
     
     public OurControllerForChecker(Spreadsheet spreadsheet){
         this.cells = spreadsheet.getCells();
-        this.tokenizerLine = new Tokenizer(Tokenizer.TokenizerType.S2VLINE);
+        this.tokenizerLine = new Tokenizer(Tokenizer.TokenizerType.SIMPLE_LINE);
+        this.spread = spreadsheet;
     }
     
     @Override
@@ -62,7 +64,11 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
             }
         }
         Content content = Specifier.specifyContent(tokens.getFirst(), coord, cells);
-        this.cells.add(new Cell(coord, content));
+        try {
+            this.cells.add(new Cell(coord, content, this.cells));
+        } catch (WrongSyntaxException | TokenWrittenIncorrectlyException ex) {
+           throw new ContentException(ex.getMessage());
+        }
     }
 
     @Override
@@ -73,9 +79,9 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
             if(cell.getStringCoordinate().equals(cellCoord)){
                 try {
                     output = cell.getNumericValue();
-                } catch (TokenWrittenIncorrectlyException | WrongSyntaxException | CircularDependencyException ex) {
+                } catch (TokenWrittenIncorrectlyException | WrongSyntaxException | CircularDependencyException | ContentException ex) {
                     throw new NoNumberException(ex.getMessage());
-                } 
+                }
                 break;
             }
         }
@@ -92,6 +98,8 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
                     output = cell.getTextValue();
                 } catch (NoNumberException | TokenWrittenIncorrectlyException | WrongSyntaxException | CircularDependencyException ex) {
                     throw new BadCoordinateException(ex.getMessage());
+                } catch (ContentException ex) {
+                    throw new BadCoordinateException(ex.getMessage());
                 }
                 break;
             }
@@ -105,13 +113,14 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
         String output = "";
         for(Cell cell : this.cells){
             if(cell.getStringCoordinate().equals(cellCoord)){
+                
                 output = cell.getContentAsString();
                 break;
             }
         }
-        if(!output.contains("=")){
-            throw new BadCoordinateException("There is not a formula expression because this is not a formula, not contains the '=' at the beginning");
-        }
+//        if(!output.contains("=")){
+//            throw new BadCoordinateException("There is not a formula expression because this is not a formula, not contains the '=' at the beginning");
+//        }
         output = output.replaceAll("=", "").replaceAll(" ", "");
         return output;
     }
@@ -125,11 +134,9 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
     @Override
     public void readSpreadSheetFromFile(String nameInUserDir) throws ReadingSpreadSheetException {
         S2VLoader loader = new S2VLoader(nameInUserDir);
-        try {
-            loader.loadSpreadsheet();
-        } catch (ContentException | CircularDependencyException ex) {
-            throw new ReadingSpreadSheetException(ex.getMessage());
-        }
+        this.spread = loader.loadSpreadsheet();
+        this.cells.clear();
+        this.cells = spread.getCells();
     }
     
 }

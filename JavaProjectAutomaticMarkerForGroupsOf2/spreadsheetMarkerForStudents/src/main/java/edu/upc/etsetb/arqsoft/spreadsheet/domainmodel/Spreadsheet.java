@@ -25,10 +25,6 @@ public class Spreadsheet {
     
     public Spreadsheet(List<Cell> cells){
         this.cells = cells;
-        for(Cell cell : this.cells){
-            //TODO compute value
-            //cell.
-        }
     }
     
     public List<Cell> getCells(){
@@ -45,7 +41,7 @@ public class Spreadsheet {
             }
         }
         if (!found) {
-            this.cells.add(new Cell(coordinate, content));
+            this.cells.add(new Cell(coordinate, content, this.cells));
         }
     }
     

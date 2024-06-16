@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class Recomputator {
     
-    public Value visitFormula(String content, List<Cell> cells) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException{
+    public Value visitFormula(String content, List<Cell> cells) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException, ContentException{
         FormulaComputator computator = new FormulaComputator(cells);
         return computator.compute(content);
     }

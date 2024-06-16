@@ -28,6 +28,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,6 +42,7 @@ public class S2VLoader implements Loader{
     private List<Cell> cells;
     private int row;
     private String col;
+    private boolean semicolonTurn;
     private final String newCol;
     
     public S2VLoader(String filename) throws ReadingSpreadSheetException{
@@ -54,19 +57,20 @@ public class S2VLoader implements Loader{
         this.row = 0;
         this.col = String.valueOf((char)('A'-1));
         this.newCol = String.valueOf((char)('A'-1));
+        this.semicolonTurn =false;
     }
 
     @Override
-    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
+    public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException {
         try {
             while (scanner.hasNextLine()) {
                 this.row++;
                 this.col = this.newCol;
                 this.loadLine();
             }
-        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException ex) {
+        } catch (ReadingSpreadSheetException | ContentException | CircularDependencyException | WrongSyntaxException | TokenWrittenIncorrectlyException ex) {
             // Log the exception or handle it appropriately
-            throw ex;
+            throw new ReadingSpreadSheetException(ex.getMessage());
         } finally {
             if (scanner != null) {
                 scanner.close();
@@ -76,7 +80,7 @@ public class S2VLoader implements Loader{
         return spreadsheet;
     }
     
-    public void loadLine() throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
+    public void loadLine() throws ReadingSpreadSheetException, ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException{
         String s = this.scanner.nextLine();
         List<Token> tokens = new LinkedList<>();
         try{
@@ -85,6 +89,7 @@ public class S2VLoader implements Loader{
         catch(TokenWrittenIncorrectlyException ex){
             throw new ReadingSpreadSheetException(ex.getMessage());
         }
+        this.semicolonTurn =false;
         checker = new S2VLineChecker(tokens);
         checker.check();
         for(Token token : tokens){
@@ -92,12 +97,18 @@ public class S2VLoader implements Loader{
         }
     }
     
-    public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException, CircularDependencyException{
-        this.col = ColumnManager.newColumn(this.col);
-        Coordinate coord = new Coordinate(this.row, this.col);
+    public void loadCell(Token token) throws ReadingSpreadSheetException, ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException{
         if(token.token != Token.TokenType.SEMICOLON){
+            this.col = ColumnManager.newColumn(this.col);
+            Coordinate coord = new Coordinate(this.row, this.col);
             Content content = Specifier.specifyContent(token, coord, this.cells);
-            this.cells.add(new Cell(coord, content));
+            this.cells.add(new Cell(coord, content,this.cells));
+            this.semicolonTurn = true;
+        }
+        else if(!semicolonTurn){
+            this.col = ColumnManager.newColumn(this.col);
+        }else{
+            this.semicolonTurn= false;
         }
     }
 }

@@ -7,6 +7,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.auxiliar;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
@@ -18,5 +19,5 @@ import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 public interface PostfixVisitor {
     
     public void visitOperand(Operand operand);
-    public void visitOperator(Operator operator) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException ;
+    public void visitOperator(Operator operator) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException ;
 }

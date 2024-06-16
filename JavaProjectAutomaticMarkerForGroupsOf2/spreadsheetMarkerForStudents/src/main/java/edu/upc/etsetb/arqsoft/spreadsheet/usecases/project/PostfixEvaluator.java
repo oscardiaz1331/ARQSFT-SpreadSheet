@@ -11,6 +11,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.OperationCalculator;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
@@ -36,14 +37,14 @@ public class PostfixEvaluator implements PostfixVisitor{
     }
     
     @Override
-    public void visitOperator(Operator operator) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public void visitOperator(Operator operator) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         Operand secondElement = this.stack.removeLast();
         Operand firstElement = this.stack.removeLast();
         Number result = new OperationCalculator(firstElement, operator, secondElement).compute();
         this.stack.add(result);
     }
     
-    public Number result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
+    public Number result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         for(FormulaComponent component : this.components){
             component.accept(this);
         }
