@@ -31,26 +31,26 @@ Extension (Alternative Flow):
 	1. The system notifies and finalizes with an error with the generation of the postfix expression.
 
 SPECIFICATIONS:
-Value computeFormula(str argument)  throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, GeneratePostfixExpressionException, MathErrorException
+Value compute(String argument) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException 
 - Belongs to FormulaComputator class and is a pure fabrication GRASP, because it is not a controller, creator or polymorphic and expert GRASP decrease the coherence.
-- Call the tokenizeFormula method with the input string and save the returned list of string. Call the checkFormulaSyntax with the list of strings. Call the specifyFormulaComponent for each string of the list of strings and return a list of operators and operands. Check the circular dependency with the method checkCircularDependecy and use the postfixExpression to call the methods generatePostfixExpression and EvaluatePostfixExpression and the function returns the value returned by the last one.
+- Call the tokenize method with the input string and save the returned list of tokens. Call the check method. Call the specifyFormulaComponents for each token in the list and returns a list of FormulaComponent objects. Check the circular dependency with the method check and call the methods result of the PostfixEvaluator and PostfixGenerator classes and the functions return the value returned by the last one.
 
-List<Token> tokenizeFormula(str argument) throws TokenWrittenIncorrectlyException
+List<Token> tokenize(String argument) throws TokenWrittenIncorrectlyException 
 - The GRASP pattern we think that would be a pure fabrication GRASP, with a Tokenizer class, because it is not a creator, polymorphic, expert without decrease coherence and increment coupling to any class, to this reason, we selected a pure fabrication GRASP.
-- If it is possible, tokenize the argument of a formula and return the list if string, if not, throw an exception. 
+- If it is possible, tokenize the argument of a formula and return the list of tokens, if not, throw an exception. 
 
-void checkFormulaSyntax(List<Token> components) throws WrongSyntaxException
+void check() throws WrongSyntaxException
 - Belongs to SyntaxChecker class and is a pure fabrication GRASP, because it is not a controller, creator or polymorphic and expert GRASP decrease the coherence.
 - Checks the formula syntax and if it is not correct throws an exception.
 
-List<FormulaComponent> specifyFormulaComponents(List<Token> components)
+List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException
 - Belongs to Specifier class and is a pure fabrication GRASP, because it is not a controller, creator or polymorphic and expert GRASP decrease the coherence.
-- Checks if the component in a lsit of tokens is an operand or operator and returns the corresponding  list of FormulaCompontents with the respect operator or operand.
+- Checks if the component in a list of tokens is an operand or operator and returns the corresponding list of FormulaCompontent with the respect operator or operand.
 
-void checkCircularDependency(List<FormulaComponent> components,Coordinate currentCoord, Spreadsheet spreadsheet) throws CircularDependencyException
+void check() throws CircularDependencyException
 - The GRASP pattern we think that would be a pure fabrication GRASP, in a CircularDependencyChecker class, because it is not a creator, polymorphic, expert without decrease coherence and increment coupling to any class, to this reason, we selected a pure fabrication GRASP.
-- Checks the circular dependency with the other cells using the input Coordinate and using the getter of the different cells of the spreadsheet looking to any argument that is the same cell, because they have the same coordinate. If it finds the circular dependency, throws a CircularDependencyException.
+- Checks for circular dependencies involving the specified cell. If it finds the circular dependency, throws a CircularDependencyException.
 
-List<FormulaComponent> generatePostfixExpression(List<FormulaComponent> components) throws GeneratePostfixExpressionException
-- It belongs to PostfixExpression class as an expert GRASP, because it is not a controller, creator or polymorphic, and can be used in expert GRASP because it does not decrease the coherence.
+List<FormulaComponent> result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException
+- It belongs to PostfixGenerator class as an expert GRASP, because it is not a controller, creator or polymorphic, and can be used in expert GRASP because it does not decrease the coherence.
 - It generates the postfix expression using the Shunting-Yard algorithm,and if it is not possible, throws an exception.
