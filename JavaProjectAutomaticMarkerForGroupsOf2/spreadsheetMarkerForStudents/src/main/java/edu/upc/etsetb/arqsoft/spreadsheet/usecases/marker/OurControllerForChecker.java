@@ -6,6 +6,7 @@ package edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.CoordinateCreator;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
+import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.BadCoordinateException;
@@ -60,7 +61,8 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
                 }
             }
         }
-        this.cells.add(new Cell(coord, Specifier.specifyContent(tokens.getFirst(), coord, cells)));
+        Content content = Specifier.specifyContent(tokens.getFirst(), coord, cells);
+        this.cells.add(new Cell(coord, content));
     }
 
     @Override

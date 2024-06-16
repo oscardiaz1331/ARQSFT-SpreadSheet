@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.AddDependentCells;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
@@ -27,6 +28,7 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
         this.coordinate = coord;
         this.content = content;
         this.dependentCells = new HashSet();
+        AddDependentCells.myDependentCells(this);
     }
     
     public Coordinate getCoordinate(){
@@ -46,6 +48,8 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     }
     public void setContent(Content content) throws NoNumberException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException{
         this.content = content;
+        this.dependentCells.clear();
+        AddDependentCells.myDependentCells(this);
         this.content.accept(new Recomputator());
 
     }

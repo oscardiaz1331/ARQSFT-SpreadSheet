@@ -27,6 +27,7 @@ public class CircularDependencyChecker implements Checker{
 
     @Override
     public void check() throws CircularDependencyException{
+        this.visited = new HashSet<>();
         for(FormulaComponent comp :this.components){
             if(comp instanceof Cell){
                 this.DFS((Cell)comp);
@@ -38,10 +39,10 @@ public class CircularDependencyChecker implements Checker{
     private void DFS(Cell node) throws CircularDependencyException {
         visited.add(node.getStringCoordinate());
         if(node.hasDependentCells()){
-            if(visited.contains(node.getStringCoordinate())){
-                throw new CircularDependencyException("Circular dependency detected in cell " + node.getCoordinate().toString());
-            }
             for(Cell child : node.getDependentCells()){
+                if(visited.contains(child.getStringCoordinate())){
+                    throw new CircularDependencyException("Circular dependency detected in cell " + node.getCoordinate().toString());
+                }
                 this.DFS(child);
             }
         }

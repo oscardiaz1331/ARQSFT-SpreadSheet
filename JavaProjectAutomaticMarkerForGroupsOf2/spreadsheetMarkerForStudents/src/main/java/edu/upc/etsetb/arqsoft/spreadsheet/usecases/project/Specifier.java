@@ -4,6 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.usecases.project;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.CoordinateCreator;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
@@ -62,21 +63,7 @@ public class Specifier {
                     break;
                 case CELL_COORD:
                     if(startFunctions.isEmpty()){
-                        Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.COORDINATES);
-                        List<Token> coordTokens = tokenizer.tokenize(currentToken.sequence);
-                        int row = 0;
-                        String column = "";
-                        for(Token coordToken : coordTokens){
-                            //It has passed away the syntax checker function. 
-                            //There are not errors
-                            if(coordToken.token == Token.TokenType.LETTER){
-                                column = coordToken.sequence;
-                            }
-                            else if(coordToken.token == Token.TokenType.INTEGER){
-                                row =  Integer.parseInt(coordToken.sequence);
-                            }
-                        }
-                        Coordinate coord = new Coordinate(row, column);
+                        Coordinate coord = CoordinateCreator.create(currentToken.sequence);
                         for(Cell cell :this.cells)
                         {
                             if(cell.getCoordinate().equals(coord)){
@@ -84,7 +71,9 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
-                        this.cells.add(new Cell(coord,new TextContent("")));
+                        Cell cell =new Cell(coord,new TextContent(""));
+                        this.cells.add(cell);
+                        formulaComponents.add(cell);
                     }
                     break;
                 case FUNCTION_NAME:
@@ -129,21 +118,7 @@ public class Specifier {
                     break;
                 case CELL_COORD:
                     if(startFunctions.isEmpty()){
-                        Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.COORDINATES);
-                        List<Token> coordTokens = tokenizer.tokenize(currentToken.sequence);
-                        int row = 0;
-                        String column = "";
-                        for(Token coordToken : coordTokens){
-                            //It has passed away the syntax checker function. 
-                            //There are not errors
-                            if(coordToken.token == Token.TokenType.LETTER){
-                                column = coordToken.sequence;
-                            }
-                            else if(coordToken.token == Token.TokenType.INTEGER){
-                                row =  Integer.parseInt(coordToken.sequence);
-                            }
-                        }
-                        Coordinate coord = new Coordinate(row, column);
+                        Coordinate coord = CoordinateCreator.create(currentToken.sequence);
                         for(Cell cell :this.cells)
                         {
                             if(cell.getCoordinate().equals(coord)){
@@ -158,6 +133,9 @@ public class Specifier {
                                 break breakIf;
                             }
                         }
+                        Cell cell = new Cell(coord, new TextContent(""));
+                        arguments.add(cell);
+                        this.cells.add(cell);
                     }
                     break;
                 case COLON:

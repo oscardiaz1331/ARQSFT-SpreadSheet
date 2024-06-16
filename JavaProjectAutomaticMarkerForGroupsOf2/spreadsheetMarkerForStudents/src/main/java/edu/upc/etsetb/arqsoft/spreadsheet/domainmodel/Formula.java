@@ -36,6 +36,9 @@ public class Formula extends Content {
     public void setFormulaComponents(List<FormulaComponent> components){
         this.components = components;
     }
+    public List<FormulaComponent>  getFormulaComponents(){
+        return this.components;
+    }
 
     @Override
     public String getContent() {
