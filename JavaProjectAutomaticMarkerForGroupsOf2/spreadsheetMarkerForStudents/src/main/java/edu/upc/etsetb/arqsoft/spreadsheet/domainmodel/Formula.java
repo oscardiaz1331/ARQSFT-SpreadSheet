@@ -50,5 +50,16 @@ public class Formula extends Content {
         this.value = visitor.visitFormula(content, this.cells);
     }
     
-    
+    @Override
+    public double getNumericValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException{
+        FormulaComputator computator = new FormulaComputator(cells);
+        this.value = computator.compute(content);
+        return this.value.getNumericValue();
+    }
+    @Override
+    public String getTextValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException{
+        FormulaComputator computator = new FormulaComputator(cells);
+        this.value = computator.compute(content);
+        return this.value.getTextValue();
+    }
 }

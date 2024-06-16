@@ -71,7 +71,11 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
         double output = 0;
          for(Cell cell : this.cells){
             if(cell.getStringCoordinate().equals(cellCoord)){
-                output = cell.getNumericValue();
+                try {
+                    output = cell.getNumericValue();
+                } catch (TokenWrittenIncorrectlyException | WrongSyntaxException | CircularDependencyException ex) {
+                    throw new NoNumberException(ex.getMessage());
+                } 
                 break;
             }
         }
@@ -84,7 +88,11 @@ public class OurControllerForChecker implements ISpreadsheetControllerForChecker
         String output = "";
         for(Cell cell : this.cells){
             if(cell.getStringCoordinate().equals(cellCoord)){
-                output = cell.getTextValue();
+                try {
+                    output = cell.getTextValue();
+                } catch (NoNumberException | TokenWrittenIncorrectlyException | WrongSyntaxException | CircularDependencyException ex) {
+                    throw new BadCoordinateException(ex.getMessage());
+                }
                 break;
             }
         }

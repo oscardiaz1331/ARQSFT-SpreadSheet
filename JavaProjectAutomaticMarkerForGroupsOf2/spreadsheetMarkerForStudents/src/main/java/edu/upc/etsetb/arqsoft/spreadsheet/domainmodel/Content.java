@@ -20,11 +20,11 @@ public abstract class Content {
     protected Value value;
     protected String content;
     
-    public double getNumericValue() throws NoNumberException{
+    public double getNumericValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return this.value.getNumericValue();
     }
     
-    public String getTextValue(){
+    public String getTextValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException{
         return this.value.getTextValue();
     }
     

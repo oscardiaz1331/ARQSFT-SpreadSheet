@@ -4,7 +4,10 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,9 +18,9 @@ import java.util.List;
 public abstract class Function extends Operand implements Argument{
     protected List<Double> args = new LinkedList<>();
     protected Number result;
-    public static final String SUM = "SUM", MAX = "MAX", MIN = "MIN", PROMEDIO = "PROMEDIO";
+    public static final String SUM = "SUMA", MAX = "MAX", MIN = "MIN", PROMEDIO = "PROMEDIO";
     
-    public Function(LinkedList<Argument> args) throws NoNumberException{
+    public Function(LinkedList<Argument> args) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         this.result = new Number(Double.POSITIVE_INFINITY);
         this.args = new LinkedList<>();
         for(Argument arg : args){

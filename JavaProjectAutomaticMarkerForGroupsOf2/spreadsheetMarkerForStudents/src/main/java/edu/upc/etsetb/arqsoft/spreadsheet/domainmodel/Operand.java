@@ -5,7 +5,10 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 
 /**
  *
@@ -16,9 +19,9 @@ public abstract class Operand implements FormulaComponent {
     
     public Operand(){}
     
-    public abstract double getNumericValue()throws NoNumberException;
+    public abstract double getNumericValue()throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException;
     
-    public abstract String getTextValue();
+    public abstract String getTextValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException;
     
     @Override
     public void accept(PostfixVisitor visitor){

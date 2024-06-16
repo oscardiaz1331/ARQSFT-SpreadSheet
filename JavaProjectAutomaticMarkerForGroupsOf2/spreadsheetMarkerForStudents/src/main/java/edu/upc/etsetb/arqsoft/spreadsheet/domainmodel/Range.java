@@ -4,7 +4,11 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,25 +17,23 @@ import java.util.List;
  * @author oscar
  */
 public class Range implements Argument {
-    public Cell originCell, destinationCell;
     List<Cell> cells;
     
-    public Range(Cell origin, Cell destination){
-        this.originCell = origin;
-        this.destinationCell = destination;
+    public Range(Cell origin, Cell destination, List<Cell> cells){
         this.cells = new LinkedList<>();
-        this.cells.add(origin);
-        //TODO
+        Collections.sort(this.cells);
+        //Searched in internet an optimized way
+        int start = Collections.binarySearch(cells, origin);
+        int end = Collections.binarySearch(cells, destination);
+        this.cells.addAll(cells.subList(start, end + 1));
     }
 
     @Override
-    public List<Double> getValue() throws NoNumberException {
+    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException {
         List<Double> aux = new LinkedList<>();
         for(Cell cell : this.cells){
             aux.add(cell.getNumericValue());
         }
         return aux;
     }
-    
-    
 }

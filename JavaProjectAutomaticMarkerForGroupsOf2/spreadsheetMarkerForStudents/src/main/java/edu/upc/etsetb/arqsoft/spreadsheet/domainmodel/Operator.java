@@ -5,7 +5,10 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 
 /**
  *
@@ -68,7 +71,7 @@ public class Operator implements FormulaComponent{
     }
     
     @Override
-    public void accept(PostfixVisitor visitor) throws NoNumberException{
+    public void accept(PostfixVisitor visitor) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         visitor.visitOperator(this);
     }
 }

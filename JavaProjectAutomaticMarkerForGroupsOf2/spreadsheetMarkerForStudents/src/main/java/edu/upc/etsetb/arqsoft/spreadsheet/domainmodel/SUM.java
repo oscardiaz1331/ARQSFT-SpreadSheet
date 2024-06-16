@@ -4,7 +4,10 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.LinkedList;
 
 /**
@@ -13,7 +16,7 @@ import java.util.LinkedList;
  */
 public class SUM extends Function {
 
-    public SUM(LinkedList<Argument> args) throws NoNumberException {
+    public SUM(LinkedList<Argument> args) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException {
         super(args);
     }
     

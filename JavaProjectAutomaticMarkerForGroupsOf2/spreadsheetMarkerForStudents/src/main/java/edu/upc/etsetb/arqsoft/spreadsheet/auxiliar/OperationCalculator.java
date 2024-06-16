@@ -7,7 +7,10 @@ package edu.upc.etsetb.arqsoft.spreadsheet.auxiliar;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 
 /**
  *
@@ -25,7 +28,7 @@ public class OperationCalculator {
     }
     
     //Easier to introduce new operator
-    public Number compute() throws NoNumberException{
+    public Number compute() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         switch(this.operator.getType()){
             case ADD:
                 return this.computeAdd();
@@ -39,16 +42,16 @@ public class OperationCalculator {
         return null;
     }
     
-    private Number computeAdd() throws NoNumberException{
+    private Number computeAdd() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return new Number(this.firstElement.getNumericValue() + this.secondElement.getNumericValue());
     }
-    private Number computeSub() throws NoNumberException{
+    private Number computeSub() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return new Number(this.firstElement.getNumericValue() - this.secondElement.getNumericValue());
     }
-    private Number computeMult() throws NoNumberException{
+    private Number computeMult() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return new Number(this.firstElement.getNumericValue() * this.secondElement.getNumericValue());
     }
-    private Number computeDiv() throws NoNumberException{
+    private Number computeDiv() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return new Number(this.firstElement.getNumericValue() / this.secondElement.getNumericValue());
     }
 }

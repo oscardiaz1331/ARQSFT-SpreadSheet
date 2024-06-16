@@ -44,7 +44,7 @@ public class Specifier {
         this.cells = cells;
     }
     
-    public List<FormulaComponent> specifyFormulaComponents() throws TokenWrittenIncorrectlyException, NoNumberException{
+    public List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         List<FormulaComponent> formulaComponents = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -94,6 +94,13 @@ public class Specifier {
                         String type = nameFunctions.removeLast();
                         Function function = this.specifyFunction(type, functionString);
                         formulaComponents.add(function); 
+                    }else{
+                        formulaComponents.add(new Operator(currentToken.sequence));
+                    }
+                    break;
+                case OPEN_PAREN:
+                    if(startFunctions.isEmpty()){
+                        formulaComponents.add(new Operator(currentToken.sequence));
                     }
                     break;
             }
@@ -101,7 +108,7 @@ public class Specifier {
         return formulaComponents;
     }
     
-    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws TokenWrittenIncorrectlyException, NoNumberException{
+    public LinkedList<Argument> specifyFunctionArguments(List<Token> tokens) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         LinkedList<Argument> arguments = new LinkedList<>();
         List<Integer> startFunctions = new LinkedList<>();
         List<String> nameFunctions = new LinkedList<>();
@@ -125,7 +132,7 @@ public class Specifier {
                                 if(isRange){
                                     //If it is here, the syntax is correct
                                     Cell firstCell = (Cell) arguments.removeLast();
-                                    arguments.add(new Range(firstCell, cell));
+                                    arguments.add(new Range(firstCell, cell,this.cells));
                                     isRange = false;
                                 }else{
                                     arguments.add(cell);
@@ -164,7 +171,7 @@ public class Specifier {
     }
     
     
-    public Function specifyFunction(String type, String arguments) throws TokenWrittenIncorrectlyException, NoNumberException{
+    public Function specifyFunction(String type, String arguments) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         Tokenizer tokenizer =  new Tokenizer(Tokenizer.TokenizerType.FORMULA);
         List<Token> argumentsFunction = tokenizer.tokenize(arguments);
         Function function = null;
@@ -199,7 +206,7 @@ public class Specifier {
                     content = new Formula(formulaContent, formulaComponents, cells);
                 } 
                 catch (TokenWrittenIncorrectlyException | WrongSyntaxException ex) {
-                    throw new ContentException();
+                    throw new ContentException(ex.getMessage());
                 }
                 break;
             case TEXT_CONTENT:
@@ -208,7 +215,7 @@ public class Specifier {
             case INTEGER:
             case FLOAT_NUM:
                 double number = Double.parseDouble(token.sequence);
-                content = new NumericalContent(new edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Number(number));
+                content = new NumericalContent(new Number(number));
                 break;
             default:
                 throw new ContentException("The content is not text, numerical or formula");

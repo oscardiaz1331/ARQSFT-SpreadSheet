@@ -78,17 +78,17 @@ public class Cell extends Operand implements Argument, Comparable<Cell>{
     
     
     @Override
-    public double getNumericValue() throws NoNumberException{
+    public double getNumericValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return this.content.getNumericValue();
     }
     @Override
-    public String getTextValue(){
+    public String getTextValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         return this.content.getTextValue();
     }
     
 
     @Override
-    public List<Double> getValue() throws NoNumberException {
+    public List<Double> getValue() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException {
         List<Double> aux = new LinkedList<>();
         aux.add(this.content.getNumericValue());
         return aux;

@@ -8,8 +8,11 @@ import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.PostfixVisitor;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.FormulaComponent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operand;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Operator;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.MathErrorException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class PostfixGenerator implements PostfixVisitor{
         else if(operator.getType() == Operator.OperatorType.CLOSE_PAREN){
             while(stack.getLast().getType() != Operator.OperatorType.OPEN_PAREN){
                 output.add(stack.removeLast());
-                stack.add(operator);
+                //stack.add(operator);
             }
             stack.removeLast();
         }
@@ -53,7 +56,7 @@ public class PostfixGenerator implements PostfixVisitor{
         }
     }
     
-    public List<FormulaComponent> result() throws NoNumberException{
+    public List<FormulaComponent> result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException{
         for(FormulaComponent component : this.components){
             component.accept(this);
         }

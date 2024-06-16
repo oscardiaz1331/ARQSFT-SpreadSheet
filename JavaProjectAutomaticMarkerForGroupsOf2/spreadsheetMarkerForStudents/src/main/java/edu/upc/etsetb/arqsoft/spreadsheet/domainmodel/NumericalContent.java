@@ -19,6 +19,7 @@ public class NumericalContent extends Content {
     
     public NumericalContent(Number value) {
         this.value = value;
+        this.content = value.getTextValue();
     }
 
     @Override
