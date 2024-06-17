@@ -27,27 +27,22 @@ public class SaveSpreadsheetCommand extends Command implements ISaveSpreadSheet{
 
     @Override
     public void save(String filename, Spreadsheet spreadsheet) {
-        //TODO
-        //impelemntarlo igual que los otros, con whiles y recogiendo excepcionee
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Scanner scanner = new Scanner(System.in);
+        
+        while (true) {
+            // Solicitar nombre del archivo para guardar la hoja de cálculo
+            System.out.print("Enter the file name to save the spreadsheet: ");
+            filename = scanner.nextLine();
+
+            try {
+                S2VStore store = new S2VStore(filename, spreadsheet);
+                store.storeSpreadsheet();
+                System.out.println("Spreadsheet saved successfully in " + filename);
+                break; // Salir del bucle si se guarda correctamente
+            } catch (SavingSpreadSheetException e) {
+                System.out.println("Error saving spreadsheet: " + e.getMessage());
+                System.out.println("Please try again.");
+            }
+        }
     }
-    
-    //TODO eliminate after copy
-//    @Override
-//    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        // Solicitar nombre del archivo para guardar la hoja de cálculo
-//        System.out.print("Ingrese el nombre del archivo para guardar la hoja de cálculo: ");
-//        String filename = scanner.nextLine();
-//
-//        // Guardar la hoja de cálculo en el archivo especificado
-//        try {
-//            store = new S2VStore(filename, spreadsheet);
-//            store.storeSpreadsheet();
-//            System.out.println("Hoja de cálculo guardada correctamente en " + filename);
-//        } catch (SavingSpreadSheetException e) {
-//            System.out.println("Error al guardar la hoja de cálculo: " + e.getMessage());
-//        }
-//    }
 }

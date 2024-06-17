@@ -14,6 +14,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IReadFromFile;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +45,26 @@ public class ReadFromFileCommand extends Command implements IReadFromFile{
     @Override
     public void readCommand(String filename) {
         //TODO: creo que este es el mas complejo de todos, asique dejalo para el final y haz los otros antes
-        
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Scanner scanner = new Scanner(System.in);
+        Spreadsheet spreadsheet = new Spreadsheet();
+
+        while (true) {
+            // Solicitar nombre del archivo para cargar la hoja de cálculo
+            System.out.print("Enter the file name to load the spreadsheet: ");
+            filename = scanner.nextLine();
+
+            try {
+                // Cargar la hoja de cálculo desde el archivo especificado
+                S2VLoader loader = new S2VLoader(filename);
+                spreadsheet = loader.loadSpreadsheet();
+                System.out.println("Spreadsheet loaded successfully from " + filename);
+                break;
+            } catch (ReadingSpreadSheetException e) {
+                System.out.println("Error loading spreadsheet from file: " + e.getMessage());
+            }
+        }
+
+        // Mostrar la hoja de cálculo cargada
+        spreadsheet.display();
     }
 }
