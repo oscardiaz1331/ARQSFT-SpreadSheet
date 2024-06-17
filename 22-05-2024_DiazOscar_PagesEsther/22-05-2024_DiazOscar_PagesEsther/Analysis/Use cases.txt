@@ -1,10 +1,13 @@
-1. PresentOption: The program presents a textual menu of options.
-2. ProcessOption: The user selects an option.
-3. LoadSpreadsheet: The program parses the contents of a file whose contents are conformant to the S2V format, and creates the corresponding spreadsheet.
-4. StoreSpreadSheet: The program stores the contents of a spreadsheet in the S2V format.
-5. CreateNewSpreadsheet: The program creates a new spreadsheet with no content.
-6. ModifyCell: The program modifies the cell with new information given by the user.
-7. ComputeFormula: The program computes a formula of a cell.
-8. EvaluatePostfix: The system evaluates the postfix expression.
-9. RecomputeFormulaValue: The system recomputes the  returned values by formulas with any operand value modified.
-10. ComputeFunctionSum: The program computes the SUM function.
+1. PresentOption: The program presents a textual menu of options. FACIL
+2. ProcessOption: The user selects an option. FACIL
+3. ReadSpreadsheet: The program parses the contents of a file whose contents are conformant to the S2V format, and creates the corresponding spreadsheet.DIFICIL HECHO
+4. StoreSpreadSheet: The program stores the contents of a spreadsheet in the S2V format. DIFICIL HECHO
+5. CreateNewSpreadsheet: The program creates a new spreadsheet with no content. FACIL
+6. ModifyCell: The program modifies the cell with new information given by the user. FACIL TENGO APUNTES
+9. RecomputeFormulaValue: The system recomputes the  returned values by formulas with any operand value modified. DIFICIL OBSERVER al acabar tengo que enviar el value a todas las formulas que dependan de la celda
+
+
+11. Modificar la interifcie para os test. NORMAL
+
+redactar los uses cases normal
+redactar las specs normal 5865

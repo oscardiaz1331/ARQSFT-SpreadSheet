@@ -6,21 +6,24 @@ System, Users
 
 Preconditions:
 - A spreadsheet is created
-- Formulas with operands are defined in cells
+- Formulas are defined in cells
+- A cell is selected
+- The cell has dependent cells
+- The content in the cell has changed
 
 Postconditions:
-- The system updates and returns the recalculated values of formulas affected by modified operand values
+- The system updates and returns the recalculated values of formulas affected by modified content
 
 Main Success Scenario (Basic Flow):
-1. The user modifies an operand value
-2. The system identifies all formulas that depend on the modified operand value
-3. The system computes the formula based on the updated operand values
-4. The system updates the values returned by the formulas in the affected cells
+1. The system recomputes the value of the cell using the content
+2. The system identifies all cells that depend on the modified cell
+6. The system changes the main cell by one dependent cell
+4. The system goes to step 1
 
 Extension (Alternative Flow):
-1.a The system detects that a token has not been written correctly.
-	1. The system notifies an error with a token.
-2.a The system detects a wrong syntax.
-	1. The system notifies the wrong syntax.
-4.a The system identifies a circular dependency.
-	1. The system notifies a circular dependency.
+2.a There is not more dependent cells in the main cell but is more in the anterior main cell
+	1. The system selects as main cell other of the anterior main cell dependents
+	2.The system goes to step 1.
+2.b There is not more dependen cells in the main cell neither in the anterior main cell
+	1. The system selects system selects as main cell the anterior main cell
+	2. The system goes to step 2.b

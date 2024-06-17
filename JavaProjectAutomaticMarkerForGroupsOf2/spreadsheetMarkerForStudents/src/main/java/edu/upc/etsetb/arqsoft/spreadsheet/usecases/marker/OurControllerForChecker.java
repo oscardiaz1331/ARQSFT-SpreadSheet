@@ -5,6 +5,7 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.CoordinateCreator;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.EditCellContent;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Cell;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Content;
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Coordinate;
@@ -31,46 +32,16 @@ import java.util.logging.Logger;
  */
 public class OurControllerForChecker implements ISpreadsheetControllerForChecker {
     private List<Cell> cells;
-    private Tokenizer tokenizerLine;
     private Spreadsheet spread;
     
     public OurControllerForChecker(Spreadsheet spreadsheet){
         this.cells = spreadsheet.getCells();
-        this.tokenizerLine = new Tokenizer(Tokenizer.TokenizerType.SIMPLE_LINE);
         this.spread = spreadsheet;
     }
     
     @Override
     public void setCellContent(String cellCoord, String strContent) throws ContentException, BadCoordinateException, CircularDependencyException {
-        Coordinate coord = CoordinateCreator.create(cellCoord);
-        List<Token> tokens;
-        try {
-            tokens = this.tokenizerLine.tokenize(strContent);
-        } catch (TokenWrittenIncorrectlyException ex) {
-            throw new ContentException(ex.getMessage());
-        }
-        if(tokens.size()!=1){
-            throw new ContentException("Different number of 1 in tokens after tokenize line is not allowed");
-        }
-        for(Cell cell : this.cells){
-            if(cell.getStringCoordinate().equals(cellCoord)){
-                try {
-                    cell.setContent(Specifier.specifyContent(tokens.getFirst(), coord, cells));
-                    //this.cells.add(new Cell(coord, content, this.cells));
-                    return;
-                    
-                }
-                catch(WrongSyntaxException | TokenWrittenIncorrectlyException ex){
-                    throw new ContentException(ex.getMessage());
-                }
-            }
-        }
-        Content content = Specifier.specifyContent(tokens.getFirst(), coord, cells);
-        try {
-            this.cells.add(new Cell(coord, content, this.cells));
-        } catch (WrongSyntaxException | TokenWrittenIncorrectlyException ex) {
-           throw new ContentException(ex.getMessage());
-        }
+        EditCellContent.edit(cellCoord, strContent, cells);
     }
 
     @Override

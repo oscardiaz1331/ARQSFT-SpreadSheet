@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package edu.upc.etsetb.arqsoft.spreadsheet.userinterface;
+package edu.upc.etsetb.arqsoft.spreadsheet.userinterface.command;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
@@ -19,7 +19,5 @@ import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetExcep
  * @author esthe
  */
 public abstract class Command{
-    public abstract void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store)
-            throws ContentException, CircularDependencyException, WrongSyntaxException,
-            TokenWrittenIncorrectlyException, SavingSpreadSheetException, ReadingSpreadSheetException;
+    
 }

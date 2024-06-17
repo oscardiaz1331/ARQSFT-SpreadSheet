@@ -47,6 +47,6 @@ Extension (Alternative Flow):
 	2. The system puts the textual representation in the text line
 
 SPECIFICATIONS:
-Number loadSpreadsheet(String filename) throws ReadingSpreadSheetException
-- It belongs to LoadSpreadsheet class as a controller GRASP, as it coordinates the loading of a spreadsheet from a specified file.
-- Reads user input for the file name. Initializes a S2VLoader instance with the provided filename to load the spreadsheet. If successful, updates the spreadsheet object and prints a success message. If ReadingSpreadSheetException occurs during the loading process, catches the exception and displays an error message. Displays the loaded spreadsheet if not null.
+Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException;
+- Belongs to S2VLoader class which implements Loader. S2VLoader class is a creator, because it has to create the spreadsheet.
+- Uses the filename attribute to locate the existing file. Goes line by line extracting the cell coordinates and content and adding the cells ina  list of cells until there is not more lines. Finally, creates the spreadsheet with the list of cells.

@@ -28,8 +28,6 @@ public class Formula extends Content {
     public Formula(String content, List<FormulaComponent> components, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException, NoNumberException, ContentException{
         this.content = content;
         this.components = components;
-        //Todo, assign value
-        //this.value = value;
         FormulaComputator computator = new FormulaComputator(cells);
         this.value = computator.compute(content);
         this.cells= cells;
