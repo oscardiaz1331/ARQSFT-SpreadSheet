@@ -24,6 +24,8 @@ import java.util.Scanner;
  *
  * @author esthe
  */
+
+//TODo: split this class in different classes to mantain the SRP
 public class TextUserInterface {
     private final Scanner scanner;
     private final Spreadsheet spreadsheet;
@@ -119,7 +121,8 @@ public class TextUserInterface {
             System.out.println("Invalid edit command. Format: E <cell coordinate> <new cell content>");
         }
     }
-
+    //TODO: change this method and all their usages by the function CoordinateCreator: 
+    //if u want more information look exxamples in the code
     private Coordinate parseCoordinate(String coordinateStr) {
         String[] parts = coordinateStr.split(",");
         if (parts.length == 2) {
@@ -174,7 +177,6 @@ public class TextUserInterface {
         try {
             Spreadsheet spreadsheet = new Spreadsheet();
             TextUserInterface ui;
-
             // Verifica si se proporcionó el nombre del archivo como argumento
             if (args.length < 1) {
                 System.out.println("Usage: java TextUserInterface <filename>");
