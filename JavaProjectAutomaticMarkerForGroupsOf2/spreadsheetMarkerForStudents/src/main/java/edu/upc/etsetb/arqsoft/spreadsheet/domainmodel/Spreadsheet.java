@@ -9,6 +9,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Spreadsheet {
     }
     
     public List<Cell> getCells(){
+        //Collections.sort(cells);
         return this.cells;
     }
     
@@ -47,7 +49,7 @@ public class Spreadsheet {
     
     public void display() {
         System.out.println("Spreadsheet content:");
-
+        //Collections.sort(cells);
         for (Cell cell : cells) {
             System.out.println(cell.getCoordinate().toString() + ": " + cell.getContentAsString());
         }

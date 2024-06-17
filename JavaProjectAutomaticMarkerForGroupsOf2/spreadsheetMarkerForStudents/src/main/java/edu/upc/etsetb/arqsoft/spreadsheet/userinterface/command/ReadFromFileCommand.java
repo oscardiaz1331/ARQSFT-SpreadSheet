@@ -13,7 +13,9 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IReadFromFile;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IReadFromFile;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,48 +25,24 @@ import java.util.logging.Logger;
  * @author esthe
  */
 public class ReadFromFileCommand extends Command implements IReadFromFile{
-    private String filePath;
-    public ReadFromFileCommand(String filePath){
-        this.filePath = filePath;
-    }
+    private Spreadsheet spread;
     
-    //TODO eliminate after copy
-//    @Override
-//    public void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) {
-//        try {
-//            loader = new S2VLoader(filePath);
-//            spreadsheet = loader.loadSpreadsheet();
-//            System.out.println("Hoja de cálculo cargada exitosamente desde el archivo: " + filePath);
-//        } catch (ReadingSpreadSheetException ex) {
-//            Logger.getLogger(ReadFromFile.class.getName()).log(Level.SEVERE, null, ex);
-//            System.out.println("Error al cargar la hoja de cálculo desde el archivo: " + filePath);
-//        }
-//        spreadsheet.display();
-//    }
+    public ReadFromFileCommand(Spreadsheet spread){
+        this.spread=spread;
+    }
 
     @Override
     public void readCommand(String filename) {
-        //TODO: creo que este es el mas complejo de todos, asique dejalo para el final y haz los otros antes
-        Scanner scanner = new Scanner(System.in);
-        Spreadsheet spreadsheet = new Spreadsheet();
-
-        while (true) {
-            // Solicitar nombre del archivo para cargar la hoja de cálculo
-            System.out.print("Enter the file name to load the spreadsheet: ");
-            filename = scanner.nextLine();
-
-            try {
-                // Cargar la hoja de cálculo desde el archivo especificado
-                S2VLoader loader = new S2VLoader(filename);
-                spreadsheet = loader.loadSpreadsheet();
-                System.out.println("Spreadsheet loaded successfully from " + filename);
-                break;
-            } catch (ReadingSpreadSheetException e) {
-                System.out.println("Error loading spreadsheet from file: " + e.getMessage());
+        try {
+            Scanner scanner = new Scanner(new FileInputStream(filename));
+            CommandExecutor rf = new CommandExecutor(spread);
+            while (scanner.hasNextLine()) {
+                String content = scanner.nextLine();
+                rf.execute(content);
             }
-        }
-
-        // Mostrar la hoja de cálculo cargada
-        spreadsheet.display();
+            scanner.close();
+        } catch (TokenWrittenIncorrectlyException | ContentException | CircularDependencyException | FileNotFoundException ex) {
+            System.err.println(ex.getMessage());
+        } 
     }
 }

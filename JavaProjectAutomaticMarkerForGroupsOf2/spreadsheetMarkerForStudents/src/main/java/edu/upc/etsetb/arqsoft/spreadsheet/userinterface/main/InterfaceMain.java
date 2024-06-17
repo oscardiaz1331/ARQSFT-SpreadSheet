@@ -5,14 +5,19 @@
 package edu.upc.etsetb.arqsoft.spreadsheet.userinterface.main;
 
 import edu.upc.etsetb.arqsoft.spreadsheet.domainmodel.Spreadsheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
+import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
+import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.command.CommandExecutor;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.command.ReadFromFileCommand;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ICreateSpreadSheet;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IEditCell;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ILoadSpreadSheet;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IReadFromFile;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ISaveSpreadSheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ICreateSpreadSheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IEditCell;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ILoadSpreadSheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IReadFromFile;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ISaveSpreadSheet;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,37 +27,27 @@ public class InterfaceMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Spreadsheet spreadsheet = new Spreadsheet();
-        CommandExecutor commandExecutor = new CommandExecutor(spreadsheet);
-
         System.out.println("Welcome to Spreadsheet Application!");
-
-        while (true) {
+        String userInput = "";
+        CommandExecutor commandExecutor = new CommandExecutor(spreadsheet);
+        while(true){
             showMenu();
-            String userInput = scanner.nextLine();
-
-            switch (userInput.toLowerCase()) {
-                case "1":
-                    commandExecutor.execute(new ReadFromFileCommand());
-                    break;
-                case "2":
-                    commandExecutor.execute(new CreateSpreadsheetCommand());
-                    break;
-                case "3":
-                    commandExecutor.execute(new EditCellCommand(spreadsheet));
-                    break;
-                case "4":
-                    commandExecutor.execute(new LoadSpreadsheetCommand());
-                    break;
-                case "5":
-                    commandExecutor.execute(new SaveSpreadsheetCommand());
-                    break;
-                case "q":
-                    System.out.println("Exiting Spreadsheet Application. Goodbye!");
-                    return;
-                default:
-                    System.out.println("Invalid option. Please choose again.");
+            userInput = scanner.nextLine();
+            if(userInput.contains("6")){
+                break;
+            }
+            showOptions();
+            String command = scanner.nextLine();
+            
+            try {
+                commandExecutor.execute(command);
+            } catch (TokenWrittenIncorrectlyException |ContentException | CircularDependencyException ex) {
+                System.out.println("There is an error:\n");
+                System.err.println(ex.getMessage());
+                System.out.println("Try again");
             }
         }
+        System.out.println("Closing program");
     }
 
     private static void showMenu() {
@@ -63,6 +58,12 @@ public class InterfaceMain {
         System.out.println("4. Load spreadsheet");
         System.out.println("5. Save spreadsheet");
         System.out.println("6. Exit");
-        System.out.print("Enter your choice: ");
+    }
+    private static void showOptions(){
+        System.out.println("\nOptions:\nRF <filename>");
+        System.out.println("C");
+        System.out.println("E <cell coordinate(LetterNumber)> <content>");
+        System.out.println("L <filename>");
+        System.out.println("S <filename>");
     }
 }

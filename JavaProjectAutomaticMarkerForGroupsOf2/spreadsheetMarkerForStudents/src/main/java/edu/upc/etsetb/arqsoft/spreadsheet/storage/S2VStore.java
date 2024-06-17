@@ -42,7 +42,7 @@ public class S2VStore implements Store {
         try {
             //Sort cells
             this.cells = this.spreadsheet.getCells();
-            Collections.sort(this.cells);
+            //<Collections.sort(this.cells);
             Iterator<Cell> it = this.cells.iterator();
             int anteriorRow = 0, anteriorCol = 0;
             while(it.hasNext()){
@@ -68,6 +68,7 @@ public class S2VStore implements Store {
             }
 
                 this.writer.write(line);
+                this.writer.close();
         } catch (IOException ex) {
             throw new SavingSpreadSheetException(ex.getMessage());
         }

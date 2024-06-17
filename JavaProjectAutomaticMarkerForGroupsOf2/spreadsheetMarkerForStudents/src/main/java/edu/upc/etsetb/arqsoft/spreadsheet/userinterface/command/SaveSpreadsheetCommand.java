@@ -13,7 +13,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ISaveSpreadSheet;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ISaveSpreadSheet;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -27,22 +27,12 @@ public class SaveSpreadsheetCommand extends Command implements ISaveSpreadSheet{
 
     @Override
     public void save(String filename, Spreadsheet spreadsheet) {
-        Scanner scanner = new Scanner(System.in);
-        
-        while (true) {
-            // Solicitar nombre del archivo para guardar la hoja de cálculo
-            System.out.print("Enter the file name to save the spreadsheet: ");
-            filename = scanner.nextLine();
-
-            try {
-                S2VStore store = new S2VStore(filename, spreadsheet);
-                store.storeSpreadsheet();
-                System.out.println("Spreadsheet saved successfully in " + filename);
-                break; // Salir del bucle si se guarda correctamente
-            } catch (SavingSpreadSheetException e) {
-                System.out.println("Error saving spreadsheet: " + e.getMessage());
-                System.out.println("Please try again.");
-            }
+        try {
+            S2VStore store = new S2VStore(filename, spreadsheet); 
+            store.storeSpreadsheet();
+        } catch (SavingSpreadSheetException ex) {
+            System.out.println(ex.getMessage());
         }
+               
     }
 }

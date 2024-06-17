@@ -23,7 +23,13 @@ public class Token {
         SEMICOLON,
         LETTER,
         TEXT_CONTENT,
-        FORMULA
+        FORMULA,
+        COMMAND_CREATE,
+        COMMAND_READ_COMMAND,
+        COMMAND_EDIT_CELL,
+        COMMAND_LOAD,
+        COMMAND_SAVE, 
+        SPACE
     }
     
     public final TokenType token;

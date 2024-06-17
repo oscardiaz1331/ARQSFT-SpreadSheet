@@ -24,7 +24,8 @@ public class Tokenizer {
 //        FUNCTION,
         COORDINATES,
         S2VLINE,
-        SIMPLE_LINE
+        SIMPLE_LINE,
+        COMMAND
     }
     
     private class TokenInfo{
@@ -51,8 +52,8 @@ public class Tokenizer {
         this.floatNum = this.integer + "(([.]|[,])" + this.integer + ")?";
         this.functionName = "(SUMA|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
-        this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[;]|" + ")+";
-        this.allS2V = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|" + ")+";
+        this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[;]|[_]" + ")+";
+        this.allS2V = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[.]" + ")+";
         
         if(null != type)switch (type) {
             case FORMULA:
@@ -66,6 +67,8 @@ public class Tokenizer {
                 break;
             case SIMPLE_LINE:
                 this.addSimpleLineTokens();
+            case COMMAND:
+                this.addCommandTokens();
             default:
                 break;
         }
@@ -86,6 +89,17 @@ public class Tokenizer {
         this.add("[)]", Token.TokenType.CLOSE_PAREN);
         this.add(";", Token.TokenType.SEMICOLON);
         this.add(letters, Token.TokenType.LETTER);
+    }
+    
+    private void addCommandTokens(){
+        this.add("RF", Token.TokenType.COMMAND_READ_COMMAND);
+        this.add("C", Token.TokenType.COMMAND_CREATE);
+        this.add("E", Token.TokenType.COMMAND_EDIT_CELL);
+        this.add("L", Token.TokenType.COMMAND_LOAD);
+        this.add("S", Token.TokenType.COMMAND_SAVE);
+        this.add(" ", Token.TokenType.SPACE);
+        this.add(this.cellCoord, Token.TokenType.CELL_COORD);
+        this.add(this.allS2V, Token.TokenType.LETTER);
     }
     
     private void addCoordinateTokens(){

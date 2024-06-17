@@ -19,7 +19,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VLoader;
 import edu.upc.etsetb.arqsoft.spreadsheet.storage.S2VStore;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.ReadingSpreadSheetException;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.marker.SavingSpreadSheetException;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IEditCell;
+import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IEditCell;
 import java.util.Scanner;
 
 /**
@@ -74,26 +74,9 @@ public class EditCellCommand extends Command implements IEditCell{
     @Override
     public void edit(String cellCoordinate, String newContent) throws ContentException, CircularDependencyException{
         
-        //TODO 
-        //pedir pedir por consola cell coordi y new content, en un whiile hasta que este bien y tratar las excepcion de content y circular
-        //Cuando todo ha ido bien (coord y content correct pues ya la linea de abajo)
-        //Hay una excepcion de mala coordenada, deberias lanzarla aqui...
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
             try {
-                // Solicitar coordenadas de la celda al usuario
-                System.out.print("Enter the cell coordinate (e.g., A1): ");
-                cellCoordinate = scanner.nextLine();
-
-                // Solicitar nuevo contenido para la celda al usuario
-                System.out.print("Enter the new content for the cell: ");
-                newContent = scanner.nextLine();
-
-                // Intentar editar la celda en la hoja de cálculo
                 EditCellContent.edit(cellCoordinate, newContent, this.spreadsheet.getCells());
                 System.out.println("The cell has been successfully updated.");
-                break;
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid coordinate. Please try again.");
             } catch (ContentException e) {
@@ -103,6 +86,6 @@ public class EditCellCommand extends Command implements IEditCell{
                 System.out.println("Error: Circular dependency detected. The operation cannot be completed.");
                 throw e;
             }
-        }
+        
     }
 }
