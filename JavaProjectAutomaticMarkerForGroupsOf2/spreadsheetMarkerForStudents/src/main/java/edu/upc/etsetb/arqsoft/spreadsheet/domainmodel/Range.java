@@ -37,4 +37,7 @@ public class Range implements Argument {
         }
         return aux;
     }
+    public List<Cell> getCells(){
+        return this.cells;
+    }
 }

@@ -17,18 +17,24 @@ import java.util.List;
  * @author oscar
  */
 public abstract class Function extends Operand implements Argument{
-    protected List<Double> args = new LinkedList<>();
+    protected List<Double> args;
+    protected List<Argument> arguments;
     protected Number result;
     public static final String SUM = "SUMA", MAX = "MAX", MIN = "MIN", PROMEDIO = "PROMEDIO";
     
     public Function(LinkedList<Argument> args) throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, ContentException{
         this.result = new Number(Double.POSITIVE_INFINITY);
         this.args = new LinkedList<>();
+        this.arguments = args;
         for(Argument arg : args){
             this.args.addAll(arg.getValue());
         }
     }
     public abstract Number compute();
+    
+    public List<Argument> getArguments(){
+        return this.arguments;
+    }
     
     @Override
     public double getNumericValue(){

@@ -53,14 +53,14 @@ public class Formula extends Content {
     
     @Override
     public double getNumericValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException, ContentException{
-        FormulaComputator computator = new FormulaComputator(cells);
-        this.value = computator.compute(content);
+//        FormulaComputator computator = new FormulaComputator(cells);
+//        this.value = computator.compute(content);
         return this.value.getNumericValue();
     }
     @Override
     public String getTextValue() throws NoNumberException, WrongSyntaxException, TokenWrittenIncorrectlyException, CircularDependencyException, ContentException{
-        FormulaComputator computator = new FormulaComputator(cells);
-        this.value = computator.compute(content);
+//        FormulaComputator computator = new FormulaComputator(cells);
+//        this.value = computator.compute(content);
         return this.value.getTextValue();
         }
 }
