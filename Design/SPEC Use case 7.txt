@@ -1,0 +1,56 @@
+Use case Number: 7
+Use case Name: ComputeFormula
+
+Actors and their interests:
+System
+
+Preconditions:
+- A spreadsheet is created.
+- A cell is selected.
+- The cell content is a formula.
+
+Postconditions:
+- Returns the computed value.
+
+Main Success Scenario (Basic Flow):
+1. The system tokenizes the formula.
+2. The system checks the syntax of the formula
+3. The system converts objects Token into operands and operators
+4. The system checks circular dependency
+5. The system generates the postfix expression
+6. The system evaluates the postfix expression
+
+Extension (Alternative Flow):
+1.a The system detects that a token has not been written correctly.
+	1. The system notifies an error with a token.
+2.a The system detects a wrong syntax.
+	1. The system notifies the wrong syntax.
+4.a The system identifies a circular dependency.
+	1. The system notifies a circular dependency.
+6.a The system cannot evaluate the postfix expression.
+	1. The system notifies and finalizes with an error with the generation of the postfix expression.
+
+SPECIFICATIONS:
+Value compute(String argument) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException
+- Belongs to FormulaComputator class and is a pure fabrication GRASP, as it doesn't directly handle user input or directly control other classes.
+- Calls tokenize with the input string and saves the returned list of tokens. Calls check to verify syntax. Calls specifyFormulaComponents to convert tokens into FormulaComponent objects. Checks circular dependencies with check method and uses result methods of PostfixEvaluator and PostfixGenerator classes. Returns the value from the last computation.
+
+List<Token> tokenize(String argument) throws TokenWrittenIncorrectlyException
+- Belongs to Tokenizer class as a pure fabrication GRASP, handling tokenization of input strings without coupling to other classes.
+- Tokenizes the formula argument and returns a list of tokens, throwing TokenWrittenIncorrectlyException if unable.
+
+void check() throws WrongSyntaxException
+- Belongs to SyntaxChecker class as a pure fabrication GRASP, ensuring formula syntax correctness without direct coupling to other classes.
+- Validates the syntax of the formula. Throws WrongSyntaxException if incorrect.
+
+List<FormulaComponent> specifyFormulaComponents() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException
+- Belongs to Specifier class as a pure fabrication GRASP, categorizing tokens into FormulaComponent objects without direct coupling to other classes.
+- Determines whether each token is an operand or operator. Returns a list of corresponding FormulaComponent objects. May throw exceptions related to token errors or circular dependencies.
+
+void check() throws CircularDependencyException
+- Belongs to CircularDependencyChecker class as a pure fabrication GRASP, detecting circular dependencies without direct coupling to other classes.
+- Checks for circular dependencies involving specified cells. Throws CircularDependencyException if detected.
+
+List<FormulaComponent> result() throws NoNumberException, TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException
+- Belongs to PostfixGenerator class as an expert GRASP, responsible for generating postfix expressions without direct coupling to other classes.
+- Utilizes the Shunting-Yard algorithm to generate a postfix expression. Throws exceptions if generation fails.

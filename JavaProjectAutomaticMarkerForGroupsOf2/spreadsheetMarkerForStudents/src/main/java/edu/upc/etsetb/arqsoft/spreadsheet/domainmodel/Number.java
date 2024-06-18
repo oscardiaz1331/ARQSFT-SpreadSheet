@@ -32,6 +32,9 @@ public class Number extends Operand implements Argument, Value {
 
     @Override
     public String getTextValue() {
+        if(this.num % 1 == 0){
+            return String.valueOf((int)num);
+        }
         return String.valueOf(this.num);
     }
 

@@ -44,6 +44,7 @@ public class S2VLoader implements Loader{
     private String col;
     private boolean semicolonTurn;
     private final String newCol;
+    private Spreadsheet spreadsheet;
     
     public S2VLoader(String filename) throws ReadingSpreadSheetException{
         try{
@@ -58,11 +59,13 @@ public class S2VLoader implements Loader{
         this.col = String.valueOf((char)('A'-1));
         this.newCol = String.valueOf((char)('A'-1));
         this.semicolonTurn =false;
+        this.spreadsheet = new Spreadsheet();
     }
 
     @Override
     public Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException {
         try {
+            
             while (scanner.hasNextLine()) {
                 this.row++;
                 this.col = this.newCol;
@@ -76,7 +79,7 @@ public class S2VLoader implements Loader{
                 scanner.close();
             }
         }
-        Spreadsheet spreadsheet = new Spreadsheet(this.cells);
+        
         return spreadsheet;
     }
     
@@ -102,7 +105,7 @@ public class S2VLoader implements Loader{
             this.col = ColumnManager.newColumn(this.col);
             Coordinate coord = new Coordinate(this.row, this.col);
             Content content = Specifier.specifyContent(token, coord, this.cells);
-            this.cells.add(new Cell(coord, content,this.cells));
+            this.spreadsheet.editCell(coord, content);
             this.semicolonTurn = true;
         }
         else if(!semicolonTurn){

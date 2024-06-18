@@ -1,0 +1,40 @@
+Use case Number: 6
+Use case Name: ModifyCell
+
+Actors and their interests:
+System, Users
+
+Preconditions:
+- The system has an open and active spreadsheet
+- The option to modify cell has been selected
+- The user has identified the specific cell to be modified
+
+Postconditions:
+- The cell, with its content and value have been modified and all the cells that depend on it have also modified their value
+
+Main Success Scenario (Basic Flow):
+1. The system retrieves the current content of the identified cell
+2. The user inputs the new information to update the cell content
+3. The system replaces the current content of the cell with the new information provided by the user
+4. The system updates the content of the cells that depend on the modified cell
+5. The system notifies the user that the cell modification was successful
+
+Extension (Alternative Flow):
+1.a There is an error retrieving the current content of the cell
+	1. The system notifies the problem
+
+3.a There is an error updating the cell content with the new information
+	1. The system notifies the user
+
+4.a There is an error updating the cell content
+	1. The system notifies the user
+
+SPECIFICATIONS:
+static void edit(String cellCoord, String strContent, List<Cell> cells) throws ContentException, CircularDependencyException
+- Belongs to EditCellContent class and is a pure fabrication GRASP, responsible for editing a cell.
+- Tokenize the string with the cell coordinate, creates the Coordinate instance using CoordinateCreator.create(cellCoord), tokenizes the content and with the content tokenized uses the setContent Cell function
+
+
+Coordinate create(String cellCoord)
+- Belongs to CoordinateCreator as a creator pattern, because creates a Coordinate instance.
+- Tokenizes the coordinate string, checks the syntax and transform it into the Coordinate instance

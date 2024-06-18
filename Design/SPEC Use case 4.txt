@@ -1,0 +1,41 @@
+Use case Number: 4
+Use case Name: StoreSpreadSheet
+
+Actors and their interests:
+System
+
+Preconditions:
+- A spreadsheet is created.
+- The user had given the location to store the spreadsheet
+
+Postconditions:
+- The spreadsheet is stored in a S2V format text file
+
+Main Success Scenario (Basic Flow):
+1. The system creates the text file with the text filename given by the user
+2. The system starts a text line
+3. The system selects a row
+4. The system selects a cell
+5. The system substracts the content of a cell
+6. The system transforms the content into a sequence of textual representation
+7. The system puts the textual representation in the text line
+8. The system put a ';' in the text line
+9. The system go to step 4
+
+Extension (Alternative Flow):
+3.a The is not more rows in the spreadsheet
+	1. The system finishes the use case
+
+4.a There is not more cells in the row
+	1. The system deletes the last ';' character of the text line
+	2. The system copies the content of the text line at created text file
+	3. The system goes to step 2 of basic flow
+
+7.a The textual representation has a formula with more than one argument
+	1. The system changes the ';' character of the formula arguments to a ',' character
+	2. The system puts the textual representation in the text line
+
+SPECIFICATIONS:
+void storeSpreadsheet() throws SavingSpreadSheetException
+- Belongs to S2VStore class which implements Store. S2VStore class is a pure fabrication, but it can be a creator if this GRASP is able to method which creates files and not only objects.
+- Uses the filename attribute to create a file. Goes row by row, cell by cell, extracting the cell content and puting it in the string that will form the created file.

@@ -28,7 +28,7 @@ public class S2VStore implements Store {
     
     public S2VStore(String filename, Spreadsheet spreadsheet) throws SavingSpreadSheetException{
         try {
-            this.writer = new FileWriter(filename, true);
+            this.writer = new FileWriter(filename, false);
         } catch (IOException ex) {
             throw new SavingSpreadSheetException("Error creating the file\n"+ex.getMessage());
         }
@@ -42,9 +42,9 @@ public class S2VStore implements Store {
         try {
             //Sort cells
             this.cells = this.spreadsheet.getCells();
-            //<Collections.sort(this.cells);
+            Collections.sort(this.cells);
             Iterator<Cell> it = this.cells.iterator();
-            int anteriorRow = 0, anteriorCol = 0;
+            int anteriorRow = 1, anteriorCol = 0;
             while(it.hasNext()){
                 anteriorCol++;
 
@@ -58,15 +58,20 @@ public class S2VStore implements Store {
                     }
                     this.writer.write(line+"\n");
                     line = "";
+                    //line += "\n";
                     anteriorCol = 0;
                 }
                 while(ColumnManager.columnToNumber(cell.getCol()) > anteriorCol){
                     line += ";";
                     anteriorCol++;
                 }
-                line += cell.getContentAsString() + ";";
+                line += cell.getContentAsString().replaceAll(";", ",") + ";";
+                //this.writer.write(line);
+                //line = "";
             }
-
+                while(line.endsWith(";")){
+                    line = line.substring(0, line.length()-1);
+                }
                 this.writer.write(line);
                 this.writer.close();
         } catch (IOException ex) {

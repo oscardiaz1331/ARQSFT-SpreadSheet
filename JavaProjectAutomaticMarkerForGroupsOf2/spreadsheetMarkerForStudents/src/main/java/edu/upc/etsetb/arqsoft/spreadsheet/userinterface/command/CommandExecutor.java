@@ -15,7 +15,6 @@ import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenTyp
 import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.COMMAND_READ_COMMAND;
 import static edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Token.TokenType.COMMAND_SAVE;
 import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.Tokenizer;
-import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ICommand;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ICreateSpreadSheet;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.IEditCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.userinterface.entities.ILoadSpreadSheet;

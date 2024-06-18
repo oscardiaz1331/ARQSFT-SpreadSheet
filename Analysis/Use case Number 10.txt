@@ -1,0 +1,20 @@
+Use case Number: 10
+Use case Name: ComputeSumFunction
+
+Actors and their interests:
+System
+
+Preconditions:
+- A spreadsheet is created.
+- A cell is selected.
+- A cell contains a formula.
+- The function has arguments.
+- The system identifies a cell with a formula containing the SUM function.
+
+Postconditions:
+- The system gives the result.
+
+Main Success Scenario (Basic Flow):
+1. The system retrieves the values of the arguments.
+2. The system calculates the sum of the retrieved values.
+3. The system updates the value of the cell.
