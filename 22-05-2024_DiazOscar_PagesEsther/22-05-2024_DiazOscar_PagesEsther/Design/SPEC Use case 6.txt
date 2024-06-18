@@ -30,6 +30,11 @@ Extension (Alternative Flow):
 	1. The system notifies the user
 
 SPECIFICATIONS:
-void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store) throws NoNumberException, ContentException, CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException
-- Belongs to EditCell class and is a command pattern, responsible for editing a cell in a spreadsheet.
-- Prompts the user for the coordinate and parses it into a Coordinate object. Handles IllegalArgumentException if the coordinate format is invalid. Prompts the user for new content for the cell and parses it into a Content object. Handles WrongSyntaxException if the content syntax is invalid. Attempts to edit the specified cell in the Spreadsheet instance using editCell method, passing cellCoordinate and newContent. Displays the updated spreadsheet using display() after editing the cell.
+static void edit(String cellCoord, String strContent, List<Cell> cells) throws ContentException, CircularDependencyException
+- Belongs to EditCellContent class and is a pure fabrication GRASP, responsible for editing a cell.
+- Tokenize the string with the cell coordinate, creates the Coordinate instance using CoordinateCreator.create(cellCoord), tokenizes the content and with the content tokenized uses the setContent Cell function
+
+
+Coordinate create(String cellCoord)
+- Belongs to CoordinateCreator as a creator pattern, because creates a Coordinate instance.
+- Tokenizes the coordinate string, checks the syntax and transform it into the Coordinate instance

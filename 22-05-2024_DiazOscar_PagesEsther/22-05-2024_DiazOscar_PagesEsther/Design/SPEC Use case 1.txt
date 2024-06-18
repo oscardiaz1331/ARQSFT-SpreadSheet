@@ -21,3 +21,6 @@ Extension (Alternative Flow):
 	3. The system returns to step 1 to await a valid selection
 
 SPECIFICATIONS:
+public static void main(String[] args);
+- Belongs to InterfaceMain class and is a pure fabrication GRASP.
+- Calls present  and call options until the user wants to end.

@@ -2,7 +2,8 @@ Use case Number: 1
 Use case Name: PresentOption
 
 Actors and their interests:
-System
+System: Present option
+User: Selects option
 
 Preconditions:
 - The system is ready to interact with the user interface
@@ -16,7 +17,7 @@ Main Success Scenario (Basic Flow):
 
 Extension (Alternative Flow):
 2.a The user selects an invalid option
-	1. The system notifies the user
+	1. The system notifies the user that it is an invalid option
 	2. The system notifies the user to make a valid selection
 	3. The system returns to step 1 to await a valid selection
 

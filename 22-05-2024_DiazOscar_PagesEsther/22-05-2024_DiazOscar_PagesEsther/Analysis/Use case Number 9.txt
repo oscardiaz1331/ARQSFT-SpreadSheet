@@ -6,10 +6,10 @@ System, Users
 
 Preconditions:
 - A spreadsheet is created
-- Formulas are defined in cells
 - A cell is selected
 - The cell has dependent cells
 - The content in the cell has changed
+- A formula is defined in cell
 
 Postconditions:
 - The system updates and returns the recalculated values of formulas affected by modified content

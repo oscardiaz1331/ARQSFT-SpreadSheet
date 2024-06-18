@@ -21,3 +21,9 @@ Extension (Alternative Flow):
 	1. The system notifies the problem
 
 SPECIFICATIONS:
+void execute(String content) throws TokenWrittenIncorrectlyException, ContentException, CircularDependencyException
+- Belongs to CommandExecutor as a Pure fabrication GRASP
+- Tokenizes, checks syntax, and executes the different options
+
+void checkCommand() throws CommandException
+-Belongs to CommanChecker as a Pure fabrication GRASP

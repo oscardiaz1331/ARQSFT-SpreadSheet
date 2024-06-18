@@ -4,7 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
-import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Computator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
@@ -49,6 +49,6 @@ public abstract class Content {
         }
     }
     
-    public abstract void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException;
+    public abstract void accept(Computator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException;
 
 }

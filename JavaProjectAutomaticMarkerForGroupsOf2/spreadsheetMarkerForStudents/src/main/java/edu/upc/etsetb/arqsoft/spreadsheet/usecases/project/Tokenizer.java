@@ -53,7 +53,7 @@ public class Tokenizer {
         this.functionName = "(SUMA|MIN|MAX|PROMEDIO)";
         this.cellCoord = this.letters + this.integer;
         this.all = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[;]|[_]" + ")+";
-        this.allS2V = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[.]" + ")+";
+        this.allS2V = "(" + this.letters + "|" + this.floatNum + "|" + this.operators + "|" + this.integer + "|" + ",|[()]|[:]|[.]|[_]|" + ")+";
         
         if(null != type)switch (type) {
             case FORMULA:

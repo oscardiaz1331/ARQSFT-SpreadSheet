@@ -8,7 +8,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.AddDependentCells;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.CheckerCell;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Observable;
 import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Observer;
-import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Computator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.NoNumberException;
@@ -30,14 +30,15 @@ public class Cell extends Operand implements Argument, Comparable<Cell>, Observe
     private ObservableCell observable;
     
     public Cell(Coordinate coord, Content content, List<Cell> cells) throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException{
-        //CheckerCell.checkExistence(this, cells);
         this.coordinate = coord;
+        //CheckerCell.checkExistence(this, cells);
         this.content = content;
-        this.content.accept(new Recomputator());
+        this.content.accept(new Computator());
         this.dependentCells = new HashSet();
         AddDependentCells.myDependentCells(this);
         this.observable = new ObservableCell();
         this.observable.registerObservers(dependentCells, this);
+        
     }
     
     public Coordinate getCoordinate(){
@@ -61,12 +62,14 @@ public class Cell extends Operand implements Argument, Comparable<Cell>, Observe
         AddDependentCells.myDependentCells(this);
         this.observable.registerObservers(this.dependentCells, this);
         this.update();
-
     }
     public Content getContent(){
         return this.content;
     }
     
+    public void setObservable(ObservableCell observable){
+        this.observable = observable;
+    }
     public String getContentAsString(){
         return this.content.getContent();
     }
@@ -113,7 +116,7 @@ public class Cell extends Operand implements Argument, Comparable<Cell>, Observe
     }
     @Override
     public void update() throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException{
-        this.content.accept(new Recomputator());
+        this.content.accept(new Computator());
         this.observable.notifyObserver();
     }
 }

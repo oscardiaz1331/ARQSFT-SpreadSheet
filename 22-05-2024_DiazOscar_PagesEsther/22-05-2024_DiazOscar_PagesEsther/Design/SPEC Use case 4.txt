@@ -36,6 +36,6 @@ Extension (Alternative Flow):
 	2. The system puts the textual representation in the text line
 
 SPECIFICATIONS:
-void execute(Spreadsheet spreadsheet, S2VLoader loader, S2VStore store)
-- Belongs to SaveSpreadsheet class and is a command pattern, handling the task of saving a spreadsheet.
-- Prompts the user for a filename to save the spreadsheet. Creates a new S2VStore instance with the filename and spreadsheet, then calls storeSpreadsheet to save it. Handles SavingSpreadSheetException in case of errors during saving.
+void storeSpreadsheet() throws SavingSpreadSheetException
+- Belongs to S2VStore class which implements Store. S2VStore class is a pure fabrication, but it can be a creator if this GRASP is able to method which creates files and not only objects.
+- Uses the filename attribute to create a file. Goes row by row, cell by cell, extracting the cell content and puting it in the string that will form the created file.

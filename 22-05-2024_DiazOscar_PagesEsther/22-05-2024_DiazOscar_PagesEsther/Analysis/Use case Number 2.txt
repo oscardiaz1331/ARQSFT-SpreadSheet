@@ -2,7 +2,7 @@ Use case Number: 2
 Use case Name: ProcessOption
 
 Actors and their interests:
-System, Users
+System
 
 Preconditions:
 - The system has presented a menu of options to the user

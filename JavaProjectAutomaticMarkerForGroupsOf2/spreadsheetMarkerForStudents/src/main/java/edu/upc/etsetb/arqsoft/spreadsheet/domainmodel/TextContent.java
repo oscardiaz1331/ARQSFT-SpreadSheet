@@ -4,7 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
-import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Computator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
@@ -32,7 +32,7 @@ public class TextContent extends Content {
     }
 
     @Override
-    public void accept(Recomputator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
+    public void accept(Computator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException {
         visitor.visitText(this.content);    
     }
 }

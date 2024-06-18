@@ -49,4 +49,4 @@ Extension (Alternative Flow):
 SPECIFICATIONS:
 Spreadsheet loadSpreadsheet() throws ReadingSpreadSheetException;
 - Belongs to S2VLoader class which implements Loader. S2VLoader class is a creator, because it has to create the spreadsheet.
-- Uses the filename attribute to locate the existing file. Goes line by line extracting the cell coordinates and content and adding the cells ina  list of cells until there is not more lines. Finally, creates the spreadsheet with the list of cells.
+- Uses the filename attribute to locate the existing file. Goes line by line extracting the cell coordinates and content and adding the cells ina  list of cells until there is not more lines. Finally, creates the spreadsheet with the list of cells. If there is any error in this procedure, it throws an exception

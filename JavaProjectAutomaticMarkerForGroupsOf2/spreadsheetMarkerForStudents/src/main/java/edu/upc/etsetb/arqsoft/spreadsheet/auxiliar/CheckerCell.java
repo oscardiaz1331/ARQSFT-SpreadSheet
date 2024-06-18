@@ -10,6 +10,7 @@ import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.WrongSyntaxException;
+import edu.upc.etsetb.arqsoft.spreadsheet.usecases.project.ObservableCell;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ import java.util.List;
  */
 public class CheckerCell {
     public static void checkExistence(Cell checkCell, List<Cell> cells) throws CircularDependencyException, TokenWrittenIncorrectlyException, WrongSyntaxException, ContentException{
-        Coordinate coord = checkCell.getCoordinate();
         for(Cell cell : cells){
-            if(cell.toString().equals(coord.toString())){
-                if(cell.getContentAsString().isEmpty() || cell.getContentAsString().isBlank()){
-                    cell.setContent(checkCell.getContent());
-                }
+            if(cell.getStringCoordinate().equals(checkCell.getStringCoordinate())){
+                //if(cell.getContentAsString().isEmpty() || cell.getContentAsString().isBlank()){
+                    //cell.setContent(checkCell.getContent());
+                //}
+                cells.remove(cell);
             }
         }
     }

@@ -150,7 +150,7 @@ public class Specifier {
                         }
                         Cell cell = new Cell(coord, new TextContent(""),this.cells);
                         arguments.add(cell);
-                        this.cells.add(cell);
+                        //this.cells.add(cell);
                     }
                     break;
                 case COLON:

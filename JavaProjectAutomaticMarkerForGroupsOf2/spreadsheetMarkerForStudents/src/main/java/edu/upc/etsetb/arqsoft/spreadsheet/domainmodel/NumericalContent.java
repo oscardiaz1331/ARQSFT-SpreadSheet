@@ -4,7 +4,7 @@
  */
 package edu.upc.etsetb.arqsoft.spreadsheet.domainmodel;
 
-import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Recomputator;
+import edu.upc.etsetb.arqsoft.spreadsheet.auxiliar.Computator;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.CircularDependencyException;
 import edu.upc.etsetb.arqsoft.spreadsheet.entities.ContentException;
 import edu.upc.etsetb.arqsoft.spreadsheet.exceptions.TokenWrittenIncorrectlyException;
@@ -28,7 +28,7 @@ public class NumericalContent extends Content {
     }
 
     @Override
-    public void accept(Recomputator visitor)throws ContentException{
+    public void accept(Computator visitor)throws ContentException{
         this.value = visitor.visitNumerical(this.content);
     }
     

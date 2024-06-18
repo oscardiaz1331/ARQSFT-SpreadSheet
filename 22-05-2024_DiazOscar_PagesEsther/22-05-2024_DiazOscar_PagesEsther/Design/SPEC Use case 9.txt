@@ -29,3 +29,20 @@ Extension (Alternative Flow):
 	2. The system goes to step 2.b
 
 SPECIFICATIONS:
+void update() throws CircularDependencyException, WrongSyntaxException, WrongSyntaxException, TokenWrittenIncorrectlyException, ContentException
+- Belongs to Cell as a expert GRASP
+- Calls a visitor function and a observer function
+
+void accept(Computator visitor) throws CircularDependencyException, WrongSyntaxException, TokenWrittenIncorrectlyException, NoNumberException, ContentException
+- Belongs to Formula as a expert GRASP (Visitor)
+- Visits formula functio in computator visitor
+
+Value visitFormula(String content, List<Cell> cells) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException, ContentException
+- Belongs to Computator class as a expert grasp
+- Calls the formula computator function compute
+
+Value compute(String argument) throws TokenWrittenIncorrectlyException, WrongSyntaxException, CircularDependencyException, NoNumberException, ContentException
+- Belongs to Formula computator as a pure fabrication
+- Computes the value tokenizing, checking syntax and specifier the formula components, using the postfix generator and evaluator.
+
+
