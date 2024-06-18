@@ -19,3 +19,5 @@ Main Success Scenario (Basic Flow):
 Extension (Alternative Flow):
 2.a The system has an error executing the option
 	1. The system notifies the problem
+
+SPECIFICATIONS:

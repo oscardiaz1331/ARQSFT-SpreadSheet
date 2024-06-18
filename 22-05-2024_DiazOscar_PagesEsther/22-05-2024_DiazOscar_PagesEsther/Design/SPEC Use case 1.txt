@@ -20,3 +20,4 @@ Extension (Alternative Flow):
 	2. The system notifies the user to make a valid selection
 	3. The system returns to step 1 to await a valid selection
 
+SPECIFICATIONS:
